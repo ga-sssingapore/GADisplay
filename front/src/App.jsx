@@ -1,9 +1,12 @@
 import React from "react";
+import { Route, Routes } from "react-router-dom";
 
 function App() {
   return (
     <>
-      <Routes></Routes>
+      <Routes>
+        <Route path="/" element />
+      </Routes>
     </>
   );
 }

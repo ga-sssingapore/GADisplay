@@ -11,11 +11,6 @@ html {
   font-family: "Oxygen", sans-serif;
 }
 
-body {
-  margin: 0;
-  background-color: whitesmoke;
-}
-
 .centered {
   margin: 3rem auto;
   text-align: center;
