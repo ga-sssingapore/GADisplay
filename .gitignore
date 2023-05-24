@@ -124,3 +124,9 @@ dist/
 
 .idea/
 .vscode/
+__pycache__/
+venv/
+
+# Ignore Flask stuff
+instance/
+.webassets-cache
