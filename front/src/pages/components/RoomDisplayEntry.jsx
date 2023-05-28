@@ -1,10 +1,11 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import styles from "./css/RoomDisplay.module.css";
 
 function RoomDisplayEntry(props) {
   return (
     <Link to={`/display/${props.number}`}>
-      <div>Clasroom {props.number}</div>
+      <div className={styles.display_link}>Clasroom {props.number}</div>
     </Link>
   );
 }

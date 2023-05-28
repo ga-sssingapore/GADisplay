@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
 import RoomDisplayEntry from "./RoomDisplayEntry";
+import styles from "./css/RoomDisplay.module.css";
 
 function RoomDisplayList() {
   const [rooms, setRooms] = useState([]);
 
   return (
-    <div>
+    <div className={styles.room_list}>
       <RoomDisplayEntry number="1" />
       <RoomDisplayEntry number="2" />
       <RoomDisplayEntry number="3" />
