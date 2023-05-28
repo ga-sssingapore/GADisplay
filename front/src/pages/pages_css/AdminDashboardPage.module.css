@@ -1,0 +1,15 @@
+.container {
+  margin: 1vh 1%;
+}
+
+.datepicker {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 20px;
+}
+
+.datepicker > input {
+  border: transparent;
+  padding: 0 1rem;
+}
