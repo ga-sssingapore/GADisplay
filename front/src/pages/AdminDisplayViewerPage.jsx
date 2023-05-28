@@ -1,4 +1,5 @@
 import React from "react";
+import RoomDisplayList from "./components/RoomDisplayList";
 
 function AdminDisplayViewerPage() {
   return (
