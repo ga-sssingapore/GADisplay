@@ -1,0 +1,17 @@
+.container {
+  background-color: black;
+  color: white;
+  display: flex;
+  height: 100vh;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.container > hr {
+  width: 80vw;
+}
+
+.banner {
+  width: 556px;
+}
