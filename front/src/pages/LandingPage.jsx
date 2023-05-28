@@ -6,7 +6,7 @@ import styles from "./pages_css/LandingPage.module.css";
 function LandingPage() {
   return (
     <div className={styles.container}>
-      <RoomDisplayList />
+      <RoomDisplayList dark={true} />
       <hr />
       <Link to="/admin">
         <img

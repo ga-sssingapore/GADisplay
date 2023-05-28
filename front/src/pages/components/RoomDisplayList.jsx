@@ -1,18 +1,21 @@
 import React, { useState, useEffect } from "react";
 import RoomDisplayEntry from "./RoomDisplayEntry";
-import styles from "./css/RoomDisplay.module.css";
+import dark_styles from "./css/RoomDisplayDark.module.css";
+import light_styles from "./css/RoomDisplayLight.module.css";
 
-function RoomDisplayList() {
+function RoomDisplayList(props) {
   const [rooms, setRooms] = useState([]);
 
   return (
-    <div className={styles.room_list}>
-      <RoomDisplayEntry number="1" />
-      <RoomDisplayEntry number="2" />
-      <RoomDisplayEntry number="3" />
-      <RoomDisplayEntry number="4" />
-      <RoomDisplayEntry number="5" />
-      <RoomDisplayEntry number="6" />
+    <div
+      className={props.dark ? dark_styles.room_list : light_styles.room_list}
+    >
+      <RoomDisplayEntry dark={props.dark} number="1" />
+      <RoomDisplayEntry dark={props.dark} number="2" />
+      <RoomDisplayEntry dark={props.dark} number="3" />
+      <RoomDisplayEntry dark={props.dark} number="4" />
+      <RoomDisplayEntry dark={props.dark} number="5" />
+      <RoomDisplayEntry dark={props.dark} number="6" />
     </div>
   );
 }
