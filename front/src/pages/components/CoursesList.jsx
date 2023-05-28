@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from "react";
 import CourseEntry from "./CourseEntry";
 import styles from "./css/CoursesList.module.css";
-import CourseCodeFilter from "./CourseCodeFilter";
 
-function CoursesList() {
+function CoursesList(props) {
   const [courses, setCourses] = useState([
     {
       cohort: "UXDI44SGP",
@@ -181,22 +180,9 @@ function CoursesList() {
       classroom: 2,
     },
   ]);
-  const [courseCodeRegex, setCourseCodeRegex] = useState("");
-
-  function applyPredicates(course) {
-    let qualify = false;
-    qualify = new RegExp(courseCodeRegex).test(course.cohort);
-    return qualify;
-  }
 
   return (
     <div>
-      <div className={styles.filter_container}>
-        <CourseCodeFilter
-          courseCodeRegex={courseCodeRegex}
-          setCourseCodeRegex={setCourseCodeRegex}
-        />
-      </div>
       <div className={styles.course_table_border}>
         <table>
           <thead className={styles.table_header_row}>
@@ -212,7 +198,7 @@ function CoursesList() {
           </thead>
           {courses.map((item, idx) => {
             return (
-              applyPredicates(item) && (
+              props.applyPredicates(item) && (
                 <CourseEntry
                   key={idx}
                   cohort={item.cohort}
