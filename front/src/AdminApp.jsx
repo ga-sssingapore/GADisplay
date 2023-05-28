@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
 import AdminLoginPage from "./pages/AdminLoginPage";
 import AdminDashboardPage from "./pages/AdminDashboardPage";
@@ -8,9 +8,10 @@ import AdminEditPage from "./pages/AdminEditPage";
 import NavBar from "./pages/components/NavBar";
 
 function AdminApp() {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   return (
     <>
-      <NavBar />
+      <NavBar isLoggedIn={isLoggedIn} />
       <Routes>
         <Route path="/" element={<AdminLoginPage />} />
         <Route path="/dashboard" element={<AdminDashboardPage />} />
