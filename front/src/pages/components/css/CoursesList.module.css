@@ -2,22 +2,6 @@
   margin: 1vh 1%;
 }
 
-.course_code_searchbar {
-  position: relative;
-}
-
-.course_code_input {
-  outline: none;
-  border: transparent;
-}
-
-.course_code_reset {
-  position: relative;
-  right: 20px;
-  border: transparent;
-  border-radius: 10%;
-}
-
 .course_table_border {
   border: 2px solid rgba(200, 200, 200, 1);
   border-radius: 5px;

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import CourseEntry from "./CourseEntry";
 import styles from "./css/CoursesList.module.css";
+import CourseCodeFilter from "./CourseCodeFilter";
 
 function CoursesList() {
   const [courses, setCourses] = useState([
@@ -181,29 +182,20 @@ function CoursesList() {
     },
   ]);
   const [courseCodeRegex, setCourseCodeRegex] = useState("");
-  function handleCodeRegexChange(event) {
-    setCourseCodeRegex(event.target.value);
+
+  function applyPredicates(course) {
+    let qualify = false;
+    qualify = new RegExp(courseCodeRegex).test(course.cohort);
+    return qualify;
   }
 
   return (
     <div>
       <div className={styles.filter_container}>
-        <form className={styles.course_code_searchbar}>
-          <input
-            type="text"
-            id="course_search"
-            placeholder="Filter by course code"
-            onChange={handleCodeRegexChange}
-            value={courseCodeRegex}
-            className={styles.course_code_input}
-          />
-          <input
-            type="reset"
-            value="X"
-            onClick={() => setCourseCodeRegex("")}
-            className={styles.course_code_reset}
-          />
-        </form>
+        <CourseCodeFilter
+          courseCodeRegex={courseCodeRegex}
+          setCourseCodeRegex={setCourseCodeRegex}
+        />
       </div>
       <div className={styles.course_table_border}>
         <table>
@@ -220,7 +212,7 @@ function CoursesList() {
           </thead>
           {courses.map((item, idx) => {
             return (
-              new RegExp("^" + courseCodeRegex).test(item.cohort) && (
+              applyPredicates(item) && (
                 <CourseEntry
                   key={idx}
                   cohort={item.cohort}

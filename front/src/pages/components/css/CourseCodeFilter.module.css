@@ -1,0 +1,15 @@
+.course_code_searchbar {
+  position: relative;
+}
+
+.course_code_input {
+  outline: none;
+  border: transparent;
+}
+
+.course_code_reset {
+  position: relative;
+  right: 20px;
+  border: transparent;
+  border-radius: 10%;
+}
