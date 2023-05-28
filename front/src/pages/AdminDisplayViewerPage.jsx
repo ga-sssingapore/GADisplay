@@ -5,9 +5,12 @@ import display_styles from "./components/css/RoomDisplayLight.module.css";
 
 function AdminDisplayViewerPage() {
   return (
-    <div className={styles.container}>
-      <RoomDisplayList styles={display_styles} />
-    </div>
+    <>
+      <h3 className={styles.header}>Select display to preview</h3>
+      <div className={styles.container}>
+        <RoomDisplayList styles={display_styles} />
+      </div>
+    </>
   );
 }
 
