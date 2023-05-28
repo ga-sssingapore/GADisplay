@@ -1,7 +1,4 @@
 @import url("https://fonts.googleapis.com/css2?family=Oxygen:wght@300;400;700&display=swap");
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
 
 * {
   box-sizing: border-box;
@@ -9,6 +6,12 @@
 
 html {
   font-family: "Oxygen", sans-serif;
+}
+
+body {
+  margin: 0;
+  background-color: white;
+  color: black;
 }
 
 .centered {
