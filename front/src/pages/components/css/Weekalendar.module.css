@@ -1,0 +1,18 @@
+.weekalendar_container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.weekalendar_headers {
+  display: grid;
+  justify-items: center;
+  align-items: center;
+  grid-template-columns: 9% 13% 13% 13% 13% 13% 13% 13%;
+  width: 90%;
+}
+
+.date_col {
+  text-align: center;
+}
