@@ -11,7 +11,6 @@ function AdminApp() {
   return (
     <>
       <NavBar />
-      {/* {accessToken && <NavBar />} */}
       <Routes>
         <Route path="/" element={<AdminLoginPage />} />
         <Route path="/dashboard" element={<AdminDashboardPage />} />
