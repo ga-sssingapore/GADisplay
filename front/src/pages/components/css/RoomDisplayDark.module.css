@@ -15,5 +15,5 @@
 
 .room_list {
   max-height: 700px;
-  overflow: scroll;
+  overflow-y: auto;
 }
