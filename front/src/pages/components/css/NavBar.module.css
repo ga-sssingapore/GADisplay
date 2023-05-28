@@ -1,0 +1,38 @@
+.bar {
+  width: 100vw;
+  height: 5vh;
+  padding: 0 5vw;
+  background-color: rgb(31, 41, 55);
+  color: white;
+  display: flex;
+  align-items: center;
+}
+
+.home_logo {
+  width: 36px;
+  height: 36px;
+}
+
+.links_container {
+  padding: 0 5vw;
+  display: flex;
+  align-items: center;
+}
+
+.navbar_link,
+.navbar_active {
+  color: white;
+  padding: 5px 10px;
+  border-radius: 5px;
+}
+
+.navbar_link {
+  border: 1px solid rgba(255, 255, 255, 0);
+  transition: 0.2s linear;
+}
+
+.navbar_link:hover,
+.navbar_active {
+  border: 1px solid white;
+  transition: 0.2s linear;
+}

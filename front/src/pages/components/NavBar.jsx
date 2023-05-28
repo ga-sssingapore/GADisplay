@@ -14,7 +14,23 @@ function NavBar(props) {
               isActive ? styles.navbar_active : styles.navbar_link
             }
           >
-            <div>Dashboard</div>
+            Dashboard
+          </NavLink>
+          <NavLink
+            to="/admin/courses"
+            className={({ isActive }) =>
+              isActive ? styles.navbar_active : styles.navbar_link
+            }
+          >
+            Courses
+          </NavLink>
+          <NavLink
+            to="/admin/displays"
+            className={({ isActive }) =>
+              isActive ? styles.navbar_active : styles.navbar_link
+            }
+          >
+            Displays
           </NavLink>
         </div>
       )}
