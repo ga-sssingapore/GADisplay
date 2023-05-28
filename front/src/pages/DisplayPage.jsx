@@ -1,18 +1,20 @@
 import React from "react";
 import { useParams } from "react-router-dom";
+import styles from "./pages_css/DisplayPage.module.css";
 
 function DisplayPage() {
   const { number } = useParams();
   return (
-    <div>
+    <div className={styles.background}>
       <div>Classroom {number}</div>
-      <div>$batch</div>
-      <div>$time</div>
+      <div>UXDI44SGP</div>
+      <div>9:30am - 5:30pm</div>
       <hr />
-      <div>
-        <img src="" alt="GA logo" />
-        <div>GENERAL ASSEMBLY</div>
-      </div>
+      <img
+        src="/GA_banner_horizontal.png"
+        alt="GA logo"
+        className={styles.banner}
+      />
     </div>
   );
 }

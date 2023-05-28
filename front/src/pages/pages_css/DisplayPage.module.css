@@ -1,0 +1,21 @@
+.background {
+  background-color: black;
+  height: 100vh;
+  width: 100vw;
+  color: white;
+  display: flex;
+  font-family: Helvetica, Arial, sans-serif;
+  font-size: 50px;
+  gap: 50px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.background > hr {
+  min-width: 90vw;
+}
+
+.banner {
+  max-width: 556px;
+}
