@@ -8,7 +8,7 @@ import AdminEditPage from "./pages/AdminEditPage";
 import NavBar from "./pages/components/NavBar";
 
 function AdminApp() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(true);
   return (
     <>
       <NavBar isLoggedIn={isLoggedIn} />

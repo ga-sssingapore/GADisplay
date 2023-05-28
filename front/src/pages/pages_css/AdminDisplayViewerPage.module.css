@@ -1,0 +1,9 @@
+.container {
+  display: flex;
+  justify-content: center;
+  margin: 10vh 150px;
+}
+
+.background {
+  background-color: grey;
+}
