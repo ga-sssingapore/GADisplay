@@ -1,0 +1,64 @@
+.filter_container {
+  margin: 1vh 1%;
+}
+
+.course_code_searchbar {
+  position: relative;
+}
+
+.course_code_input {
+  outline: none;
+  border: transparent;
+}
+
+.course_code_reset {
+  position: relative;
+  right: 20px;
+  border: transparent;
+  border-radius: 10%;
+}
+
+.course_table_border {
+  border: 2px solid rgba(200, 200, 200, 1);
+  border-radius: 5px;
+  margin: 1vh 1%;
+  width: 98%;
+}
+
+.course_table_border > table {
+  width: 100%;
+}
+
+.table_header_row {
+  font-weight: bold;
+  padding: 20px;
+  background-color: rgba(200, 200, 200, 0.2);
+}
+
+.cohort {
+  width: 15%;
+}
+
+.type {
+  width: 15%;
+}
+
+.start_date {
+  width: 20%;
+}
+
+.end_date {
+  width: 20%;
+}
+
+.start_time {
+  width: 10%;
+}
+
+.end_time {
+  width: 10%;
+}
+
+.classroom {
+  width: 10%;
+}
