@@ -1,4 +1,17 @@
-@import url("https://fonts.googleapis.com/css2?family=Oxygen:wght@300;400;700&display=swap");
+:root {
+  --ga-crimson: rgb(228, 31, 38);
+  --ga-ink: rgb(34, 34, 34);
+  --ga-mist: rgb(239, 239, 239);
+  --ga-cream: rgb(255, 248, 232);
+  --ga-fog: rgb(157, 157, 157);
+  --ga-cloud: rgb(255, 255, 255);
+  --ga-cobalt: rgb(55, 64, 181);
+  --ga-sky: rgb(61, 190, 212);
+  --ga-clover: rgb(1, 208, 104);
+  --ga-dandelion: rgb(255, 205, 52);
+  --ga-blush: rgb(248, 182, 198);
+  --ga-pumpkin: rgb(254, 108, 59);
+}
 
 * {
   box-sizing: border-box;
@@ -6,13 +19,16 @@
 
 html {
   font-family: "Oxygen", sans-serif;
+  /* font-family: "Barlow", sans-serif; */
+  /* font-family: "Barlow Condensed", sans-serif; */
+  /* font-family: "Barlow Semi Condensed", sans-serif; */
 }
 
 body {
+  font-family: "Oxygen", sans-serif;
   margin: 0;
-  background-color: white;
+  background-color: var(--ga-cloud);
   color: black;
-  font-family: Helvetica, Arial, sans-serif;
 }
 
 a {
