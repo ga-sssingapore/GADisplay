@@ -9,6 +9,12 @@
   align-items: center;
 }
 
+.container > h2 {
+  font-family: "Barlow", sans-serif;
+  font-size: 80px;
+  font-weight: 600;
+}
+
 .container > hr {
   width: 80vw;
 }
