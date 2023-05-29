@@ -11,7 +11,7 @@ function DisplayPage() {
       <div>9:30am - 5:30pm</div>
       <hr />
       <img
-        src="/GA_banner_horizontal.png"
+        src="/GA_banner_horizontal_white.png"
         alt="GA logo"
         className={styles.banner}
       />
