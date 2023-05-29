@@ -8,7 +8,7 @@ function AdminCoursesPage() {
 
   function applyPredicates(course) {
     let qualify = false;
-    qualify = new RegExp(courseCodeRegex).test(course.cohort);
+    qualify = new RegExp(courseCodeRegex, "i").test(course.cohort);
     return qualify;
   }
 
