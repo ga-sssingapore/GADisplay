@@ -4,14 +4,14 @@
   font-size: 50px;
   margin: 10px auto;
   padding: 10px 20px;
-  background-color: rgb(var(--ga-cobalt));
+  background-color: rgb(var(--ga-sky));
   border-radius: 10px;
   transition: 0.2s linear;
   color: rgb(var(--ga-cloud));
 }
 
 .display_link:hover {
-  background-color: rgba(var(--ga-cobalt), 0.8);
+  background-color: rgba(var(--ga-clover), 0.8);
   transition: 0.2s linear;
 }
 
