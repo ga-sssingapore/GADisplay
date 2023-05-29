@@ -1,22 +1,25 @@
 .display_link {
+  font-family: "Barlow Condensed", sans-serif;
+  font-weight: 700;
   font-size: 50px;
   margin: 10px auto;
   padding: 10px 20px;
-  border: 2px solid rgba(255, 255, 255, 0);
+  background-color: rgb(var(--ga-cobalt));
   border-radius: 10px;
   transition: 0.2s linear;
-  color: black;
-  background-color: rgba(120, 120, 120, 0.2);
+  color: rgb(var(--ga-cloud));
 }
 
 .display_link:hover {
-  border: 2px solid black;
+  background-color: rgba(var(--ga-cobalt), 0.8);
   transition: 0.2s linear;
 }
 
 .room_list {
-  display: flex;
+  display: grid;
+  width: 100%;
+  grid-template-columns: repeat(3, 30%);
   justify-items: center;
-  flex-wrap: wrap;
-  gap: 10px;
+  gap: 5%;
+  margin: 5vh auto;
 }

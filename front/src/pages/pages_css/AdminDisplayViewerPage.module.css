@@ -1,10 +1,12 @@
 .container {
   display: flex;
   justify-content: center;
-  margin: 10vh 150px;
+  margin: 10vh 10%;
 }
 
 .header {
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: 80px;
   text-align: center;
   margin-top: 10vh;
 }
