@@ -1,16 +1,16 @@
 :root {
-  --ga-crimson: rgb(228, 31, 38);
-  --ga-ink: rgb(34, 34, 34);
-  --ga-mist: rgb(239, 239, 239);
-  --ga-cream: rgb(255, 248, 232);
-  --ga-fog: rgb(157, 157, 157);
-  --ga-cloud: rgb(255, 255, 255);
-  --ga-cobalt: rgb(55, 64, 181);
-  --ga-sky: rgb(61, 190, 212);
-  --ga-clover: rgb(1, 208, 104);
-  --ga-dandelion: rgb(255, 205, 52);
-  --ga-blush: rgb(248, 182, 198);
-  --ga-pumpkin: rgb(254, 108, 59);
+  --ga-crimson: 228, 31, 38;
+  --ga-ink: 34, 34, 34;
+  --ga-mist: 239, 239, 239;
+  --ga-cream: 255, 248, 232;
+  --ga-fog: 157, 157, 157;
+  --ga-cloud: 255, 255, 255;
+  --ga-cobalt: 55, 64, 181;
+  --ga-sky: 61, 190, 212;
+  --ga-clover: 1, 208, 104;
+  --ga-dandelion: 255, 205, 52;
+  --ga-blush: 248, 182, 198;
+  --ga-pumpkin: 254, 108, 59;
 }
 
 * {
@@ -27,7 +27,7 @@ html {
 body {
   font-family: "Oxygen", sans-serif;
   margin: 0;
-  background-color: var(--ga-cloud);
+  background-color: rgb(var(--ga-cloud));
   color: black;
 }
 
