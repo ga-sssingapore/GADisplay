@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import CourseEntry from "./CourseEntry";
 import styles from "./css/CoursesList.module.css";
 
-function CoursesList(props) {
+function CoursesList() {
   const [courses, setCourses] = useState([
     {
       cohort: "UXDI44SGP",
@@ -198,16 +198,14 @@ function CoursesList(props) {
           </thead>
           {courses.map((item, idx) => {
             return (
-              props.applyPredicates(item) && (
-                <CourseEntry
-                  key={idx}
-                  cohort={item.cohort}
-                  type={item.type}
-                  start={item.start}
-                  end={item.end}
-                  classroom={item.classroom}
-                />
-              )
+              <CourseEntry
+                key={idx}
+                cohort={item.cohort}
+                type={item.type}
+                start={item.start}
+                end={item.end}
+                classroom={item.classroom}
+              />
             );
           })}
         </table>
