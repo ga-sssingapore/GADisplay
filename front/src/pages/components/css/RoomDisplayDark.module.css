@@ -13,7 +13,14 @@
   transition: 0.2s linear;
 }
 
-.room_list {
+/* .room_list {
   max-height: 700px;
   overflow-y: auto;
+} */
+
+.room_list {
+  display: flex;
+  justify-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
 }
