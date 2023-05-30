@@ -1,32 +1,32 @@
 from flask import Flask, jsonify, request
-from dotenv import load_dotenv
+from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
-from models.db import db
+from dotenv import load_dotenv
 from middleware.auth import login_required
 from blueprints.admin import routes as admin_routes
-from os import environ
+import os
 import datetime
 load_dotenv()
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = environ.get('SQLALCHEMY_DATABASE_URI')
-db.init_app(app)
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('SQLALCHEMY_DATABASE_URI')
+db = SQLAlchemy(app)
+
+from models.users import Users
+from models.roles import Roles
+
 migrate = Migrate(app, db)
-
-data = [
-    {
-        "name": "Justinn",
-        "registration_date": datetime.datetime.now()
-    }
-]
-
 
 app.register_blueprint(admin_routes.admin_bp)
 
 @app.route("/")
 @login_required
 def get_data():
-    return jsonify(data)
+    return jsonify({
+        "name": "Justinn",
+        "registration_date": datetime.datetime.now()
+    }
+)
 
 # @app.route("/login", methods="POST")
 # def login():
