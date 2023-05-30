@@ -1,0 +1,9 @@
+.banner {
+  width: 556px;
+}
+
+.register_prompt > a {
+  font-weight: bold;
+  text-decoration: underline;
+  color: rgb(var(--ga-cobalt));
+}
