@@ -12,8 +12,8 @@
 
 .container > h2 {
   font-family: "Barlow", sans-serif;
-  font-size: 80px;
   font-weight: 600;
+  text-align: center;
 }
 
 .container > hr {
