@@ -25,12 +25,28 @@ function NavBar(props) {
             Courses
           </NavLink>
           <NavLink
+            to="/admin/adhoc"
+            className={({ isActive }) =>
+              isActive ? styles.navbar_active : styles.navbar_link
+            }
+          >
+            Ad-Hoc
+          </NavLink>
+          <NavLink
             to="/admin/displays"
             className={({ isActive }) =>
               isActive ? styles.navbar_active : styles.navbar_link
             }
           >
             Displays
+          </NavLink>
+          <NavLink
+            to="/admin/helm"
+            className={({ isActive }) =>
+              isActive ? styles.navbar_active : styles.navbar_link
+            }
+          >
+            Helm
           </NavLink>
         </div>
       )}
