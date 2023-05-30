@@ -130,3 +130,5 @@ venv/
 # Ignore Flask stuff
 instance/
 .webassets-cache
+
+/back/migrations
