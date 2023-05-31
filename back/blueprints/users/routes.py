@@ -11,7 +11,7 @@ def register_user():
         data = request.get_json()
         ph = PasswordHasher()
         hash = ph.hash(data['password'])
-        new_user = Users(data['name'], data['email'], data[hash])
+        new_user = Users(data['name'], data['email'], hash)
         db.session.add(new_user)
         db.session.commit()
     return jsonify({"status": "ok", "message": "user registered"})
