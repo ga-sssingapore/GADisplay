@@ -1,5 +1,5 @@
 from uuid import uuid4
-from server import db
+from models.db import db
 
 class Users(db.Model):
     __tablename__='Users'
