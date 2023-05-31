@@ -1,8 +1,14 @@
-from flask import Flask, jsonify, request
-from flask_sqlalchemy import SQLAlchemy
-from flask_migrate import Migrate
 import os
 import datetime
+
+from flask import Flask, jsonify, request
+
+from models.db import db
+
+# Import blueprints dictating route specific functions.
+from blueprints.admin.routes import admin_bp
+from blueprints.display.routes import display_bp
+from blueprints.seed.routes import seed_bp
 
 # Load .env
 from dotenv import load_dotenv
@@ -11,23 +17,14 @@ load_dotenv()
 # Setup Flask app
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('SQLALCHEMY_DATABASE_URI')
-# Setup database
-db = SQLAlchemy(app)
 
-# Import models utilizing database. db imported to models and returned as classes here.
-from models.users import Users
-from models.roles import Roles
-
-# Migrate object allows for "flask db <cmd>" commands
-migrate = Migrate(app, db)
-
-# Import blueprints dictating route specific functions. db imported again here and returned as blueprints.
-from blueprints.admin.routes import admin_bp
-from blueprints.display.routes import display_bp
+# Initialize other app dependent instances
+db.init_app(app)
 
 # Register routes from blueprints
 app.register_blueprint(admin_bp)
 app.register_blueprint(display_bp)
+app.register_blueprint(seed_bp)
 
 @app.route("/")
 def get_data():
@@ -38,6 +35,10 @@ def get_data():
 )
 
 # @app.route("/login", methods="POST")
+# @login_required
 # def login():
 #     if request.method == "POST":
 #         print(request)
+
+if __name__ == '__main__':
+    pass
