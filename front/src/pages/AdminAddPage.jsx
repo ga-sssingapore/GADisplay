@@ -1,6 +1,6 @@
 import React from "react";
 
-function AdminEditPage() {
+function AdminAddPage() {
   return (
     <div>
       <div>Course Code</div>
@@ -12,9 +12,8 @@ function AdminEditPage() {
       <div>End Time</div>
       <div>Room</div>
       <div>Import CSV</div>
-      <div>delete</div>
     </div>
   );
 }
 
-export default AdminEditPage;
+export default AdminAddPage;

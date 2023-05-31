@@ -1,34 +1,34 @@
-from flask import Flask, jsonify, request
-from flask_sqlalchemy import SQLAlchemy
-from flask_migrate import Migrate
-from dotenv import load_dotenv
-from middleware.auth import login_required
-from blueprints.admin import routes as admin_routes
 import os
-import datetime
+
+from flask import Flask
+
+from models.db import db
+from schemas.mm import mm
+from flask_restful import Api
+
+# Display_bp for testing models/schemas/marshmallow-sqlalchemy
+from blueprints.display.routes import display_bp
+
+# Flask_RESTful resources (controllers)
+from resources import seed
+
+# Load .env
+from dotenv import load_dotenv
 load_dotenv()
 
+# Setup Flask app
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('SQLALCHEMY_DATABASE_URI')
-db = SQLAlchemy(app)
 
-from models.users import Users
-from models.roles import Roles
+# Initialize other app dependent instances
+db.init_app(app)
+mm.init_app(app)
+api = Api(app)
 
-migrate = Migrate(app, db)
+app.register_blueprint(display_bp)
 
-app.register_blueprint(admin_routes.admin_bp)
+api.add_resource(seed.SeedRoles, '/seed/roles')
 
 @app.route("/")
-@login_required
 def get_data():
-    return jsonify({
-        "name": "Justinn",
-        "registration_date": datetime.datetime.now()
-    }
-)
-
-# @app.route("/login", methods="POST")
-# def login():
-#     if request.method == "POST":
-#         print(request)
+    return 'Server running!'
