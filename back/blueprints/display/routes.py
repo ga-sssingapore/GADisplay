@@ -1,14 +1,17 @@
 from flask import Blueprint, jsonify, request
+from argon2 import PasswordHasher
 from models.db import db
 from models.users import Users
 
 display_bp = Blueprint('display_bp', __name__, url_prefix='/display')
 
-@display_bp.route('/test', methods=['PUT'])
-def add_user():
+@display_bp.route('/test', methods=['POST'])
+def check_user():
     if request.data:
+        ph = PasswordHasher()
         data = request.get_json()
-        new_user = Users(data['name'], data['email'], data['hash'])
-        db.session.add(new_user)
-        db.session.commit()
-    return jsonify({"status": "ok", "message": "user added"})
+        user = Users.query.filter_by(name=data['name']).first()
+        ver = ph.verify(user.hash, data['password'])
+        return jsonify({"status": "ok", "message": ver})
+    else:
+        return jsonify({"status": "error", "message": "no user"})
