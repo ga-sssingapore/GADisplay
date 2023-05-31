@@ -3,9 +3,10 @@ from functools import wraps
 from flask import request, abort
 from flask import current_app
 
+
 def login_required(endpoint):
     @wraps(endpoint)
-    def check_token_decorator(*args, **kwargs):
+    def decorator(*args, **kwargs):
         if "Authorization" not in request.headers:
             return {
                 "message": "Authentication token may be invalid",
@@ -13,5 +14,5 @@ def login_required(endpoint):
                 "error": "unauthorized"
             }, 401
         token = request.headers["Authorization"].replace("Bearer ", "")
-        print(token)
-    return check_token_decorator
+        return endpoint(token, *args, **kwargs)
+    return decorator
