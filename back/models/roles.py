@@ -4,7 +4,6 @@ class Roles(db.Model):
     __tablename__='Roles'
 
     role = db.Column(db.String(10), primary_key=True)
-    users = db.relationship('Users', backref='Roles')
 
 
     def __init__(self, role):
