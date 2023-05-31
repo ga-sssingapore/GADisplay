@@ -9,6 +9,9 @@ from flask_restful import Api
 # Display_bp for testing models/schemas/marshmallow-sqlalchemy
 from blueprints.display.routes import display_bp
 
+# Flask_RESTful resources (controllers)
+from resources import seed
+
 # Load .env
 from dotenv import load_dotenv
 load_dotenv()
@@ -24,6 +27,7 @@ api = Api(app)
 
 app.register_blueprint(display_bp)
 
+api.add_resource(seed.SeedRoles, '/seed/roles')
 
 @app.route("/")
 def get_data():
