@@ -25,3 +25,22 @@ def get_registered():
     role_schema = UsersSchema(many=True)
     dump_roles = role_schema.dump(registered_users)
     return jsonify(dump_roles)
+
+
+@display_bp.route('/test3')
+def get_roles():
+    existing_roles = Roles.query.all()
+    print(type(existing_roles))
+    return jsonify(existing_roles)
+
+
+@display_bp.route('/register', methods=['PUT'])
+def register_user():
+    if request.data:
+        data = request.get_json()
+        ph = PasswordHasher()
+        hash = ph.hash(data['password'])
+        new_user = Users(data['name'], data['email'], hash)
+        db.session.add(new_user)
+        db.session.commit()
+    return jsonify({"status": "ok", "message": "user registered"})
