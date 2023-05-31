@@ -1,4 +1,5 @@
 from flask import Blueprint, jsonify, request
+from middleware.requests import check_request
 from argon2 import PasswordHasher
 from models.db import db
 from models.users import Users
@@ -7,16 +8,15 @@ from models.roles import Roles
 
 display_bp = Blueprint('display_bp', __name__, url_prefix='/display')
 
+
 @display_bp.route('/test', methods=['POST'])
+@check_request
 def check_user():
-    if request.data:
-        ph = PasswordHasher()
-        data = request.get_json()
-        user = Users.query.filter_by(name=data['name']).first()
-        ver = ph.verify(user.hash, data['password'])
-        return jsonify({"status": "ok", "message": ver})
-    else:
-        return jsonify({"status": "error", "message": "no user"})
+    ph = PasswordHasher()
+    data = request.get_json()
+    user = Users.query.filter_by(name=data['name']).first()
+    ver = ph.verify(user.hash, data['password'])
+    return jsonify({"status": "ok", "message": ver})
 
 
 @display_bp.route('/test2')
