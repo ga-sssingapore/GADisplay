@@ -11,12 +11,10 @@ class Users(db.Model):
     hash = db.Column(db.String(255), nullable=False)
     role = db.Column(db.ForeignKey('Roles.role'), default='Registered')
 
-
     def __init__(self, name, email, hash):
         self.name = name
         self.email = email
         self.hash = hash
-
 
     def __repr__(self):
         return f'<User "{self.name}">'
