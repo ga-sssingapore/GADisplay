@@ -24,12 +24,12 @@ function Weekalendar(props) {
       cohort: "DSIFX10SGP",
       start: new Date("2023-05-27T23:59"),
       end: new Date("2023-08-26T18:00"),
-      room: 5,
+      room: 6,
       days: [7],
     },
     {
       cohort: "USDIFX06SGP",
-      start: new Date("2023-05-20T09:00"),
+      start: new Date("2023-05-27T09:00"),
       end: new Date("2023-08-26T18:00"),
       room: 6,
       days: [8],
@@ -38,7 +38,7 @@ function Weekalendar(props) {
       cohort: "SEIFX13SGP",
       start: new Date("2023-03-04T09:00"),
       end: new Date("2023-09-02T18:00"),
-      room: 4,
+      room: 3,
       days: [7],
     },
     {
@@ -48,9 +48,14 @@ function Weekalendar(props) {
       room: 6,
       days: [3, 4],
     },
+    {
+      cohort: "SEI43SGP",
+      start: new Date("2023-03-20T09:30"),
+      end: new Date("2023-06-07T17:30"),
+      room: 3,
+      days: [1, 2, 3, 4],
+    },
   ];
-
-  const allocatedRooms = resolveClassesToDates(courses);
 
   function resolveClassesToDates(courseArr) {
     // Need to account for ad-hocs as well
@@ -72,7 +77,7 @@ function Weekalendar(props) {
     const room6 = groupClassesByRooms(
       courseArr.filter((item) => item.room === 6)
     );
-    return { room1, room2, room3, room4, room5, room6 };
+    return [room1, room2, room3, room4, room5, room6];
   }
 
   function groupClassesByRooms(filteredArr) {
@@ -103,20 +108,23 @@ function Weekalendar(props) {
               // Assumes courses with sat lessons always starts on sat
               if (
                 saturday === 7 &&
-                Math.floor((item.start - day) / 604800000) % 2 === 0
+                Math.floor((item.start - date) / 604800000) % 2 === 0
               ) {
                 room[i].push(item);
-              } else if (saturday === 8) {
-                continue;
-              } else {
+              } else if (
+                saturday === 8 &&
+                Math.floor((item.start - date) / 604800000) % 2 !== 0
+              ) {
+                room[i].push(item);
+              } else if (saturday === 6) {
                 room[i].push(item);
               }
             }
           }
         }
       }
-      return room;
     }
+    return room;
   }
 
   return (
@@ -124,21 +132,24 @@ function Weekalendar(props) {
       <h3>Weekalendar</h3>
       <table className={styles.weekalendar_headers}>
         <thead>
-          <td>Room</td>
-          {week_dates.map((item, idx) => {
-            const dateArr = item.toDateString().split(" ");
-            return (
-              <td key={idx}>
-                <div>{`${dateArr[2]} ${dateArr[1]} ${dateArr[3]}`}</div>
-                <div>{dateArr[0]}</div>
-              </td>
-            );
-          })}
+          <tr>
+            <td>Room</td>
+            {week_dates.map((item, idx) => {
+              const dateArr = item.toDateString().split(" ");
+              return (
+                <td key={idx}>
+                  <div>{`${dateArr[2]} ${dateArr[1]} ${dateArr[3]}`}</div>
+                  <div>{dateArr[0]}</div>
+                </td>
+              );
+            })}
+          </tr>
         </thead>
-        <tbody>{courses[0].start_date - week_dates[0]}</tbody>
-        <div>{new Date("2023-06-08T00:00") - week_dates[0]}</div>
-        <div>{new Date("2023-06-07T18:00") - week_dates[0]}</div>
-        <div>{JSON.stringify(allocatedRooms)}</div>
+        <tbody>
+          {resolveClassesToDates(courses).map((item, idx) => {
+            return <WeekalendarRow key={idx} id={idx + 1} columns={item} />;
+          })}
+        </tbody>
       </table>
     </div>
   );
