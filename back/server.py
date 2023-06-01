@@ -28,6 +28,9 @@ api = Api(app)
 app.register_blueprint(display_bp)
 
 api.add_resource(seed.SeedRoles, '/seed/roles')
+api.add_resource(seed.SeedRooms, '/seed/rooms')
+api.add_resource(seed.SeedCourseTypes, '/seed/types')
+api.add_resource(seed.SeedDaysSchedules, '/seed/days')
 
 @app.route("/")
 def get_data():

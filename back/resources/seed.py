@@ -3,6 +3,9 @@ from flask import jsonify
 
 from models.db import db
 from models.roles import Roles
+from models.rooms import Rooms
+from models.course_types import CourseTypes
+from models.days_schedules import DaysSchedules
 
 
 # Seed users' roles
@@ -29,21 +32,49 @@ class SeedRoles(Resource):
 
 
 # Seed rooms 1-6
-class SeedClassrooms(Resource):
+class SeedRooms(Resource):
     @classmethod
     def get(cls):
-        pass
+        db.session.query(Rooms).delete()
+        for i in range(1,7):
+            new_room = Rooms(i)
+            db.session.add(new_room)
+        db.session.commit()
+        return jsonify({'status': 'ok', 'message': 'rooms seeded'})
 
 
 # Seed FT/PT/Flex course types
 class SeedCourseTypes(Resource):
     @classmethod
     def get(cls):
-        pass
+        db.session.query(CourseTypes).delete()
+        db.session.add_all([CourseTypes('FT'), CourseTypes('Flex'), CourseTypes('PT')])
+        db.session.commit()
+        db.session.commit()
+        return jsonify({'status': 'ok', 'message': 'course types seeded'})
 
 
 # Seed commonly used schedules
 class SeedDaysSchedules(Resource):
     @classmethod
     def get(cls):
-        pass
+        db.session.query(DaysSchedules).delete()
+        # DaysSchedules(mon,tue,wed,thu,fri,sato,sate,sun)
+        # Add MoTuWeTh
+        mtwt = DaysSchedules(True, True, True, True)
+
+        # Add MoTu
+        mt = DaysSchedules(True,True)
+
+        # Add WeTh
+        wt = DaysSchedules(False,False,True,True)
+
+        # Add Sat_odd
+        so = DaysSchedules(False,False,False,False,False,True)
+
+        # Add Sat_even
+        se = DaysSchedules(False,False,False,False,False,False,True)
+
+        db.session.add_all([mtwt, mt, wt, so, se])
+        db.session.commit()
+        return jsonify({'status': 'ok', 'message': 'common schedules seeded'})
