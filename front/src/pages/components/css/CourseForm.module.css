@@ -1,0 +1,46 @@
+.form,
+.buttons_container {
+  user-select: none;
+  margin: 2vh 2%;
+}
+
+.checkbox_container {
+  margin: 2vh auto;
+  display: flex;
+  align-items: center;
+}
+
+.checkbox_main_label {
+  width: 20%;
+}
+
+.checkbox {
+  width: 80%;
+  display: grid;
+  grid-template-columns: repeat(4, 25%);
+  row-gap: 2vh;
+}
+
+.checkbox > label > input {
+  margin: 0 10%;
+}
+
+.checkbox > label:hover {
+  font-weight: bold;
+}
+
+.button {
+  border: none;
+  background-color: rgb(var(--ga-mist));
+  border-radius: 10px;
+  padding: 5px 10px;
+  margin-right: 2vw;
+}
+
+.button:active {
+  background-color: rgb(var(--ga-cream));
+}
+
+.import_input {
+  display: none;
+}
