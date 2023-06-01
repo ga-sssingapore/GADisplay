@@ -1,3 +1,11 @@
-.filter_container {
+.container,
+.add_button {
   margin: 1vh 1%;
+}
+
+.add_button {
+  display: inline-block;
+  padding: 1%;
+  border-radius: 10px;
+  background-color: rgba(var(--ga-clover), 0.5);
 }
