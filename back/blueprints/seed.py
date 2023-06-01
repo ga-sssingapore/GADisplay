@@ -9,6 +9,10 @@ from models.days_schedules import DaysSchedules
 seed_bp = Blueprint('seed_bp', __name__, url_prefix='/seed')
 
 
+'''
+Seeds utilize only GET methods, utilize blueprint instead to
+reduce number of api.add_resource needed in server.py
+'''
 @seed_bp.route('/roles')
 def seed_routes():
     existing_roles = [item.role for item in Roles.query.all()]
