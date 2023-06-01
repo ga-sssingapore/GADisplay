@@ -7,7 +7,7 @@ function DisplayPage() {
   return (
     <div className={styles.background}>
       <div>Classroom {number}</div>
-      <div>UXDI44SGP</div>
+      <div>SEIFX44SGP</div>
       <div>9:30am - 5:30pm</div>
       <hr />
       <img

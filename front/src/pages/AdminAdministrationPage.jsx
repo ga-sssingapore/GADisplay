@@ -1,6 +1,6 @@
 import React from "react";
 
-function AdminHelmPage() {
+function AdminAdministrationPage() {
   return (
     <div>
       <div>Name</div>
@@ -13,4 +13,4 @@ function AdminHelmPage() {
   );
 }
 
-export default AdminHelmPage;
+export default AdminAdministrationPage;

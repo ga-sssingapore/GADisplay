@@ -21,41 +21,50 @@ function Weekalendar(props) {
   // Courses this week, days: 0 - 6 Sunday - Saturday, 7: Saturday Odd, 8: Saturday Even
   const courses = [
     {
-      cohort: "DSIFX10SGP",
+      name: "DSIFX10SGP",
       start: new Date("2023-05-27T23:59"),
       end: new Date("2023-08-26T18:00"),
       room: 6,
       days: [7],
     },
     {
-      cohort: "USDIFX06SGP",
+      name: "USDIFX06SGP",
       start: new Date("2023-05-27T09:00"),
       end: new Date("2023-08-26T18:00"),
       room: 6,
       days: [8],
     },
     {
-      cohort: "SEIFX13SGP",
+      name: "SEIFX13SGP",
       start: new Date("2023-03-04T09:00"),
       end: new Date("2023-09-02T18:00"),
       room: 3,
       days: [7],
     },
     {
-      cohort: "UXDI44SGP",
+      name: "UXDI44SGP",
       start: new Date("2023-03-13T09:30"),
       end: new Date("2023-06-02T17:30"),
       room: 6,
       days: [3, 4],
     },
     {
-      cohort: "SEI43SGP",
+      name: "SEI43SGP",
       start: new Date("2023-03-20T09:30"),
       end: new Date("2023-06-07T17:30"),
       room: 3,
       days: [1, 2, 3, 4],
     },
+    {
+      name: "Urgent Meeting",
+      start: new Date("2023-06-05T12:00"),
+      end: new Date("2023-06-05T14:00"),
+      room: 3,
+      days: [1], // Days will be determined and added by backend after serializing.
+    },
   ];
+
+  const allocated_rooms = resolveClassesToDates(courses);
 
   function resolveClassesToDates(courseArr) {
     // Need to account for ad-hocs as well
@@ -129,7 +138,6 @@ function Weekalendar(props) {
 
   return (
     <div className={styles.weekalendar_container}>
-      <h3>Weekalendar</h3>
       <table className={styles.weekalendar_headers}>
         <thead>
           <tr>

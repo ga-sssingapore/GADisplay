@@ -46,7 +46,7 @@ function NavBar(props) {
               isActive ? styles.navbar_active : styles.navbar_link
             }
           >
-            Helm
+            Admin
           </NavLink>
         </div>
       )}

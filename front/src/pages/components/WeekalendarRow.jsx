@@ -1,16 +1,23 @@
 import React from "react";
 
 function WeekalendarRow(props) {
+  function extractNames(col) {
+    if (col.length <= 1) {
+      return col[0]?.name;
+    } else {
+      // Check if multiples events conflict
+    }
+  }
   return (
     <tr>
       <td>{props.id}</td>
-      <td>{props.columns[0].map((item) => item.cohort)}</td>
-      <td>{props.columns[1].map((item) => item.cohort)}</td>
-      <td>{props.columns[2].map((item) => item.cohort)}</td>
-      <td>{props.columns[3].map((item) => item.cohort)}</td>
-      <td>{props.columns[4].map((item) => item.cohort)}</td>
-      <td>{props.columns[5].map((item) => item.cohort)}</td>
-      <td>{props.columns[6].map((item) => item.cohort)}</td>
+      <td>{extractNames(props.columns[0])}</td>
+      <td>{extractNames(props.columns[1])}</td>
+      <td>{extractNames(props.columns[2])}</td>
+      <td>{extractNames(props.columns[3])}</td>
+      <td>{extractNames(props.columns[4])}</td>
+      <td>{extractNames(props.columns[5])}</td>
+      <td>{extractNames(props.columns[6])}</td>
     </tr>
   );
 }

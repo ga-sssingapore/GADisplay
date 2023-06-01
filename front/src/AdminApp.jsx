@@ -9,7 +9,7 @@ import AdminAddPage from "./pages/AdminAddPage";
 import AdminEditPage from "./pages/AdminEditPage";
 import AdminAdhocPage from "./pages/AdminAdhocPage";
 import AdminDisplayViewerPage from "./pages/AdminDisplayViewerPage";
-import AdminHelmPage from "./pages/AdminHelmPage";
+import AdminAdministrationPage from "./pages/AdminAdministrationPage";
 
 function AdminApp() {
   const [isLoggedIn, setIsLoggedIn] = useState(true);
@@ -25,7 +25,7 @@ function AdminApp() {
         <Route path="/courses/edit/:course_id" element={<AdminEditPage />} />
         <Route path="/adhoc" element={<AdminAdhocPage />} />
         <Route path="/displays" element={<AdminDisplayViewerPage />} />
-        <Route path="/helm" element={<AdminHelmPage />} />
+        <Route path="/helm" element={<AdminAdministrationPage />} />
       </Routes>
     </>
   );
