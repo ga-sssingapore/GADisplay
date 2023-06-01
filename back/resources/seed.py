@@ -5,6 +5,7 @@ from models.db import db
 from models.roles import Roles
 
 
+# Seed users' roles
 class SeedRoles(Resource):
     @classmethod
     def get(cls):
@@ -25,3 +26,24 @@ class SeedRoles(Resource):
             db.session.add_all(new_roles)
             db.session.commit()
             return jsonify({'status': 'ok', 'message': 'roles seeded'})
+
+
+# Seed rooms 1-6
+class SeedClassrooms(Resource):
+    @classmethod
+    def get(cls):
+        pass
+
+
+# Seed FT/PT/Flex course types
+class SeedCourseTypes(Resource):
+    @classmethod
+    def get(cls):
+        pass
+
+
+# Seed commonly used schedules
+class SeedDaysSchedules(Resource):
+    @classmethod
+    def get(cls):
+        pass
