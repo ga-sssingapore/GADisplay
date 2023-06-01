@@ -5,13 +5,13 @@
   justify-content: center;
 }
 
-.weekalendar_headers {
+/* .weekalendar_headers {
   display: grid;
   justify-items: center;
   align-items: center;
   grid-template-columns: 9% 13% 13% 13% 13% 13% 13% 13%;
   width: 90%;
-}
+} */
 
 .date_col {
   text-align: center;
