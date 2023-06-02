@@ -4,26 +4,25 @@ import modal from "./css/ModalBackdrop.module.css";
 
 function Overlay(props) {
   return (
-    <div
-      className={modal.backdrop}
-      onClick={() => props.setFormComplete(false)}
-    >
+    <div className={modal.backdrop} onClick={props.closeModal}>
       <div className={modal.modal} onClick={(e) => e.stopPropagation()}>
-        Hello
+        {props.csvData.map((item, idx) => {
+          return <div key={idx}>{JSON.stringify(item)}</div>;
+        })}
       </div>
     </div>
   );
 }
 
-function CourseFormConfirmation(props) {
+function CourseCSVImportConfirmation(props) {
   return (
     <>
       {ReactDOM.createPortal(
-        <Overlay setFormComplete={props.setFormComplete} />,
+        <Overlay closeModal={props.closeModal} csvData={props.csvData} />,
         document.querySelector("#modal-root")
       )}
     </>
   );
 }
 
-export default CourseFormConfirmation;
+export default CourseCSVImportConfirmation;

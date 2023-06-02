@@ -202,7 +202,9 @@ function CourseForm(props) {
         </button>
         <button className={styles.button}>Clear</button>
       </div>
-      {formComplete && <CourseFormConfirmation />}
+      {formComplete && (
+        <CourseFormConfirmation setFormComplete={setFormComplete} />
+      )}
     </>
   );
 }
