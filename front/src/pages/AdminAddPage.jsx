@@ -1,11 +1,14 @@
 import React from "react";
 import CourseForm from "./components/CourseForm";
+import CourseCSVImport from "./components/CourseCSVImport";
 
 function AdminAddPage() {
   return (
-    <div>
+    <>
       <CourseForm />
-    </div>
+      <hr />
+      <CourseCSVImport />
+    </>
   );
 }
 

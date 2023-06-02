@@ -143,10 +143,6 @@ function CourseForm(props) {
       <div className={styles.buttons_container}>
         <button className={styles.button}>Add</button>
         <button className={styles.button}>Clear</button>
-        <label htmlFor="import_csv" className={styles.button}>
-          Import CSV
-        </label>
-        <input type="file" id="import_csv" className={styles.import_input} />
       </div>
     </>
   );
