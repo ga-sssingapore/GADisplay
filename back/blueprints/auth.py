@@ -13,8 +13,32 @@ from schemas.users import UsersSchema
 from schemas.logins import LoginsSchema
 
 auth_bp = Blueprint('auth_bp', __name__, url_prefix='/auth')
+ph = PasswordHasher()
 users_schema = UsersSchema()
 logins_schema = LoginsSchema()
+
+
+@auth_bp.route('/register', methods=["POST"])
+@check_request
+def register():
+    name = request.json.get('name', None)
+    email = request.json.get('email', None)
+    password = request.json.get('password', None)
+    if email is None or password is None or name is None:
+        return jsonify({'status': 'error', 'message': 'missing credential(s)'}), 400
+    # Check exiting user
+    user_db = db.session.query(Users).filter(Users.email == email).one_or_none()
+    if user_db is not None:
+        return jsonify({'status': 'error', 'message': 'email already in use'}), 400
+    pw_hash = ph.hash(password)
+    try:
+        new_user = Users(name, email, pw_hash)
+        db.session.add(new_user)
+        db.session.commit()
+        return jsonify({'status': 'ok', 'message': 'user registered'})
+    except Exception as e:
+        print(e)
+        return jsonify({'status': 'error', 'message': 'error registering'}), 400
 
 
 @auth_bp.route('/login', methods=["POST"])
@@ -25,7 +49,6 @@ def login():
     if email is None or password is None:
         return jsonify({'status': 'error', 'message': 'email or password error'}), 401
 
-    ph = PasswordHasher()
     user_db = db.session.query(Users).filter(Users.email == email).first()
 
     if user_db is None:
@@ -41,8 +64,6 @@ def login():
         # 02/06/2023: flask-jwt-extended generates tokens with uuid4 jti automatically
         access = create_access_token(user_db, additional_claims=payload)  # Default expiry: 15 mins
         refresh = create_refresh_token(user_db, additional_claims=payload)  # Default expiry: 30 days
-        print(access)
-
         # Whitelist tokens
         db.session.query(Logins).filter_by(id=user_id).delete()
         access_db = Logins(get_jti(access), user_id)
