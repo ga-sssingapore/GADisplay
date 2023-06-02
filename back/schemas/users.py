@@ -1,7 +1,7 @@
-from marshmallow_sqlalchemy import fields
 from schemas.mm import mm
-from schemas.roles import RolesSchema
 from models.users import Users
+# Foreign Key
+from schemas.roles import RolesSchema
 
 
 class UsersSchema(mm.SQLAlchemyAutoSchema):
