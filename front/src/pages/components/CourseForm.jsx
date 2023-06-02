@@ -1,10 +1,14 @@
 import React, { useState } from "react";
 import styles from "./css/CourseForm.module.css";
+import CourseFormConfirmation from "./CourseFormConfirmation";
 
 function CourseForm(props) {
+  // Course specifics
   const [courseCode, setCourseCode] = useState(props.course?.name || "");
   const [courseType, setCourseType] = useState("");
   const [courseRoom, setCourseRoom] = useState("");
+
+  // Days picker
   const [mon, setMon] = useState(false);
   const [tue, setTue] = useState(false);
   const [wed, setWed] = useState(false);
@@ -16,12 +20,25 @@ function CourseForm(props) {
   const [sae, setSae] = useState(false);
   const [sun, setSun] = useState(false);
 
+  // Date-time pickers
+  const [startDate, setStartDate] = useState("");
+  const [startTime, setStartTime] = useState("");
+  const [endDate, setEndDate] = useState("");
+  const [endTime, setEndTime] = useState("");
+
+  // Control opening of confirmation modal
+  const [formComplete, setFormComplete] = useState(false);
+
   function handleChange(event, cb) {
     cb(event.target.value);
   }
 
   function handleCheck(state, cb) {
     cb(!state);
+  }
+
+  function consolidateDays() {
+    return [mon, tue, wed, thu, fri, sao, sae, sun];
   }
 
   return (
@@ -138,12 +155,54 @@ function CourseForm(props) {
               </label>
             </div>
           </div>
+          <div className={styles.datetime_container}>
+            <div className={styles.datetime_grid}>
+              <label htmlFor="start_date">Start Date</label>
+              <input
+                type="date"
+                id="start_date"
+                onChange={(e) => handleChange(e, setStartDate)}
+              />
+              <label htmlFor="start_time">Start Time</label>
+              <input
+                type="time"
+                id="start_time"
+                onChange={(e) => handleChange(e, setStartTime)}
+              />
+            </div>
+
+            <div className={styles.datetime_grid}>
+              <label htmlFor="end_date">End Date</label>
+              <input
+                type="date"
+                id="end_date"
+                onChange={(e) => handleChange(e, setEndDate)}
+              />
+              <label htmlFor="end_time">End Time</label>
+              <input
+                type="time"
+                id="end_time"
+                onChange={(e) => {
+                  handleChange(e, setEndTime);
+                }}
+              />
+            </div>
+          </div>
         </div>
       </form>
       <div className={styles.buttons_container}>
-        <button className={styles.button}>Add</button>
+        <button
+          className={styles.button}
+          onClick={(e) => {
+            e.preventDefault();
+            setFormComplete(true);
+          }}
+        >
+          Add
+        </button>
         <button className={styles.button}>Clear</button>
       </div>
+      {formComplete && <CourseFormConfirmation />}
     </>
   );
 }

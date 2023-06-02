@@ -29,6 +29,23 @@
   font-weight: bold;
 }
 
+.datetime_container {
+  display: grid;
+  grid-template-columns: repeat(2, 30%);
+  column-gap: 10%;
+}
+
+.datetime_grid {
+  display: grid;
+  text-align: end;
+  grid-template-columns: 30% 60%;
+  row-gap: 20%;
+}
+
+.datetime_grid > label {
+  margin-right: 10%;
+}
+
 .button {
   border: none;
   background-color: rgb(var(--ga-mist));
@@ -39,8 +56,4 @@
 
 .button:active {
   background-color: rgb(var(--ga-cream));
-}
-
-.import_input {
-  display: none;
 }
