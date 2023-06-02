@@ -11,7 +11,6 @@ from blueprints.display.routes import display_bp
 from blueprints.seed import seed_bp
 
 # Flask_RESTful resources (controllers)
-from resources import seed
 
 # Load .env
 from dotenv import load_dotenv

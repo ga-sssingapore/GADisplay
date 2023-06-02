@@ -6,7 +6,6 @@ class Roles(db.Model):
 
     role = db.Column(db.String(10), primary_key=True)
 
-
     def __init__(self, role):
         self.role = role
 
