@@ -10,7 +10,7 @@ class Logins(db.Model):
     access_parent = db.Column(db.ForeignKey('Logins.jti'))
     id = db.Column(db.ForeignKey('Users.id'))
 
-    def __init__(self, jti, access_parent, id, refresh=False):
+    def __init__(self, jti, id, access_parent=None, refresh=False):
         self.jti = jti
         self.refresh = refresh
         self.access_parent = access_parent
