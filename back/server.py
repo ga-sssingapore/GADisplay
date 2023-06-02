@@ -1,7 +1,7 @@
 import os
 import sys
 
-from flask import Flask
+from flask import Flask, jsonify
 
 from models.db import db
 from models.users import Users
@@ -57,7 +57,12 @@ def user_lookup_callback(jwt_header, jwt_data):
 def check_if_token_revoked(jwt_header, jwt_data):
     jti = jwt_data['jti']
     login = Logins.query.filter_by(jti=jti).one_or_none()
-    return login is None
+    return login is None  # If True returned, token is 'revoked'
+
+
+@jwt.revoked_token_loader
+def revoked_token(*args):
+    return jsonify(error='Invalid Token'), 401
 
 
 app.register_blueprint(display_bp)
