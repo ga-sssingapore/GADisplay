@@ -51,7 +51,7 @@ def login():
         db.session.add(refresh_db)
 
         db.session.commit()
-        return jsonify(access, refresh)
+        return jsonify(access=access, refresh=refresh)
     except Exception as e:
         print(e)
         return jsonify({'status': 'error', 'message': 'invalid email or password'}), 401
