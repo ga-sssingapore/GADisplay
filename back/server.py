@@ -4,9 +4,11 @@ import sys
 from flask import Flask
 
 from models.db import db
+from models.users import Users
+from models.logins import Logins
 from schemas.mm import mm
 from flask_restful import Api
-from flask_jwt_extended import JWTManager
+from flask_jwt_extended import JWTManager, get_jti
 
 # Blueprints
 from blueprints.display.routes import display_bp
@@ -37,9 +39,31 @@ mm.init_app(app)
 api = Api(app)
 jwt = JWTManager(app)
 
+
+# Setup automatic user loading via JWT
+@jwt.user_identity_loader
+def user_identity_lookup(user):
+    return user.id
+
+
+@jwt.user_lookup_loader
+def user_lookup_callback(jwt_header, jwt_data):
+    identity = jwt_data["sub"]  # "sub" refers to identity in create_token(identity, args*)
+    return Users.query.filter_by(id=identity).first()
+
+
+# Utilizing opposite logic to whitelist tokens based on Logins records in database.
+@jwt.token_in_blocklist_loader
+def check_if_token_revoked(jwt_header, jwt_data):
+    jti = jwt_data['jti']
+    login = Logins.query.filter_by(jti=jti).one_or_none()
+    return login is None
+
+
 app.register_blueprint(display_bp)
 app.register_blueprint(seed_bp)
 app.register_blueprint(auth_bp)
+
 
 @app.route("/")
 def get_data():

@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify
-from flask_jwt_extended import create_access_token, create_refresh_token
+from flask_jwt_extended import create_access_token, create_refresh_token, jwt_required, get_jwt, get_jti, get_current_user
 from argon2 import PasswordHasher
 from uuid import uuid4
 # Middleware
@@ -36,17 +36,17 @@ def login():
 
     try:
         ph.verify(user['hash'], password)  # Raises VerificationError if fail verification
-        user_id = str(user['id'])
-        payload = {'role': 'Registered', 'name': user['name'], 'id': user_id}
-        access_id = uuid4()
-        access = create_access_token(access_id, additional_claims=payload)  # Default expiry: 15 mins
-        refresh_id = uuid4()
-        refresh = create_refresh_token(refresh_id, additional_claims=payload)
+        user_id = user['id']
+        payload = {'role': 'Registered', 'name': user['name'], 'email': user['email']}  # id stored in claims as 'sub'
+        # 02/06/2023: flask-jwt-extended generates tokens with uuid4 jti automatically
+        access = create_access_token(user_db, additional_claims=payload)  # Default expiry: 15 mins
+        refresh = create_refresh_token(user_db, additional_claims=payload)
+        print(access)
 
         # Whitelist tokens
         db.session.query(Logins).filter_by(id=user_id).delete()
-        access_db = Logins(access_id, user_id)
-        refresh_db = Logins(refresh_id, user_id, access_id, True)
+        access_db = Logins(get_jti(access), user_id)
+        refresh_db = Logins(get_jti(refresh), user_id, get_jti(access), True)
         db.session.add(access_db)
         db.session.add(refresh_db)
 
@@ -55,3 +55,9 @@ def login():
     except Exception as e:
         print(e)
         return jsonify({'status': 'error', 'message': 'invalid email or password'}), 401
+
+
+@auth_bp.route('refresh', methods=["POST"])
+@jwt_required(refresh=True)
+def refresh_session():
+    return jsonify(get_jwt())
