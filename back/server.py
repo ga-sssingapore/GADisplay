@@ -10,12 +10,12 @@ from schemas.mm import mm
 from flask_restful import Api
 from flask_jwt_extended import JWTManager, get_jti
 
-# Blueprints
+# Blueprints for specialized endpoints
 from blueprints.display.routes import display_bp
 from blueprints.seed import seed_bp
 from blueprints.auth import auth_bp
 
-# Flask_RESTful resources (controllers)
+# Flask_RESTful resources (controllers) for CRUD-focused endpoints
 
 # Load .env
 from dotenv import load_dotenv
