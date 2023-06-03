@@ -60,6 +60,10 @@ function CourseForm(props) {
     setFormComplete(true);
   }
 
+  function handleConfirm(event) {
+    event.preventDefault();
+  }
+
   return (
     <>
       <form className={styles.form}>
@@ -233,6 +237,7 @@ function CourseForm(props) {
           startTime={startTime}
           endDate={endDate}
           endTime={endTime}
+          handleConfirm={handleConfirm}
         />
       )}
     </>
