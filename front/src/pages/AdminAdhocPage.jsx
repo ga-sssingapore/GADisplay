@@ -1,5 +1,6 @@
 import React from "react";
 import AdhocForm from "./components/AdhocForm";
+import AdhocList from "./components/AdhocList";
 
 function AdminAdhocPage() {
   // Also record logged in user who is performing the booking
@@ -7,7 +8,7 @@ function AdminAdhocPage() {
     <>
       <AdhocForm />
       <hr />
-      <AdHocList />
+      <AdhocList />
     </>
   );
 }
