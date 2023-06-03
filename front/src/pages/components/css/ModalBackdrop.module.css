@@ -11,9 +11,11 @@
 .modal {
   position: fixed;
   background: white;
-  top: 30vh;
-  bottom: 40vh;
-  left: 10%;
-  width: 80%;
+  left: 5%;
+  width: 90%;
+  top: 5vh;
+  height: 90vh;
+  overflow-wrap: break-word;
+  overflow-y: auto;
   z-index: 100;
 }
