@@ -1,0 +1,24 @@
+.adhoc_table {
+  margin: 2vh 2%;
+  width: 96%;
+}
+
+.table_header {
+  background-color: rgb(var(--ga-ink));
+  color: rgb(var(--ga-cloud));
+  text-align: center;
+}
+
+.event {
+  width: 10%;
+}
+
+.room {
+  width: 5%;
+}
+
+.date,
+.start,
+.end {
+  width: 10%;
+}

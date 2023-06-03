@@ -145,6 +145,7 @@ function Weekalendar(props) {
           <tr>
             <td>Room</td>
             {week_dates.map((item, idx) => {
+              // [Day, Mmm, DD, YYYY]
               const dateArr = item.toDateString().split(" ");
               if (dateArr[0] == "Sun") {
                 sunday.current = idx;
