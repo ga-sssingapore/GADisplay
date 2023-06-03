@@ -29,6 +29,7 @@ function CoursesList(props) {
                 ends={item.ends}
                 schedule={item.schedule}
                 room={item.room}
+                setDataComplete={props.setDataComplete}
               />
             );
           })}
