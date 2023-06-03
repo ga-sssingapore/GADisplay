@@ -4,3 +4,34 @@
   top: 5vh;
   height: 90vh;
 }
+
+.description_container {
+  margin: 2vh 2%;
+}
+
+.buttons_container {
+  user-select: none;
+  margin: 2vh 2%;
+}
+
+.buttons_container > button {
+  border: none;
+  border-radius: 10px;
+  padding: 5px 10px;
+  margin-right: 2vw;
+  color: rgb(var(--ga-cloud));
+}
+
+.confirm_button {
+  background-color: rgb(var(--ga-cobalt));
+}
+
+.return_button {
+  background-color: rgb(var(--ga-crimson));
+}
+
+.buttons_container > button:active {
+  background-color: rgb(var(--ga-cream));
+  color: rgb(var(--ga-ink));
+  transition: 0.1s linear;
+}

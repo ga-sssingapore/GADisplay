@@ -3,6 +3,7 @@ import ReactDOM from "react-dom";
 import modal from "./css/ModalBackdrop.module.css";
 import styles from "./css/CourseCSVImportConfirmation.module.css";
 import CoursesList from "./CoursesList";
+import { fetchData } from "../../../helpers/common";
 
 function Overlay(props) {
   const [dataComplete, setDataComplete] = useState(true);
@@ -52,16 +53,38 @@ function Overlay(props) {
     }
     return csvData;
   }
+
+  async function handleConfirm(event) {
+    event.preventDefault();
+    // const { ok, data } = await fetchData(
+    //   "",
+    //   token,
+    //   "PUT",
+    //   reclassifyData(props.csvData)
+    // );
+  }
+
   return (
-    <div className={modal.backdrop} onClick={props.closeModal}>
-      <div
-        className={`${modal.modal} ${styles.modal_size}`}
-        onClick={(e) => e.stopPropagation()}
-      >
+    <div className={modal.backdrop}>
+      <div className={`${modal.modal} ${styles.modal_size}`}>
+        <div className={styles.description_container}>
+          <h4>Confirm courses' details</h4>
+          <div>
+            Any discrepancies should be fixed in CSV before re-uploading
+          </div>
+        </div>
         <CoursesList
           courses={reclassifyData(props.csvData)}
           setDataComplete={setDataComplete}
         />
+        <div className={styles.buttons_container}>
+          <button className={styles.confirm_button} onClick={handleConfirm}>
+            Confirm
+          </button>
+          <button className={styles.return_button} onClick={props.closeModal}>
+            Return
+          </button>
+        </div>
         {viewRawData && (
           <>
             <hr />
