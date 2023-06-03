@@ -4,6 +4,9 @@ import tStyles from "./css/CoursesList.module.css";
 
 function CourseEntry(props) {
   function getDate(dateObj) {
+    if (dateObj.toString() == "Invalid Date") {
+      return "";
+    }
     // [day, mth, dd, yyyy, timestr, GMT, (country, standard, time)]
     const strArray = dateObj.toString().split(" ");
     let day = Number(strArray[2]);
@@ -25,6 +28,9 @@ function CourseEntry(props) {
   }
 
   function getTime(dateObj) {
+    if (dateObj.toString() == "Invalid Date") {
+      return "";
+    }
     // [hh,mm,ss]
     const timeArray = dateObj.toString().split(" ")[4].split(":");
     const hour = Number(timeArray[0]);
@@ -33,17 +39,44 @@ function CourseEntry(props) {
       hour / 12 >= 1 ? "PM" : "AM"
     }`;
   }
+
+  function getType(type) {
+    switch (type) {
+      case "FT":
+        return "Full Time";
+      case "PT":
+        return "Part Time";
+      default:
+        return type;
+    }
+  }
+
+  function setMissing() {
+    props.setDataComplete(false);
+    return styles.missing;
+  }
+
   return (
     <tbody>
       <tr>
-        <td className={tStyles.cohort}>{props.name}</td>
-        <td className={tStyles.type}>{props.course_type}</td>
-        <td className={tStyles.date}>{getDate(props.starts)}</td>
-        <td className={tStyles.date}>{getDate(props.ends)}</td>
-        <td className={tStyles.time}>{getTime(props.starts)}</td>
-        <td className={tStyles.time}>{getTime(props.ends)}</td>
-        <td className={tStyles.days}>{props.schedule}</td>
-        <td className={tStyles.room}>{props.room}</td>
+        <td className={props.name ? "" : setMissing()}>{props.name}</td>
+        <td className={props.course_type ? "" : setMissing()}>
+          {getType(props.course_type)}
+        </td>
+        <td className={getDate(props.starts) ? "" : setMissing()}>
+          {getDate(props.starts)}
+        </td>
+        <td className={getDate(props.ends) ? "" : setMissing()}>
+          {getDate(props.ends)}
+        </td>
+        <td className={getTime(props.starts) ? "" : setMissing()}>
+          {getTime(props.starts)}
+        </td>
+        <td className={getTime(props.ends) ? "" : setMissing()}>
+          {getTime(props.ends)}
+        </td>
+        <td className={props.schedule ? "" : setMissing()}>{props.schedule}</td>
+        <td className={props.room ? "" : setMissing()}>{props.room}</td>
       </tr>
     </tbody>
   );
