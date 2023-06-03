@@ -19,3 +19,7 @@
   width: 10vw;
   animation: rotation 4s linear infinite;
 }
+
+.csv_specs {
+  margin: 2vh 2%;
+}

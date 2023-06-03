@@ -65,6 +65,23 @@ function CourseCSVImport() {
           />
         )}
       </div>
+      <div className={styles.csv_specs}>
+        <h4>CSV specifications:</h4>
+        <ul>
+          <li>First row of data will be used as headers.</li>
+          <li>
+            Required headers (case and spelling sensitive!): "Cohort", "Start
+            Date", "End Date", "Start Time", "End Time", "Days on Campus",
+            "Classroom".
+          </li>
+          <li>
+            Course Type will be inferred from course code. FX in course code
+            will be interpreted as a Flex course, PT in course code will be
+            interpreted as a Part Time course. Lack of either will default to
+            Full Time course.
+          </li>
+        </ul>
+      </div>
       {formComplete && (
         <CourseCSVImportConfirmation
           closeModal={handleCloseModal}
