@@ -1,16 +1,14 @@
 import React from "react";
+import AdhocForm from "./components/AdhocForm";
 
 function AdminAdhocPage() {
   // Also record logged in user who is performing the booking
   return (
-    <div>
-      <div>Event</div>
-      <div>Date</div>
-      <div>Start Time</div>
-      <div>End Time</div>
-      <div>Room</div>
-      <div>Purpose</div>
-    </div>
+    <>
+      <AdhocForm />
+      <hr />
+      <AdHocList />
+    </>
   );
 }
 
