@@ -1,0 +1,56 @@
+.modal_size {
+  left: 10%;
+  width: 80%;
+  top: 5vh;
+  height: 60vh;
+  padding: 5vh;
+}
+
+.details_container {
+  display: grid;
+  grid-template-columns: 10% 90%;
+  margin: 2vh 0;
+  row-gap: 2vh;
+}
+
+.dateroom_container {
+  display: grid;
+  grid-template-columns: 10% 40% 10% 40%;
+  margin: 2vh 0;
+  row-gap: 2vh;
+}
+
+.datetime_selector {
+  width: 10rem;
+}
+
+.room_selector {
+  width: 3rem;
+}
+
+.buttons_container {
+  user-select: none;
+  margin: 2vh 2%;
+}
+
+.buttons_container > button {
+  border: none;
+  border-radius: 10px;
+  padding: 5px 10px;
+  margin-right: 2vw;
+  color: rgb(var(--ga-cloud));
+}
+
+.confirm_button {
+  background-color: rgb(var(--ga-cobalt));
+}
+
+.return_button {
+  background-color: rgb(var(--ga-crimson));
+}
+
+.buttons_container > button:active {
+  background-color: rgb(var(--ga-cream));
+  color: rgb(var(--ga-ink));
+  transition: 0.1s linear;
+}
