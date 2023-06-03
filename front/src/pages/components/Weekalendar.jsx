@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useRef } from "react";
 import styles from "./css/Weekalendar.module.css";
 import WeekalendarRow from "./WeekalendarRow";
 
@@ -17,6 +17,8 @@ function Weekalendar(props) {
   ].map((item) => {
     return new Date(item);
   });
+  // Idx of Sunday column
+  const sunday = useRef(0);
 
   // Courses this week, days: 0 - 6 Sunday - Saturday, 7: Saturday Odd, 8: Saturday Even
   const courses = [
@@ -138,12 +140,15 @@ function Weekalendar(props) {
 
   return (
     <div className={styles.weekalendar_container}>
-      <table className={styles.weekalendar_headers}>
-        <thead>
+      <table className={styles.weekalendar}>
+        <thead className={styles.weekalendar_headers}>
           <tr>
             <td>Room</td>
             {week_dates.map((item, idx) => {
               const dateArr = item.toDateString().split(" ");
+              if (dateArr[0] == "Sun") {
+                sunday.current = idx;
+              }
               return (
                 <td key={idx}>
                   <div>{`${dateArr[2]} ${dateArr[1]} ${dateArr[3]}`}</div>
@@ -155,7 +160,14 @@ function Weekalendar(props) {
         </thead>
         <tbody>
           {resolveClassesToDates(courses).map((item, idx) => {
-            return <WeekalendarRow key={idx} id={idx + 1} columns={item} />;
+            return (
+              <WeekalendarRow
+                key={idx}
+                id={idx + 1}
+                columns={item}
+                sunday={sunday.current}
+              />
+            );
           })}
         </tbody>
       </table>

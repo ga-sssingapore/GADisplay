@@ -5,14 +5,33 @@
   justify-content: center;
 }
 
-/* .weekalendar_headers {
-  display: grid;
-  justify-items: center;
-  align-items: center;
-  grid-template-columns: 9% 13% 13% 13% 13% 13% 13% 13%;
+.weekalendar {
   width: 90%;
-} */
+}
+
+.weekalendar_headers {
+  text-align: center;
+  background-color: rgb(var(--ga-ink));
+  color: rgb(var(--ga-cloud));
+}
 
 .date_col {
   text-align: center;
+}
+
+.room {
+  text-align: end;
+}
+
+.row,
+.alt_row {
+  text-align: center;
+}
+
+.alt_row {
+  background-color: rgb(var(--ga-mist));
+}
+
+.sunday {
+  background-color: rgb(var(--ga-fog));
 }
