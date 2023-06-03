@@ -8,10 +8,25 @@ function CourseCSVImport() {
   const [csvData, setCsvData] = useState([]);
   const [loading, setLoading] = useState(false);
   const fileInputRef = useRef();
+
+  function renameHeader(header) {
+    switch (header) {
+      case "Cohort":
+        return "name";
+      case "Days on Campus":
+        return "schedule";
+      case "Classroom":
+        return "room";
+      default:
+        return header;
+    }
+  }
+
   function handleCSV(event) {
     setLoading(true);
     Papa.parse(event.target.files[0], {
       header: true,
+      transformHeader: (header) => renameHeader(header),
       skipEmptyLines: true,
       complete: (results) => {
         setCsvData(results.data);
