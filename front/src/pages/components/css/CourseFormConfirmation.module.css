@@ -1,0 +1,76 @@
+.modal_size {
+  top: 5vh;
+  left: 10%;
+  width: 80%;
+  padding: 5vh;
+  border-radius: 2vh;
+}
+
+.subheader {
+  font-style: italic;
+}
+
+.course_container,
+.days_container,
+.datetime_container {
+  margin-top: 5vh;
+  margin-bottom: 5vh;
+}
+
+.course_container > label {
+  margin-right: 1rem;
+  font-weight: 600;
+}
+
+.days_container > span {
+  font-weight: 600;
+}
+
+.datetime_container {
+  display: grid;
+  grid-template-columns: repeat(2, 30%);
+  column-gap: 10%;
+}
+
+.datetime_grid {
+  display: grid;
+  grid-template-columns: 30% 60%;
+  row-gap: 20%;
+}
+
+.datetime_grid > label {
+  margin-right: 10%;
+  font-weight: 600;
+}
+
+.buttons_container {
+  user-select: none;
+  margin: 2vh 0;
+}
+
+.buttons_container > button {
+  border: none;
+  border-radius: 10px;
+  padding: 5px 10px;
+  margin-right: 2vw;
+  color: rgb(var(--ga-cloud));
+}
+
+.confirm_button {
+  background-color: rgb(var(--ga-cobalt));
+}
+
+.return_button {
+  background-color: rgb(var(--ga-crimson));
+}
+
+.buttons_container > button:active {
+  background-color: rgb(var(--ga-cream));
+  color: rgb(var(--ga-ink));
+  transition: 0.1s linear;
+}
+
+.no_value {
+  color: rgb(var(--ga-crimson));
+  font-weight: 600;
+}
