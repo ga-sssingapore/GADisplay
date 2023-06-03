@@ -9,13 +9,19 @@ function CourseCSVImport() {
   const [loading, setLoading] = useState(false);
   const fileInputRef = useRef();
 
-  function renameHeader(header) {
+  // Can specify headers in case csv changes
+  function renameHeader(
+    header,
+    name = "Cohort",
+    schedule = "Days on Campus",
+    room = "Classroom"
+  ) {
     switch (header) {
-      case "Cohort":
+      case name:
         return "name";
-      case "Days on Campus":
+      case schedule:
         return "schedule";
-      case "Classroom":
+      case room:
         return "room";
       default:
         return header;
