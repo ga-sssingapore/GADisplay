@@ -1,5 +1,6 @@
 import React from "react";
 import styles from "./css/CourseEntry.module.css";
+import tStyles from "./css/CoursesList.module.css";
 
 function CourseEntry(props) {
   function getDate(dateObj) {
@@ -33,15 +34,16 @@ function CourseEntry(props) {
     }`;
   }
   return (
-    <tbody className={styles.table_header_row}>
+    <tbody>
       <tr>
-        <td className={styles.cohort}>{props.cohort}</td>
-        <td className={styles.type}>{props.type}</td>
-        <td className={styles.start_date}>{getDate(props.start)}</td>
-        <td className={styles.end_date}>{getDate(props.end)}</td>
-        <td className={styles.start_time}>{getTime(props.start)}</td>
-        <td className={styles.end_time}>{getTime(props.end)}</td>
-        <td className={styles.classroom}>{props.classroom}</td>
+        <td className={tStyles.cohort}>{props.name}</td>
+        <td className={tStyles.type}>{props.course_type}</td>
+        <td className={tStyles.date}>{getDate(props.starts)}</td>
+        <td className={tStyles.date}>{getDate(props.ends)}</td>
+        <td className={tStyles.time}>{getTime(props.starts)}</td>
+        <td className={tStyles.time}>{getTime(props.ends)}</td>
+        <td className={tStyles.days}>{props.schedule}</td>
+        <td className={tStyles.room}>{props.room}</td>
       </tr>
     </tbody>
   );

@@ -16,29 +16,25 @@
 }
 
 .cohort {
-  width: 15%;
+  width: 10%;
 }
 
 .type {
-  width: 15%;
-}
-
-.start_date {
-  width: 20%;
-}
-
-.end_date {
-  width: 20%;
-}
-
-.start_time {
   width: 10%;
 }
 
-.end_time {
+.date {
+  width: 20%;
+}
+
+.start {
   width: 10%;
 }
 
-.classroom {
+.days {
+  width: 10%;
+}
+
+.room {
   width: 10%;
 }
