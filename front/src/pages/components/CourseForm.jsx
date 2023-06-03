@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import styles from "./css/CourseForm.module.css";
 import CourseFormConfirmation from "./CourseFormConfirmation";
 
@@ -7,6 +7,9 @@ function CourseForm(props) {
   const [courseCode, setCourseCode] = useState(props.course?.name || "");
   const [courseType, setCourseType] = useState("");
   const [courseRoom, setCourseRoom] = useState("");
+  const courseCodeRef = useRef();
+  const courseTypeRef = useRef();
+  const courseRoomRef = useRef();
 
   // Days picker
   const [mon, setMon] = useState(false);
@@ -29,54 +32,74 @@ function CourseForm(props) {
   // Control opening of confirmation modal
   const [formComplete, setFormComplete] = useState(false);
 
-  function handleChange(event, cb) {
-    cb(event.target.value);
+  function handleChange(event, stateSetter) {
+    stateSetter(event.target.value);
   }
 
-  function handleCheck(state, cb) {
-    cb(!state);
+  function handleCheck(state, stateSetter) {
+    stateSetter(!state);
   }
 
   function consolidateDays() {
     return [mon, tue, wed, thu, fri, sao, sae, sun];
   }
 
+  function handleSubmit(event) {
+    event.preventDefault();
+    if (courseCodeRef.current.value === "") {
+      alert("Please specify course code!");
+      return courseCodeRef.current.focus();
+    } else if (courseTypeRef.current.value === "") {
+      alert("Please specify course type!");
+      return courseTypeRef.current.focus();
+    } else if (courseRoomRef.current.value === "") {
+      // Whitespace added to make alert box size more consistent?
+      alert("Please select room!        ");
+      return courseRoomRef.current.focus();
+    }
+    setFormComplete(true);
+  }
+
   return (
     <>
       <form className={styles.form}>
         <div>
-          <label>
-            Course Code
+          <label className={styles.course_label}>
+            Course Code:{" "}
             <input
               type="text"
               value={courseCode}
+              placeholder="Code"
               onChange={(e) => handleChange(e, setCourseCode)}
+              ref={courseCodeRef}
             />
           </label>
-          <label>
-            Course Type
+          <label className={styles.course_label}>
+            Course Type:{" "}
             <select
               name="course_type"
               value={courseType}
               onChange={(e) => handleChange(e, setCourseType)}
+              ref={courseTypeRef}
             >
               <option value="" disabled hidden>
-                ---
+                --
               </option>
               <option value="FT">Full Time</option>
               <option value="Flex">Flex</option>
               <option value="PT">Part Time</option>
             </select>
           </label>
-          <label>
-            Room
+          <label className={styles.course_label}>
+            Room:{" "}
             <select
               name="room"
               value={courseRoom}
               onChange={(e) => handleChange(e, setCourseRoom)}
+              ref={courseRoomRef}
             >
               <option value="" disabled hidden>
-                ---
+                --
               </option>
               <option value="1">1</option>
               <option value="2">2</option>
@@ -86,6 +109,7 @@ function CourseForm(props) {
               <option value="6">6</option>
             </select>
           </label>
+          <hr />
           <div className={styles.checkbox_container}>
             <div className={styles.checkbox_main_label}>Days on campus:</div>
             <div className={styles.checkbox}>
@@ -155,6 +179,7 @@ function CourseForm(props) {
               </label>
             </div>
           </div>
+          <hr />
           <div className={styles.datetime_container}>
             <div className={styles.datetime_grid}>
               <label htmlFor="start_date">Start Date</label>
@@ -162,6 +187,7 @@ function CourseForm(props) {
                 type="date"
                 id="start_date"
                 onChange={(e) => handleChange(e, setStartDate)}
+                max={endDate}
               />
               <label htmlFor="start_time">Start Time</label>
               <input
@@ -177,6 +203,7 @@ function CourseForm(props) {
                 type="date"
                 id="end_date"
                 onChange={(e) => handleChange(e, setEndDate)}
+                min={startDate}
               />
               <label htmlFor="end_time">End Time</label>
               <input
@@ -191,19 +218,22 @@ function CourseForm(props) {
         </div>
       </form>
       <div className={styles.buttons_container}>
-        <button
-          className={styles.button}
-          onClick={(e) => {
-            e.preventDefault();
-            setFormComplete(true);
-          }}
-        >
-          Add
+        <button className={styles.button} onClick={handleSubmit}>
+          Submit
         </button>
-        <button className={styles.button}>Clear</button>
       </div>
       {formComplete && (
-        <CourseFormConfirmation setFormComplete={setFormComplete} />
+        <CourseFormConfirmation
+          setFormComplete={setFormComplete}
+          courseCode={courseCode}
+          courseType={courseType}
+          courseRoom={courseRoom}
+          days={consolidateDays()}
+          startDate={startDate}
+          startTime={startTime}
+          endDate={endDate}
+          endTime={endTime}
+        />
       )}
     </>
   );

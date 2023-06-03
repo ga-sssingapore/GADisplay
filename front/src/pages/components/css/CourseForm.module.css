@@ -4,6 +4,11 @@
   margin: 2vh 2%;
 }
 
+.course_label {
+  margin-right: 5%;
+  font-weight: 600;
+}
+
 .checkbox_container {
   margin: 2vh auto;
   display: flex;
@@ -12,6 +17,8 @@
 
 .checkbox_main_label {
   width: 10%;
+  font-size: 1.5rem;
+  font-weight: 600;
 }
 
 .checkbox {
@@ -44,6 +51,7 @@
 
 .datetime_grid > label {
   margin-right: 10%;
+  font-weight: 600;
 }
 
 .button {
