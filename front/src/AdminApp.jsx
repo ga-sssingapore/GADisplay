@@ -13,6 +13,7 @@ import AdminAdministrationPage from "./pages/AdminAdministrationPage";
 import UserContext from "./context/user";
 import jwtDecode from "jwt-decode";
 import { fetchData } from "./helpers/common";
+import AdminErrorPage from "./pages/AdminErrorPage";
 
 function AdminApp() {
   const [accessToken, setAccessToken] = useState("");
@@ -21,27 +22,59 @@ function AdminApp() {
 
   return (
     <>
-      <NavBar isLoggedIn={isLoggedIn} />
-      <Routes>
-        <Route
-          path="/"
-          element={
-            <AdminLoginPage
-              setAccessToken={setAccessToken}
-              setClaims={setClaims}
-              setIsLoggedIn={setIsLoggedIn}
-            />
-          }
-        />
-        <Route path="/register" element={<AdminRegisterPage />} />
-        <Route path="/dashboard" element={<AdminDashboardPage />} />
-        <Route path="/courses" element={<AdminCoursePage />} />
-        <Route path="/courses/add" element={<AdminAddPage />} />
-        <Route path="/courses/edit/:course_id" element={<AdminEditPage />} />
-        <Route path="/adhoc" element={<AdminAdhocPage />} />
-        <Route path="/displays" element={<AdminDisplayViewerPage />} />
-        <Route path="/helm" element={<AdminAdministrationPage />} />
-      </Routes>
+      <UserContext.Provider
+        value={{
+          accessToken,
+          claims,
+        }}
+      >
+        <NavBar isLoggedIn={isLoggedIn} />
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <AdminLoginPage
+                setAccessToken={setAccessToken}
+                setClaims={setClaims}
+                setIsLoggedIn={setIsLoggedIn}
+              />
+            }
+          />
+          <Route path="/register" element={<AdminRegisterPage />} />
+          <Route
+            path="/dashboard"
+            element={isLoggedIn ? <AdminDashboardPage /> : <AdminErrorPage />}
+          />
+          <Route
+            path="/courses"
+            element={isLoggedIn ? <AdminCoursePage /> : <AdminErrorPage />}
+          />
+          <Route
+            path="/courses/add"
+            element={isLoggedIn ? <AdminAddPage /> : <AdminErrorPage />}
+          />
+          <Route
+            path="/courses/edit/:course_id"
+            element={isLoggedIn ? <AdminEditPage /> : <AdminErrorPage />}
+          />
+          <Route
+            path="/adhoc"
+            element={isLoggedIn ? <AdminAdhocPage /> : <AdminErrorPage />}
+          />
+          <Route
+            path="/displays"
+            element={
+              isLoggedIn ? <AdminDisplayViewerPage /> : <AdminErrorPage />
+            }
+          />
+          <Route
+            path="/administration"
+            element={
+              isLoggedIn ? <AdminAdministrationPage /> : <AdminErrorPage />
+            }
+          />
+        </Routes>
+      </UserContext.Provider>
     </>
   );
 }
