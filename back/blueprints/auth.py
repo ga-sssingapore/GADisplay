@@ -78,7 +78,27 @@ def login():
         return jsonify({'status': 'error', 'message': 'invalid email or password'}), 401
 
 
-@auth_bp.route('refresh', methods=["POST"])
+@auth_bp.route('/login', methods=["DELETE"])
+@jwt_required(refresh=True)
+def logout():
+    refresh_jti = get_jwt()['jti']
+    try:
+        access_jti = logins_schema.dump(Logins.query.filter_by(access_parent=refresh_jti)).one_or_none()
+        if access_jti is not None:
+            access = Logins.query.filter_by(jti=access_jti).one_or_none()
+            if access is not None:
+                db.session.delete(access)
+        refresh = Logins.query.filter_by(jti=refresh_jti).one_or_none()
+        if refresh is not None:
+            db.session.delete(refresh)
+        db.session.commit()
+        return jsonify({'status': 'ok', 'message': 'user logged out'})
+    except Exception as e:
+        print(e)
+        return jsonify({'status': 'error', 'message': 'error logging out'})
+
+
+@auth_bp.route('/refresh', methods=["POST"])
 @jwt_required(refresh=True)
 def refresh_session():
     # Confirmed to exist in DB by blocklist loader
@@ -98,3 +118,10 @@ def refresh_session():
     db.session.query(Logins).filter_by(jti=access_parent).delete()
     db.session.commit()
     return jsonify(access=access)
+
+
+@auth_bp.route('/users')
+@jwt_required()
+def get_users():
+    users = UsersSchema(many=True).dump(Users.query.all())
+    return jsonify(users)
