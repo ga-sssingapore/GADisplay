@@ -1,12 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import ReactDOM from "react-dom";
+import UserContext from "../../context/user";
 import modal from "./css/ModalBackdrop.module.css";
 import styles from "./css/CourseCSVImportConfirmation.module.css";
 import CoursesList from "./CoursesList";
 import { fetchData } from "../../helpers/common";
 
 function Overlay(props) {
+  const userCtx = useContext(UserContext);
   const [dataComplete, setDataComplete] = useState(true);
+  const [confirmSubmit, setConfirmSubmit] = useState(false);
   const viewRawData = false;
 
   // Can specify keys to query start/end date/time in case excel sheet needs to change
@@ -49,12 +52,57 @@ function Overlay(props) {
 
   async function handleConfirm(event) {
     event.preventDefault();
+    if (!confirmSubmit) {
+      setConfirmSubmit(true);
+    } else {
+      if (!dataComplete) {
+        return alert(
+          "Data incomplete, cannot submit! Please rectify CSV and re-upload!"
+        );
+      } else {
+        try {
+          const { ok, data } = await fetchData(
+            "/addcsv",
+            userCtx.accessToken,
+            "PUT",
+            reclassifyData(props.csvData)
+          );
+          if (ok) {
+            alert("CSV added!");
+            props.closeModal();
+          } else {
+            throw new Error(data);
+          }
+        } catch (error) {
+          console.log(error.message);
+          alert("Error adding bulk data");
+        }
+      }
+    }
     // const { ok, data } = await fetchData(
     //   "",
     //   token,
     //   "PUT",
     //   reclassifyData(props.csvData)
     // );
+  }
+
+  function confirmMessage() {
+    if (confirmSubmit) {
+      if (dataComplete) {
+        return (
+          <div className={styles.accept_text}>
+            Click confirm again to confirm submission.
+          </div>
+        );
+      } else {
+        return (
+          <div className={styles.cannot_accept_text}>
+            Data incomplete, please rectify CSV and re-upload!
+          </div>
+        );
+      }
+    }
   }
 
   return (
@@ -77,6 +125,7 @@ function Overlay(props) {
           <button className={styles.return_button} onClick={props.closeModal}>
             Return
           </button>
+          {confirmMessage()}
         </div>
         {viewRawData && (
           <>

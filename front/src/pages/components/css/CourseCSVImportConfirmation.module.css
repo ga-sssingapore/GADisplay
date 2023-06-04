@@ -1,8 +1,8 @@
 .modal_size {
   left: 5%;
   width: 90%;
-  top: 5vh;
-  height: 90vh;
+  top: 2vh;
+  height: 96vh;
 }
 
 .description_container {
@@ -34,4 +34,14 @@
   background-color: rgb(var(--ga-cream));
   color: rgb(var(--ga-ink));
   transition: 0.1s linear;
+}
+
+.accept_text {
+  font-weight: 600;
+  color: rgb(var(--ga-cobalt));
+}
+
+.cannot_accept_text {
+  font-weight: 600;
+  color: rgb(var(--ga-crimson));
 }

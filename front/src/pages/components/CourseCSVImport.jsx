@@ -12,6 +12,7 @@ function CourseCSVImport() {
   // Can specify headers in case csv changes
   function renameHeader(
     header,
+    course_type = "Type",
     name = "Cohort",
     schedule = "Days on Campus",
     room = "Classroom"
@@ -23,6 +24,8 @@ function CourseCSVImport() {
         return "schedule";
       case room:
         return "room";
+      case course_type:
+        return "course_type";
       default:
         return header;
     }
