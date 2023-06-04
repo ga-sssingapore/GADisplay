@@ -17,6 +17,7 @@ from blueprints.seed import seed_bp
 from blueprints.auth import auth_bp
 
 # Flask_RESTful resources (controllers) for CRUD-focused endpoints
+from resources import users
 
 # Load .env
 from dotenv import load_dotenv
@@ -71,6 +72,7 @@ app.register_blueprint(display_bp)
 app.register_blueprint(seed_bp)
 app.register_blueprint(auth_bp)
 
+api.add_resource(users.UsersEP, '/users')
 
 @app.route("/")
 def get_data():
