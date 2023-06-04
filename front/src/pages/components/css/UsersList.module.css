@@ -1,0 +1,9 @@
+.users_table {
+  width: 100%;
+}
+
+.users_table_header {
+  font-weight: 600;
+  color: rgb(var(--ga-cloud));
+  background-color: rgb(var(--ga-ink));
+}
