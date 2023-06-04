@@ -8,8 +8,8 @@ class Cohorts(db.Model):
     starts = db.Column(db.DateTime, nullable=False)
     ends = db.Column(db.DateTime, nullable=False)
     active = db.Column(db.Boolean, server_default=db.FetchedValue())
-    course_type = db.Column(db.ForeignKey('CourseTypes.type'), nullable=False)
-    schedule = db.Column(db.ForeignKey('DaysSchedules.combi'), nullable=False)
+    course_type = db.Column(db.ForeignKey('Course_Types.type'), nullable=False)
+    schedule = db.Column(db.ForeignKey('Days_Schedules.combi'), nullable=False)
     room = db.Column(db.ForeignKey('Rooms.room'), nullable=False)
 
     def __init__(self, name, starts, ends, course_type, schedule, room):
