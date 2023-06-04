@@ -1,6 +1,6 @@
 from flask import jsonify, request
-from flask_jwt_extended import jwt_required, get_jwt
-from middleware.requests import check_request
+from flask_jwt_extended import jwt_required
+from middleware.requests import check_request, check_admin
 from flask_restful import Resource
 
 from models.db import db
@@ -20,10 +20,8 @@ class UsersEP(Resource):
     @classmethod
     @check_request
     @jwt_required()
+    @check_admin
     def patch(cls):
-        admin_role = get_jwt()['role']
-        if admin_role != "Admin":
-            return jsonify({'status': 'error', 'message': 'admin-only function'}), 403
         try:
             data = request.get_json()
             db.session.query(Users).filter_by(id=data['id']).update({'role': 'Admin'})
@@ -37,10 +35,8 @@ class UsersEP(Resource):
     @classmethod
     @check_request
     @jwt_required()
+    @check_admin
     def post(cls):
-        admin_role = get_jwt()['role']
-        if admin_role != "Admin":
-            return jsonify({'status': 'error', 'message': 'admin-only function'}), 403
         try:
             data = request.get_json()
             db.session.query(Users).filter_by(id=data['id']).update({'role': 'User'})
@@ -53,10 +49,8 @@ class UsersEP(Resource):
     @classmethod
     @check_request
     @jwt_required()
+    @check_admin
     def delete(cls):
-        admin_role = get_jwt()['role']
-        if admin_role != "Admin":
-            return jsonify({'status': 'error', 'message': 'admin-only function'}), 403
         try:
             data = request.get_json()
             db.session.query(Logins).filter_by(id=data['id']).delete()
