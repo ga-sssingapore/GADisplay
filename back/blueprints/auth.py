@@ -95,7 +95,7 @@ def logout():
         return jsonify({'status': 'ok', 'message': 'user logged out'})
     except Exception as e:
         print(e)
-        return jsonify({'status': 'error', 'message': 'error logging out'})
+        return jsonify({'status': 'error', 'message': 'error logging out'}), 400
 
 
 @auth_bp.route('/refresh', methods=["POST"])
