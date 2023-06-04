@@ -33,6 +33,8 @@ if db_url is None or jwt_secret_key is None:
 
 app.config['SQLALCHEMY_DATABASE_URI'] = db_url
 app.config['JWT_SECRET_KEY'] = jwt_secret_key
+# Flask RESTful might be interfering with jwt_required and interrupting token expired decorator
+app.config['PROPAGATE_EXCEPTIONS'] = True
 
 
 # Initialize other app dependent instances
@@ -66,6 +68,11 @@ def check_if_token_revoked(jwt_header, jwt_data):
 @jwt.revoked_token_loader
 def revoked_token(*args):
     return jsonify(error='Invalid Token'), 401
+
+
+@jwt.expired_token_loader
+def expired_token_callback(*args):
+    return jsonify(error='Token expired.'), 401
 
 
 app.register_blueprint(display_bp)
