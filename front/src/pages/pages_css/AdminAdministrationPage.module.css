@@ -1,0 +1,17 @@
+.container {
+  margin: 2vh 2%;
+}
+
+.account {
+  display: flex;
+}
+
+.account > div {
+  margin-right: 2rem;
+}
+
+.users_lists {
+  display: grid;
+  grid-template-columns: repeat(2, 45%);
+  column-gap: 10%;
+}
