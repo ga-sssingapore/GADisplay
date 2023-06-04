@@ -1,0 +1,24 @@
+.home_logo {
+  width: 60px;
+  height: 60px;
+}
+
+.logout_bar {
+  position: absolute;
+  top: 0;
+  color: rgb(var(--ga-ink));
+  background-color: rgb(var(--ga-cream));
+  padding: 0 1% 0 1%;
+  border: 2px solid rgb(var(--ga-fog));
+  border-top: none;
+  border-radius: 0 0 10px 10px;
+  text-align: center;
+  vertical-align: middle;
+  z-index: -10;
+  transition: 0.2s linear;
+}
+
+.logout_active {
+  top: 60px;
+  transition: 0.2s linear;
+}
