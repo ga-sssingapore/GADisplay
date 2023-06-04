@@ -1,5 +1,37 @@
 .banner {
+  display: flex;
+  justify-content: center;
+}
+
+.banner > img {
   width: 556px;
+}
+
+.input_grid {
+  display: grid;
+  grid-template-columns: 10% 60%;
+  column-gap: 1%;
+  row-gap: 2vh;
+  margin: 2vh 5%;
+}
+
+.button {
+  background-color: rgb(var(--ga-cobalt));
+  border: none;
+  border-radius: 10px;
+  padding: 5px 10px;
+  margin-right: 2vw;
+  color: rgb(var(--ga-cloud));
+}
+
+.button:active {
+  background-color: rgb(var(--ga-cream));
+  color: rgb(var(--ga-ink));
+  transition: 0.1s linear;
+}
+
+.register_prompt {
+  margin: 2vh 5%;
 }
 
 .register_prompt > a {

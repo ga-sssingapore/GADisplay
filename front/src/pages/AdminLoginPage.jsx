@@ -31,8 +31,10 @@ function AdminLoginPage(props) {
         props.setAccessToken(data.access);
         const decoded = jwtDecode(data.access);
         props.setClaims(decoded);
-        props.setIsLoggedIn(true);
-        alert(`Logged in as user: ${decoded.name}`);
+        props.setIsLoggedIn(decoded.role == "User" || decoded.role == "Admin");
+        alert(
+          `Logged in as user: ${decoded.name}, current role: ${decoded.role}`
+        );
         navigate("/admin/dashboard");
       } else {
         throw new Error(data);
@@ -71,13 +73,11 @@ function AdminLoginPage(props) {
 
   return (
     <>
-      <img
-        src="/GA_banner_horizontal_black.png"
-        alt="GA banner"
-        className={styles.banner}
-      />
+      <div className={styles.banner}>
+        <img src="/GA_banner_horizontal_black.png" alt="GA banner" />
+      </div>
       <form onSubmit={handleLogin}>
-        <div>
+        <div className={styles.input_grid}>
           <label htmlFor="email">GA Email: </label>
           <input
             type="email"
@@ -96,8 +96,8 @@ function AdminLoginPage(props) {
             required
             placeholder="password"
           />
+          <input type="submit" className={styles.button} value="Log in" />
         </div>
-        <input type="submit" value="Log in" />
       </form>
       <hr />
       <div className={styles.register_prompt}>
