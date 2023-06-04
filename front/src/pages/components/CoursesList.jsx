@@ -24,6 +24,7 @@ function CoursesList(props) {
               <CourseEntry
                 key={idx}
                 name={item.name}
+                type={item.type}
                 course_type={item.course_type}
                 starts={item.starts}
                 ends={item.ends}

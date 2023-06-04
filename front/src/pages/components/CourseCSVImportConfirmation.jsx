@@ -43,13 +43,6 @@ function Overlay(props) {
       ends.setHours(endTimeArr[0]);
       ends.setMinutes(endTimeArr[1]);
       item.ends = ends;
-      if (item.name.match(/FX/)) {
-        item.course_type = "Flex";
-      } else if (item.name.match(/PT/)) {
-        item.course_type = "PT";
-      } else {
-        item.course_type = "FT";
-      }
     }
     return csvData;
   }
