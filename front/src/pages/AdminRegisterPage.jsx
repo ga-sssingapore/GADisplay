@@ -54,7 +54,13 @@ function AdminRegisterPage() {
       <form onSubmit={handleRegister}>
         <div className={styles.input_grid}>
           <label htmlFor="name">Name: </label>
-          <input type="text" id="name" ref={nameRef} required />
+          <input
+            type="text"
+            id="name"
+            ref={nameRef}
+            required
+            placeholder="name"
+          />
           <label htmlFor="email">GA Email: </label>
           <input
             type="email"

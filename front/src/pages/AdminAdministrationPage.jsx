@@ -12,7 +12,7 @@ function AdminAdministrationPage() {
 
   async function getAllUsers() {
     try {
-      const { ok, data } = await fetchData("/auth/users", userCtx.accessToken);
+      const { ok, data } = await fetchData("/users", userCtx.accessToken);
       if (ok) {
         setAdmins(data.filter((item) => item.role == "Admin"));
         setUsers(data.filter((item) => item.role == "User"));
@@ -42,14 +42,14 @@ function AdminAdministrationPage() {
       {/* <div>change password</div> */}
       <div className={styles.users_lists}>
         <div>
-          <UsersList users={users} role="User" />
+          <UsersList users={users} role="User" getAllUsers={getAllUsers} />
         </div>
         <div>
-          <UsersList users={admins} />
+          <UsersList users={admins} getAllUsers={getAllUsers} />
         </div>
       </div>
       <hr />
-      <UsersList users={pending} role="Registered" />
+      <UsersList users={pending} role="Registered" getAllUsers={getAllUsers} />
     </div>
   );
 }

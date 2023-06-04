@@ -17,9 +17,11 @@ function UsersList(props) {
             <UsersListEntry
               key={idx}
               idx={idx}
+              id={item.id}
               name={item.name}
               email={item.email}
               role={item.role}
+              getAllUsers={props.getAllUsers}
             />
           );
         })}

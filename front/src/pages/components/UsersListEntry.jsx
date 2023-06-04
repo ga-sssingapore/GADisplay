@@ -15,9 +15,11 @@ function UsersListEntry(props) {
       {userModal && userCtx.claims.role == "Admin" && (
         <UsersListModal
           setUserModal={setUserModal}
+          id={props.id}
           name={props.name}
           email={props.email}
           role={props.role}
+          getAllUsers={props.getAllUsers}
         />
       )}
     </>

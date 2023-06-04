@@ -1,9 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import ReactDOM from "react-dom";
+import UserContext from "../../context/user";
 import modal from "./css/ModalBackdrop.module.css";
 import styles from "./css/UsersListModal.module.css";
+import { fetchData } from "../../helpers/common";
 
 function Overlay(props) {
+  const userCtx = useContext(UserContext);
   const [confirmAccept, setConfirmAccept] = useState(false);
   const [confirmRemove, setConfirmRemove] = useState(false);
 
@@ -12,6 +15,29 @@ function Overlay(props) {
     if (!confirmAccept) {
       setConfirmAccept(true);
       setConfirmRemove(false);
+    } else {
+      try {
+        const { ok, data } = await fetchData(
+          "/users",
+          userCtx.accessToken,
+          "PATCH",
+          {
+            id: props.id,
+          }
+        );
+        if (ok) {
+          setConfirmAccept(false);
+          setConfirmRemove(false);
+          props.setUserModal(false);
+          props.getAllUsers();
+          alert(`User ${props.name} promoted!`);
+        } else {
+          throw new Error(data);
+        }
+      } catch (error) {
+        console.log(error.message);
+        alert("Error promoting user");
+      }
     }
   }
 
@@ -20,6 +46,29 @@ function Overlay(props) {
     if (!confirmAccept) {
       setConfirmAccept(true);
       setConfirmRemove(false);
+    } else {
+      try {
+        const { ok, data } = await fetchData(
+          "/users",
+          userCtx.accessToken,
+          "POST",
+          {
+            id: props.id,
+          }
+        );
+        if (ok) {
+          setConfirmAccept(false);
+          setConfirmRemove(false);
+          props.setUserModal(false);
+          props.getAllUsers();
+          alert(`User ${props.name} approved!`);
+        } else {
+          throw new Error(data);
+        }
+      } catch (error) {
+        console.log(error.message);
+        alert("Error approving user");
+      }
     }
   }
 
@@ -28,6 +77,29 @@ function Overlay(props) {
     if (!confirmRemove) {
       setConfirmRemove(true);
       setConfirmAccept(false);
+    } else {
+      try {
+        const { ok, data } = await fetchData(
+          "/users",
+          userCtx.accessToken,
+          "DELETE",
+          {
+            id: props.id,
+          }
+        );
+        if (ok) {
+          setConfirmAccept(false);
+          setConfirmRemove(false);
+          props.setUserModal(false);
+          props.getAllUsers();
+          alert(`User ${props.name} deleted.`);
+        } else {
+          throw new Error(data);
+        }
+      } catch (error) {
+        console.log(error.message);
+        alert("Error deleting user");
+      }
     }
   }
 
@@ -86,9 +158,11 @@ function UsersListModal(props) {
       {ReactDOM.createPortal(
         <Overlay
           setUserModal={props.setUserModal}
+          id={props.id}
           name={props.name}
           email={props.email}
           role={props.role}
+          getAllUsers={props.getAllUsers}
         />,
         document.querySelector("#modal-root")
       )}
