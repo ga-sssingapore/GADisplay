@@ -3,7 +3,7 @@ CREATE TABLE "Roles" (
 );
 
 CREATE TABLE "Users" (
-    id uuid NOT NULL PRIMARY KEY,
+    id uuid NOT NULL PRIMARY KEY DEFAULT public.uuid_generate_v4(),
     name VARCHAR(255) NOT NULL,
     email VARCHAR(255) UNIQUE NOT NULL,
     hash VARCHAR(255) NOT NULL,
