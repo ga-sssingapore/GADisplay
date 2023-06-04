@@ -8,7 +8,8 @@ from models.users import Users
 from models.logins import Logins
 from schemas.mm import mm
 from flask_restful import Api
-from flask_jwt_extended import JWTManager, get_jti
+from flask_jwt_extended import JWTManager
+from flask_cors import CORS
 
 # Blueprints for specialized endpoints
 from blueprints.display.routes import display_bp
@@ -38,6 +39,7 @@ db.init_app(app)
 mm.init_app(app)
 api = Api(app)
 jwt = JWTManager(app)
+CORS(app)
 
 
 # Setup automatic user loading via JWT
