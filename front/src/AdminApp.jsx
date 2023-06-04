@@ -10,14 +10,29 @@ import AdminEditPage from "./pages/AdminEditPage";
 import AdminAdhocPage from "./pages/AdminAdhocPage";
 import AdminDisplayViewerPage from "./pages/AdminDisplayViewerPage";
 import AdminAdministrationPage from "./pages/AdminAdministrationPage";
+import UserContext from "./context/user";
+import jwtDecode from "jwt-decode";
+import { fetchData } from "./helpers/common";
 
 function AdminApp() {
-  const [isLoggedIn, setIsLoggedIn] = useState(true);
+  const [accessToken, setAccessToken] = useState("");
+  const [claims, setClaims] = useState({});
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
   return (
     <>
       <NavBar isLoggedIn={isLoggedIn} />
       <Routes>
-        <Route path="/" element={<AdminLoginPage />} />
+        <Route
+          path="/"
+          element={
+            <AdminLoginPage
+              setAccessToken={setAccessToken}
+              setClaims={setClaims}
+              setIsLoggedIn={setIsLoggedIn}
+            />
+          }
+        />
         <Route path="/register" element={<AdminRegisterPage />} />
         <Route path="/dashboard" element={<AdminDashboardPage />} />
         <Route path="/courses" element={<AdminCoursePage />} />
