@@ -1,0 +1,56 @@
+.modal_size {
+  top: 10vh;
+  width: 80%;
+  left: 10%;
+  padding: 5vh 5%;
+  border-radius: 25px;
+}
+
+.details {
+  display: flex;
+}
+
+.details > div {
+  margin-right: 10%;
+}
+
+.buttons_container {
+  user-select: none;
+  margin-bottom: 2vh;
+}
+
+.buttons_container > button {
+  border: none;
+  border-radius: 10px;
+  padding: 5px 10px;
+  margin-right: 2vw;
+  color: rgb(var(--ga-cloud));
+}
+
+.confirm_button {
+  background-color: rgb(var(--ga-cobalt));
+}
+
+.remove_button {
+  background-color: rgb(var(--ga-crimson));
+}
+
+.return_button {
+  background-color: rgb(var(--ga-pumpkin));
+}
+
+.buttons_container > button:active {
+  background-color: rgb(var(--ga-cream));
+  color: rgb(var(--ga-ink));
+  transition: 0.1s linear;
+}
+
+.accept_text {
+  font-weight: 600;
+  color: rgb(var(--ga-cobalt));
+}
+
+.remove_text {
+  font-weight: 600;
+  color: rgb(var(--ga-crimson));
+}
