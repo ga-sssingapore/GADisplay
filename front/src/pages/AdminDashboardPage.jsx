@@ -8,6 +8,7 @@ function AdminDashboardPage() {
   function handleDateChange(event) {
     setDate(event.target.value);
   }
+
   return (
     <div className={styles.container}>
       <div className={styles.datepicker}>
