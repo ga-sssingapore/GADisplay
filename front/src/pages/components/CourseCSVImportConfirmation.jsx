@@ -62,7 +62,7 @@ function Overlay(props) {
       } else {
         try {
           const { ok, data } = await fetchData(
-            "/addcsv",
+            "/cohorts/bulk",
             userCtx.accessToken,
             "PUT",
             reclassifyData(props.csvData)
