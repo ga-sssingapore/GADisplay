@@ -3,7 +3,7 @@ import ReactDOM from "react-dom";
 import modal from "./css/ModalBackdrop.module.css";
 import styles from "./css/CourseCSVImportConfirmation.module.css";
 import CoursesList from "./CoursesList";
-import { fetchData } from "../../../helpers/common";
+import { fetchData } from "../../helpers/common";
 
 function Overlay(props) {
   const [dataComplete, setDataComplete] = useState(true);
