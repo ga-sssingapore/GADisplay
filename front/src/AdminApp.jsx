@@ -14,6 +14,7 @@ import UserContext from "./context/user";
 import jwtDecode from "jwt-decode";
 import { fetchData } from "./helpers/common";
 import AdminErrorPage from "./pages/AdminErrorPage";
+import DisplayPage from "./pages/DisplayPage";
 
 function AdminApp() {
   const [accessToken, setAccessToken] = useState("");
@@ -73,6 +74,7 @@ function AdminApp() {
               isLoggedIn ? <AdminAdministrationPage /> : <AdminErrorPage />
             }
           />
+          <Route path="/display/:number" element={<DisplayPage />} />
         </Routes>
       </UserContext.Provider>
     </>

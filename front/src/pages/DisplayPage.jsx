@@ -1,9 +1,12 @@
 import React from "react";
-import { useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import styles from "./pages_css/DisplayPage.module.css";
 
 function DisplayPage() {
   const { number } = useParams();
+  const { admin } = useLocation().state;
+  const navigate = useNavigate();
+
   return (
     <div className={styles.background}>
       <div>Classroom {number}</div>
@@ -14,6 +17,11 @@ function DisplayPage() {
         src="/GA_banner_horizontal_white.png"
         alt="GA logo"
         className={styles.banner}
+        onClick={() => {
+          if (admin) {
+            navigate("/admin/displays");
+          }
+        }}
       />
     </div>
   );

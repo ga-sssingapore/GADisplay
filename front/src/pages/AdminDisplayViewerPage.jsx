@@ -8,7 +8,7 @@ function AdminDisplayViewerPage() {
     <>
       <h3 className={styles.header}>Select display to preview</h3>
       <div className={styles.container}>
-        <RoomDisplayList styles={display_styles} />
+        <RoomDisplayList styles={display_styles} admin={true} />
       </div>
     </>
   );

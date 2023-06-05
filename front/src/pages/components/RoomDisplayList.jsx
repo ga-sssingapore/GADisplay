@@ -8,7 +8,12 @@ function RoomDisplayList(props) {
     <div className={props.styles.room_list}>
       {rooms.map((item, idx) => {
         return (
-          <RoomDisplayEntry key={idx} styles={props.styles} number={item} />
+          <RoomDisplayEntry
+            key={idx}
+            styles={props.styles}
+            number={item}
+            admin={props.admin}
+          />
         );
       })}
     </div>
