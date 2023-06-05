@@ -90,7 +90,7 @@ function AdminApp() {
             element={isLoggedIn ? <AdminAddPage /> : <AdminErrorPage />}
           />
           <Route
-            path="/courses/edit/:course_id"
+            path="/courses/edit/:name"
             element={isLoggedIn ? <AdminEditPage /> : <AdminErrorPage />}
           />
           <Route
