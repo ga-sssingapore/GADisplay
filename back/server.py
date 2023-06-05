@@ -14,6 +14,7 @@ from flask_cors import CORS
 from blueprints.display.routes import display_bp
 from blueprints.seed import seed_bp
 from blueprints.auth import auth_bp
+from blueprints.users import users_bp
 
 # Load .env
 from dotenv import load_dotenv
@@ -29,9 +30,6 @@ if db_url is None or jwt_secret_key is None:
 
 app.config['SQLALCHEMY_DATABASE_URI'] = db_url
 app.config['JWT_SECRET_KEY'] = jwt_secret_key
-# Flask RESTful might be interfering with jwt_required and interrupting token expired decorator
-app.config['PROPAGATE_EXCEPTIONS'] = True
-
 
 # Initialize other app dependent instances
 db.init_app(app)
@@ -73,6 +71,7 @@ def expired_token_callback(*args):
 app.register_blueprint(display_bp)
 app.register_blueprint(seed_bp)
 app.register_blueprint(auth_bp)
+app.register_blueprint(users_bp)
 
 
 @app.route("/")
