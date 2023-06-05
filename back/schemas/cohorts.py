@@ -1,3 +1,4 @@
+from marshmallow import EXCLUDE
 from schemas.mm import mm
 from models.cohorts import Cohorts
 # For foreign keys
@@ -10,3 +11,4 @@ class CohortsSchema(mm.SQLAlchemyAutoSchema):
     class Meta:
         model = Cohorts
         include_fk = True
+        unknown = EXCLUDE

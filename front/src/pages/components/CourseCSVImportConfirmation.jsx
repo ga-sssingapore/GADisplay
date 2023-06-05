@@ -79,12 +79,6 @@ function Overlay(props) {
         }
       }
     }
-    // const { ok, data } = await fetchData(
-    //   "",
-    //   token,
-    //   "PUT",
-    //   reclassifyData(props.csvData)
-    // );
   }
 
   function confirmMessage() {
