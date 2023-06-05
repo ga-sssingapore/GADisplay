@@ -2,7 +2,7 @@ from datetime import datetime
 from flask import Blueprint, jsonify, request
 from flask_jwt_extended import jwt_required, get_jwt
 # Middleware
-from middleware.requests import check_request, check_user
+from middleware.requests import check_request, check_user, check_admin
 # Models
 from models.db import db
 from models.cohorts import Cohorts
@@ -164,3 +164,18 @@ def add_csv():
     except Exception as e:
         print(e)
         return jsonify({'status': 'error', 'message': 'Error adding cohorts'}), 400
+
+
+@cohorts_bp.route('/delete', methods=['DELETE'])
+@check_request
+@jwt_required()
+@check_admin
+def delete_cohort():
+    data = request.get_json()
+    try:
+        db.session.query(Cohorts).filter_by(name=data['name']).delete()
+        db.session.commit()
+        return jsonify({'status': 'ok', 'message': 'cohort deleted'})
+    except Exception as e:
+        print(e)
+        return jsonify({'status': 'error', 'message': 'Error deleting cohorts'}), 400
