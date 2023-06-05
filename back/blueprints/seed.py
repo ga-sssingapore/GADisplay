@@ -68,6 +68,9 @@ def seed_days():
     # Add TuWeThSA
     twts = DaysSchedules(False, True, True, True, False, True, True)
 
+    # Add MoTuWeThFrSA
+    mtwtfs = DaysSchedules(True, True, True, True, True, True, True)
+
     # Add MoTu
     mt = DaysSchedules(True,True)
 
@@ -80,7 +83,7 @@ def seed_days():
     # Add Sat_even
     se = DaysSchedules(False,False,False,False,False,False,True)
 
-    db.session.add_all([mtwt, twts, mt, wt, so, se])
+    db.session.add_all([mtwt, twts, mtwtfs, mt, wt, so, se])
     db.session.commit()
     return jsonify({'status': 'ok', 'message': 'common schedules seeded'})
 
