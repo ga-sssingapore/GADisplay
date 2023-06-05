@@ -24,7 +24,6 @@ function AdminApp() {
 
   // Background refresh when navigating pages
   async function refreshAccessTkn() {
-    console.log("refresh");
     if (
       new Date(jwtDecode(accessToken).exp * 1000) - new Date() >
       1000 * 60 * 3
@@ -32,7 +31,7 @@ function AdminApp() {
       // If access token still has more than 3 minutes to expiry, do nothing
       return;
     }
-    refresh = localStorage.getItem("GAref");
+    const refresh = localStorage.getItem("GAref");
     if (!refresh) {
       return;
     }
