@@ -1,3 +1,4 @@
+import re
 from models.db import db
 
 
@@ -52,3 +53,36 @@ class DaysSchedules(db.Model):
 
     def __repr__(self):
         return f'<DaysSchedules "{self.combi}">'
+
+    @classmethod
+    def add_schedule(cls, combiStr):
+        combi_arr = re.findall(r"..", combiStr)
+        schedule_arr = [False, False, False, False, False, False, False, False]
+        for x in combi_arr:
+            match x:
+                case 'Mo':
+                    schedule_arr[0] = True
+                case 'Tu':
+                    schedule_arr[1] = True
+                case 'We':
+                    schedule_arr[2] = True
+                case 'Th':
+                    schedule_arr[3] = True
+                case 'Fr':
+                    schedule_arr[4] = True
+                case 'SO':
+                    schedule_arr[5] = True
+                case 'SE':
+                    schedule_arr[6] = True
+                case 'SA':
+                    schedule_arr[5] = True
+                    schedule_arr[6] = True
+                case 'Su':
+                    schedule_arr[7] = True
+        try:
+            schedule = DaysSchedules(*schedule_arr)
+            print(schedule)
+            db.session.add(schedule)
+            db.session.commit()
+        except Exception as e:
+            print(e)

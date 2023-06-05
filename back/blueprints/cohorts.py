@@ -21,6 +21,9 @@ def add_one(data, transform_schedule=False):
         if cohort_check is None:
             if transform_schedule:
                 cohort['schedule'] = convert_schedule(cohort['schedule'])
+                schedule_check = db.session.query(DaysSchedules).filter_by(combi=cohort['schedule']).one_or_none()
+                if schedule_check is None:
+                    DaysSchedules.add_schedule(cohort['schedule'])
             db.session.add(Cohorts(**cohort))
             return 'added'
         else:
@@ -52,7 +55,7 @@ def convert_schedule(schedule):
                 combistr += 'We'
             case 'F':
                 combistr += 'Fr'
-            case other:
+            case _:
                 sat += x
 
     sun = ''
@@ -68,8 +71,11 @@ def convert_schedule(schedule):
             return combistr + 'SE' + sun
         case 'S':
             return combistr + 'SA' + sun
-        case other:
+        case _:
             return combistr + sun
+
+
+
 
 
 def convert_time(js_date):
@@ -93,8 +99,8 @@ def get_cohorts():
 @check_user
 def add_cohort():
     data = request.get_json()
-    incoming_schedule = DaysSchedules(**data['schedule'])
-    existing_schedule = DaysSchedules.query.filter_by(combi=incoming_schedule.combi).one_or_none()
+    incoming_schedule = DaysSchedules(*data['schedule'])
+    existing_schedule = db.session.query(DaysSchedules).filter_by(combi=incoming_schedule.combi).one_or_none()
     if existing_schedule is None:
         db.session.add(incoming_schedule)
         db.session.commit()
