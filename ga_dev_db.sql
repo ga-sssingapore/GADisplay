@@ -59,7 +59,7 @@ CREATE TABLE "Cohorts" (
 	starts TIMESTAMP NOT NULL,
 	ends TIMESTAMP NOT NULL,
 	course_type VARCHAR(4) NOT NULL,
-	schedule VARCHAR(8) NOT NULL,
+	schedule VARCHAR(20) NOT NULL,
 	room int NOT NULL,
 	FOREIGN KEY (course_type) REFERENCES "Course_Types"(type),
 	FOREIGN KEY (schedule) REFERENCES "Days_Schedules"(combi),
