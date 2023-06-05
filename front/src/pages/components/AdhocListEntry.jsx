@@ -1,14 +1,35 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import styles from "./css/AdhocList.module.css";
+import { fetchData } from "../../helpers/common";
+import UserContext from "../../context/user";
 
 function AdhocListEntry(props) {
+  const userCtx = useContext(UserContext);
   const [confirmDelete, setConfirmDelete] = useState(false);
 
   async function handleDelete() {
     if (!confirmDelete) {
       setConfirmDelete(true);
     } else {
-      console.log("delete");
+      try {
+        const { ok, data } = await fetchData(
+          "/adhocs/delete",
+          userCtx.accessToken,
+          "DELETE",
+          {
+            num: props.num,
+          }
+        );
+        if (ok) {
+          alert("Adhoc deleted!");
+          props.getAdhocs();
+        } else {
+          throw new Error(data);
+        }
+      } catch (error) {
+        console.log(error.message);
+        alert("Error deleting adhoc");
+      }
     }
   }
 

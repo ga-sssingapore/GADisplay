@@ -23,12 +23,14 @@ function AdhocList(props) {
           return (
             <AdhocListEntry
               key={idx}
+              num={item.num}
               event={item.name}
               room={item.room}
               date={`${startDateArr[2]} ${startDateArr[1]} ${startDateArr[3]}`}
               start={item.starts.getHours() + ":" + item.starts.getMinutes()}
               end={item.ends.getHours() + ":" + item.ends.getMinutes()}
               purpose={item.purpose}
+              getAdhocs={props.getAdhocs}
             />
           );
         })}

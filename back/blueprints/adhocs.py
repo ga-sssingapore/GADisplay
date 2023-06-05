@@ -35,3 +35,16 @@ def add_adhoc():
         print(e)
         return jsonify({'status': 'error', 'message': 'Error adding adhoc'}), 400
 
+
+@adhocs_bp.route("/delete", methods=['DELETE'])
+@check_request
+@jwt_required()
+def delete_adhoc():
+    data = request.get_json()
+    try:
+        db.session.query(Adhocs).filter_by(num=data['num']).delete()
+        db.session.commit()
+        return jsonify({'status': 'ok', 'message': 'adhoc deleted'})
+    except Exception as e:
+        print(e)
+        return jsonify({'status': 'error', 'message': 'Error deleting adhoc'}), 400

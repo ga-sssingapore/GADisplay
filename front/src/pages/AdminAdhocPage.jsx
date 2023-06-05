@@ -42,7 +42,7 @@ function AdminAdhocPage() {
         Click delete twice to delete an entry. If deletion is not to be
         confirmed, click any white space in the same row to "un-confirm".
       </div>
-      <AdhocList adhocs={adhocs} />
+      <AdhocList adhocs={adhocs} getAdhocs={getAdhocs} />
     </>
   );
 }
