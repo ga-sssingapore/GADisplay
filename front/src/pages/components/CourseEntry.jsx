@@ -51,14 +51,12 @@ function CourseEntry(props) {
   }
 
   function getDays(combi) {
-    console.log(combi);
     if (combi == "SO") {
       return "Alt.S";
     } else if (combi == "SE") {
       return "Even.S";
     }
     const daysArr = combi.match(/../g);
-    console.log(daysArr);
     const acronymizedArr = daysArr.map((item) => {
       if (item.charAt(0) != "S" || item == "SA") {
         return item.charAt(0);
