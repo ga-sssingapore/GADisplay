@@ -20,10 +20,7 @@ function Weekalendar(props) {
   // Idx of Sunday column
   const sunday = useRef(0);
 
-  const allocated_rooms = resolveClassesToDates(props.courses);
-
   function resolveClassesToDates(courseArr) {
-    console.log(courseArr);
     if (!courseArr || courseArr.length < 1) {
       return [];
     }
@@ -56,7 +53,7 @@ function Weekalendar(props) {
       for (let i = 0; i < week_dates.length; i++) {
         const date = week_dates[i];
         if (item.ends - date < 0) {
-          // If end_date - day < 0, course has already ended.
+          // If end_date - date < 0, course has already ended.
           break;
         }
         const start_diff = item.starts - date;
@@ -69,23 +66,32 @@ function Weekalendar(props) {
         } else {
           const day = date.getDay();
           if (day < 6) {
-            if (item.days.includes(day)) room[i].push(item);
+            if (item.days.includes(day)) {
+              room[i].push(item);
+            } else if (date.toDateString() == item.ends.toDateString()) {
+              room[i].push(item);
+            } else if (date.toDateString() == item.starts.toDateString()) {
+              room[i].push(item);
+            }
           } else {
             //Check if item scheduled on a saturday.
             const saturday = item.days.find((ele) => ele >= 6);
             if (saturday) {
               // Assumes courses with sat lessons always starts on sat
               if (
-                saturday === 7 &&
-                Math.floor((item.start - date) / 604800000) % 2 === 0
+                saturday === 6 &&
+                Math.floor((item.starts - date) / 604800000) % 2 === 0
               ) {
+                // Odd Saturdays
                 room[i].push(item);
               } else if (
-                saturday === 8 &&
-                Math.floor((item.start - date) / 604800000) % 2 !== 0
+                saturday === 7 &&
+                Math.floor((item.starts - date) / 604800000) % 2 !== 0
               ) {
+                // Even Saturdays
                 room[i].push(item);
-              } else if (saturday === 6) {
+              } else if (saturday === 8) {
+                // All Saturdays
                 room[i].push(item);
               }
             }
