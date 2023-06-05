@@ -1,10 +1,13 @@
-from flask import Blueprint, jsonify
+import os
+from flask import Blueprint, jsonify, request
+from argon2 import PasswordHasher
 
 from models.db import db
 from models.roles import Roles
 from models.rooms import Rooms
 from models.course_types import CourseTypes
 from models.days_schedules import DaysSchedules
+from models.users import Users
 
 seed_bp = Blueprint('seed_bp', __name__, url_prefix='/seed')
 
@@ -13,6 +16,8 @@ seed_bp = Blueprint('seed_bp', __name__, url_prefix='/seed')
 Seeds utilize only GET methods, utilize blueprint instead to
 reduce number of api.add_resource needed in server.py
 '''
+
+
 @seed_bp.route('/roles')
 def seed_routes():
     existing_roles = [item.role for item in Roles.query.all()]
@@ -78,3 +83,33 @@ def seed_days():
     db.session.add_all([mtwt, twts, mt, wt, so, se])
     db.session.commit()
     return jsonify({'status': 'ok', 'message': 'common schedules seeded'})
+
+
+# Using weird methods to prevent
+@seed_bp.route("/users", methods=['PATCH'])
+def seed_users():
+    server_auth = request.json.get('password', None)
+    if server_auth is not None and server_auth == os.environ.get('SEED_PW', None):
+        ph = PasswordHasher()
+        pw = ph.hash('examples')
+        users_to_add = []
+        # Check if users exist before seeding, just in case this function might screw over a future Stan Dinguere
+        reg_user = Users.query.filter_by(email="newbee@generalassemb.ly").one_or_none()
+        if reg_user is None:
+            reg_user = Users("New Guy", "newbee@generalassemb.ly", pw)
+            users_to_add.append(reg_user)
+        norm_user = Users.query.filter_by(email="stan.dinguere@generalassemb.ly").one_or_none()
+        if norm_user is None:
+            norm_user = Users("Stan Dinguere", "stan.dinguere@generalassemb.ly", pw)
+            users_to_add.append(norm_user)
+        admin_user = Users.query.filter_by(email="g.od@generalassemb.ly").one_or_none()
+        if admin_user is None:
+            admin_user = Users("Grace Odette", "g.od@generalassemb.ly", pw)
+            users_to_add.append(admin_user)
+        # Modify perms DB-side
+        if len(users_to_add) > 0:
+            db.session.add_all(users_to_add)
+            db.session.commit()
+        return jsonify({'status': 'ok', 'message': 'users seeded'})
+    else:
+        return jsonify({'status': 'error', 'message': 'error seeding users'}), 400
