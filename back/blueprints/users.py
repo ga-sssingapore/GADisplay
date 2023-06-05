@@ -1,63 +1,54 @@
 from flask import Blueprint, jsonify, request
 from flask_jwt_extended import jwt_required
+# Middleware
 from middleware.requests import check_request, check_admin
-
+# Models
 from models.db import db
 from models.users import Users
 from models.logins import Logins
+# Schemas
 from schemas.users import UsersSchema
 
+users_bp = Blueprint('users_bp', __name__, url_prefix="/users")
 
 
+@users_bp.route('/')
+@jwt_required()
+def get_users():
+    users = UsersSchema(many=True).dump(Users.query.all())
+    return jsonify(users)
 
-class UsersEP(Resource):
-    @classmethod
-    @jwt_required()
-    def get(cls):
-        users = UsersSchema(many=True).dump(Users.query.all())
-        return jsonify(users)
 
-    # Promote to Admin
-    @classmethod
-    @check_request
-    @jwt_required()
-    @check_admin
-    def patch(cls):
-        try:
-            data = request.get_json()
+# Post to promote to User, Patch to promote to Admin
+@users_bp.route('/promote', methods=["POST", "PATCH"])
+@check_request
+@jwt_required()
+@check_admin
+def promote():
+    try:
+        data = request.get_json()
+        if request.method == "PATCH":
             db.session.query(Users).filter_by(id=data['id']).update({'role': 'Admin'})
-            db.session.commit()
-            return jsonify({'status': 'ok', 'message': 'user promoted'})
-        except Exception as e:
-            print(e)
-            return jsonify({'status': 'error', 'message': 'error promoting user'}), 400
-
-    # Promote to User
-    @classmethod
-    @check_request
-    @jwt_required()
-    @check_admin
-    def post(cls):
-        try:
-            data = request.get_json()
+        elif request.method == "POST":
             db.session.query(Users).filter_by(id=data['id']).update({'role': 'User'})
-            db.session.commit()
-            return jsonify({'status': 'ok', 'message': 'user approved'})
-        except Exception as e:
-            print(e)
-            return jsonify({'status': 'error', 'message': 'error approving user'}), 400
+        db.session.commit()
+        return jsonify({'status': 'ok', 'message': 'additional perms granted'})
+    except Exception as e:
+        print(e)
+        return jsonify({'status': 'error', 'message': 'error promoting user'}), 400
 
-    @classmethod
-    @check_request
-    @jwt_required()
-    @check_admin
-    def delete(cls):
-        try:
-            data = request.get_json()
-            db.session.query(Logins).filter_by(id=data['id']).delete()
-            db.session.query(Users).filter_by(id=data['id']).delete()
-            db.session.commit()
-            return jsonify({'status': 'ok', 'message': 'user deleted'})
-        except Exception as e:
-            print(e)
-            return jsonify({'status': 'error', 'message': 'error deleting user'}), 400
+
+@users_bp.route('/delete', methods=["DELETE"])
+@check_request
+@jwt_required()
+@check_admin
+def delete():
+    try:
+        data = request.get_json()
+        db.session.query(Logins).filter_by(id=data['id']).delete()
+        db.session.query(Users).filter_by(id=data['id']).delete()
+        db.session.commit()
+        return jsonify({'status': 'ok', 'message': 'user deleted'})
+    except Exception as e:
+        print(e)
+        return jsonify({'status': 'error', 'message': 'error deleting user'}), 400
