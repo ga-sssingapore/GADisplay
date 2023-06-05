@@ -2,3 +2,32 @@
   margin: 2vh 2%;
   font-size: 3rem;
 }
+
+.button {
+  border: none;
+  color: rgb(var(--ga-cloud));
+  border-radius: 10px;
+  padding: 5px 10px;
+  margin-left: 2%;
+  margin-bottom: 2vh;
+}
+
+.return_button {
+  background-color: rgb(var(--ga-pumpkin));
+}
+
+.delete_button {
+  background-color: rgb(var(--ga-crimson));
+}
+
+.warning_text {
+  margin-left: 2%;
+  font-weight: 600;
+  color: rgb(var(--ga-crimson));
+}
+
+.button:active {
+  background-color: rgb(var(--ga-cream));
+  color: rgb(var(--ga-ink));
+  transition: 0.1s linear;
+}
