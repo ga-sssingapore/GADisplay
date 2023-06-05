@@ -77,6 +77,13 @@ def convert_time(js_date):
     return datetime.fromisoformat(js_date)
 
 
+@cohorts_bp.route('/')
+@jwt_required()
+def get_cohorts():
+    cohorts = CohortsSchema(many=True).dump(Cohorts.query.all())
+    return jsonify(cohorts)
+
+
 # Routes
 @cohorts_bp.route('/add', methods=['PUT'])
 @check_request
