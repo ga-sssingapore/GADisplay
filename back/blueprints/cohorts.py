@@ -120,6 +120,28 @@ def add_cohort():
         return jsonify({'status': 'error', 'message': 'Error adding cohort'}), 400
 
 
+@cohorts_bp.route('/add', methods=['PATCH'])
+@check_request
+@jwt_required()
+@check_user
+def patch_cohort():
+    try:
+        data = request.get_json()
+        incoming_schedule = DaysSchedules(*data['schedule'])
+        existing_schedule = db.session.query(DaysSchedules).filter_by(combi=incoming_schedule.combi).one_or_none()
+        if existing_schedule is None:
+            db.session.add(incoming_schedule)
+            db.session.commit()
+        data['schedule'] = incoming_schedule.combi
+        edited_cohort = CohortsSchema().load(data)
+        db.session.query(Cohorts).filter_by(name=edited_cohort['name']).update(edited_cohort)
+        db.session.commit()
+        return jsonify({'status': 'ok', 'message': 'cohort edited'})
+    except Exception as e:
+        print(e)
+        return jsonify({'status': 'error', 'message': 'Error editing cohort'}), 400
+
+
 @cohorts_bp.route("/csv", methods=['PUT'])
 @check_request
 @jwt_required()
