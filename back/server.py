@@ -15,6 +15,7 @@ from blueprints.display.routes import display_bp
 from blueprints.seed import seed_bp
 from blueprints.auth import auth_bp
 from blueprints.users import users_bp
+from blueprints.cohorts import cohorts_bp
 
 # Load .env
 from dotenv import load_dotenv
@@ -72,6 +73,7 @@ app.register_blueprint(display_bp)
 app.register_blueprint(seed_bp)
 app.register_blueprint(auth_bp)
 app.register_blueprint(users_bp)
+app.register_blueprint(cohorts_bp)
 
 
 @app.route("/")
