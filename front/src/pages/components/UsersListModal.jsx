@@ -18,7 +18,7 @@ function Overlay(props) {
     } else {
       try {
         const { ok, data } = await fetchData(
-          "/users",
+          "/users/promote",
           userCtx.accessToken,
           "PATCH",
           {
@@ -49,7 +49,7 @@ function Overlay(props) {
     } else {
       try {
         const { ok, data } = await fetchData(
-          "/users",
+          "/users/promote",
           userCtx.accessToken,
           "POST",
           {
@@ -80,7 +80,7 @@ function Overlay(props) {
     } else {
       try {
         const { ok, data } = await fetchData(
-          "/users",
+          "/users/delete",
           userCtx.accessToken,
           "DELETE",
           {

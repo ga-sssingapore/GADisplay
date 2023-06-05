@@ -12,7 +12,7 @@ function AdminAdministrationPage() {
 
   async function getAllUsers() {
     try {
-      const { ok, data } = await fetchData("/users", userCtx.accessToken);
+      const { ok, data } = await fetchData("/users/", userCtx.accessToken);
       if (ok) {
         setAdmins(data.filter((item) => item.role == "Admin"));
         setUsers(data.filter((item) => item.role == "User"));
