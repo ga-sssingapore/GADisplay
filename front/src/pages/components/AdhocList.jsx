@@ -23,6 +23,7 @@ function AdhocList() {
           <td className={styles.start}>Start Time</td>
           <td className={styles.end}>End Time</td>
           <td className={styles.purpose}>Purpose</td>
+          <td className={styles.delete}>Delete</td>
         </tr>
       </thead>
       <tbody>
