@@ -14,11 +14,12 @@ class Adhocs(db.Model):
     purpose = db.Column(db.Text)
 
 
-    def __init__(self, name, starts, ends, room, id):
+    def __init__(self, name, starts, ends, room, purpose, id):
         self.name = name
         self.starts = starts
         self.ends = ends
         self.room = room
+        self.purpose = purpose
         self.id = id
 
     def __repr__(self):

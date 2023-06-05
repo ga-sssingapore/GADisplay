@@ -11,11 +11,11 @@ from flask_jwt_extended import JWTManager
 from flask_cors import CORS
 
 # Blueprints for specialized endpoints
-from blueprints.display.routes import display_bp
 from blueprints.seed import seed_bp
 from blueprints.auth import auth_bp
 from blueprints.users import users_bp
 from blueprints.cohorts import cohorts_bp
+from blueprints.adhocs import adhocs_bp
 
 # Load .env
 from dotenv import load_dotenv
@@ -69,11 +69,11 @@ def expired_token_callback(*args):
     return jsonify(error='Token expired.'), 401
 
 
-app.register_blueprint(display_bp)
 app.register_blueprint(seed_bp)
 app.register_blueprint(auth_bp)
 app.register_blueprint(users_bp)
 app.register_blueprint(cohorts_bp)
+app.register_blueprint(adhocs_bp)
 
 
 @app.route("/")
