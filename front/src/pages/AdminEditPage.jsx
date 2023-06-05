@@ -1,18 +1,24 @@
 import React from "react";
+import CourseForm from "./components/CourseForm";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
+import styles from "./pages_css/AdminEditPage.module.css";
+import { getDaysNum } from "../helpers/common";
 
 function AdminEditPage() {
+  const { name } = useParams();
+  const { course } = useLocation().state;
+  const navigate = useNavigate();
+
   return (
     <div>
-      <div>Course Code</div>
-      <div>Course Type</div>
-      <div>Start Date</div>
-      <div>End Date</div>
-      <div>Days on campus</div>
-      <div>Start Time</div>
-      <div>End Time</div>
-      <div>Room</div>
-      <div>Import CSV</div>
-      <div>delete</div>
+      <h2 className={styles.title}>Editing {name}</h2>
+      <hr />
+      <CourseForm
+        course={course}
+        days={getDaysNum(course.schedule)}
+        submission_method={"PATCH"}
+      />
+      <button onClick={() => navigate(-1)}>Return</button>
     </div>
   );
 }
