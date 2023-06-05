@@ -2,7 +2,6 @@ from datetime import datetime
 from flask import jsonify, request
 from flask_jwt_extended import jwt_required
 from middleware.requests import check_request, check_user
-from flask_restful import Resource
 
 from models.db import db
 from models.cohorts import Cohorts

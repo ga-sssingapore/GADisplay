@@ -1,7 +1,7 @@
 from flask import Blueprint, request, jsonify
-from flask_jwt_extended import create_access_token, create_refresh_token, jwt_required, get_jwt_identity, get_jwt, get_jti, current_user
+from flask_jwt_extended import create_access_token, create_refresh_token, jwt_required, get_jwt, get_jti, \
+    current_user
 from argon2 import PasswordHasher
-from uuid import uuid4
 # Middleware
 from middleware.requests import check_request
 # Models

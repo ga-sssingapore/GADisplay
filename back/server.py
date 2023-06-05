@@ -7,7 +7,6 @@ from models.db import db
 from models.users import Users
 from models.logins import Logins
 from schemas.mm import mm
-from flask_restful import Api
 from flask_jwt_extended import JWTManager
 from flask_cors import CORS
 
@@ -15,9 +14,6 @@ from flask_cors import CORS
 from blueprints.display.routes import display_bp
 from blueprints.seed import seed_bp
 from blueprints.auth import auth_bp
-
-# Flask_RESTful resources (controllers) for CRUD-focused endpoints
-from resources import users, cohorts
 
 # Load .env
 from dotenv import load_dotenv
@@ -40,7 +36,6 @@ app.config['PROPAGATE_EXCEPTIONS'] = True
 # Initialize other app dependent instances
 db.init_app(app)
 mm.init_app(app)
-api = Api(app)
 jwt = JWTManager(app)
 CORS(app)
 
@@ -78,10 +73,6 @@ def expired_token_callback(*args):
 app.register_blueprint(display_bp)
 app.register_blueprint(seed_bp)
 app.register_blueprint(auth_bp)
-
-api.add_resource(users.UsersEP, '/users')
-api.add_resource(cohorts.CohortsEP, '/cohorts')
-api.add_resource(cohorts.CohortsEPBulk, '/cohorts/bulk')
 
 
 @app.route("/")

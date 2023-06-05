@@ -1,12 +1,13 @@
-from flask import jsonify, request
+from flask import Blueprint, jsonify, request
 from flask_jwt_extended import jwt_required
 from middleware.requests import check_request, check_admin
-from flask_restful import Resource
 
 from models.db import db
 from models.users import Users
 from models.logins import Logins
 from schemas.users import UsersSchema
+
+
 
 
 class UsersEP(Resource):
