@@ -6,6 +6,7 @@ from middleware.requests import check_request, check_user
 # Models
 from models.db import db
 from models.cohorts import Cohorts
+from models.days_schedules import DaysSchedules
 # Schemas
 from schemas.cohorts import CohortsSchema
 
@@ -13,12 +14,13 @@ cohorts_bp = Blueprint('cohorts_bp', __name__, url_prefix="/cohorts")
 
 
 # Helper methods
-def add_one(data):
+def add_one(data, transform_schedule=False):
     try:
         cohort = CohortsSchema().load(data)
         cohort_check = db.session.query(Cohorts).filter_by(name=cohort['name']).one_or_none()
         if cohort_check is None:
-            cohort['schedule'] = convert_schedule(cohort['schedule'])
+            if transform_schedule:
+                cohort['schedule'] = convert_schedule(cohort['schedule'])
             db.session.add(Cohorts(**cohort))
             return 'added'
         else:
@@ -80,7 +82,7 @@ def convert_time(js_date):
 @cohorts_bp.route('/')
 @jwt_required()
 def get_cohorts():
-    cohorts = CohortsSchema(many=True).dump(Cohorts.query.all())
+    cohorts = CohortsSchema(many=True).dump(Cohorts.query.filter_by(active=True).all())
     return jsonify(cohorts)
 
 
@@ -91,6 +93,12 @@ def get_cohorts():
 @check_user
 def add_cohort():
     data = request.get_json()
+    incoming_schedule = DaysSchedules(**data['schedule'])
+    existing_schedule = DaysSchedules.query.filter_by(combi=incoming_schedule.combi).one_or_none()
+    if existing_schedule is None:
+        db.session.add(incoming_schedule)
+        db.session.commit()
+    data['schedule'] = incoming_schedule.combi
     try:
         response = add_one(data)  # Adds to session
         if response == 'added':
@@ -112,7 +120,7 @@ def add_csv():
     try:
         duplicate = 0
         for i in range(0, len(data)):
-            response = add_one(data[i])  # Error raised if adding fails
+            response = add_one(data[i], True)  # Error raised if adding fails
             if response == 'duplicate':
                 duplicate += 1
         db.session.commit()
