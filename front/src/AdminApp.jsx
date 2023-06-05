@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
 import NavBar from "./pages/components/NavBar";
 import AdminLoginPage from "./pages/AdminLoginPage";
 import AdminRegisterPage from "./pages/AdminRegisterPage";
@@ -20,6 +20,42 @@ function AdminApp() {
   const [accessToken, setAccessToken] = useState("");
   const [claims, setClaims] = useState({});
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const location = useLocation();
+
+  // Background refresh when navigating pages
+  async function refreshAccessTkn() {
+    console.log("refresh");
+    if (
+      new Date(jwtDecode(accessToken).exp * 1000) - new Date() >
+      1000 * 60 * 3
+    ) {
+      // If access token still has more than 3 minutes to expiry, do nothing
+      return;
+    }
+    refresh = localStorage.getItem("GAref");
+    if (!refresh) {
+      return;
+    }
+    const refDecoded = jwtDecode(refresh);
+    if (new Date(refDecoded.exp * 1000) - new Date() < 0) {
+      // If refresh token expired, don't throw error, let session timeout
+      return;
+    }
+    try {
+      const { ok, data } = await fetchData("/auth/refresh", refresh, "POST");
+      if (ok) {
+        setAccessToken(data.access);
+      }
+    } catch (error) {
+      console.log("No auto-refresh");
+    }
+  }
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      refreshAccessTkn();
+    }
+  }, [location]);
 
   return (
     <>
