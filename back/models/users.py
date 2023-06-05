@@ -1,4 +1,3 @@
-from uuid import uuid4
 from sqlalchemy.dialects.postgresql import UUID
 from models.db import db
 
@@ -12,10 +11,11 @@ class Users(db.Model):
     hash = db.Column(db.String(255), nullable=False)
     role = db.Column(db.ForeignKey('Roles.role'), default='Registered')
 
-    def __init__(self, name, email, hash):
+    def __init__(self, name, email, hash, role='Registered'):
         self.name = name
         self.email = email
         self.hash = hash
+        self.role = role
 
     def __repr__(self):
         return f'<User "{self.name}">'
