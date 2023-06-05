@@ -55,6 +55,8 @@ function CourseEntry(props) {
       return "Alt.S";
     } else if (combi == "SE") {
       return "Even.S";
+    } else if (combi == "No") {
+      return "None";
     }
     const daysArr = combi.match(/../g);
     const acronymizedArr = daysArr.map((item) => {

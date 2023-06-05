@@ -45,7 +45,10 @@ class DaysSchedules(db.Model):
             combiStr += 'Su'
             self.sun = sun
 
-        self.combi = combiStr
+        if combiStr == '':
+            self.combi = 'No'
+        else:
+            self.combi = combiStr
 
     def __repr__(self):
         return f'<DaysSchedules "{self.combi}">'
