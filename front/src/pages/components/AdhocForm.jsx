@@ -1,8 +1,11 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useContext } from "react";
 import styles from "./css/AdhocForm.module.css";
 import AdhocFormConfirmation from "./AdhocFormConfirmation";
+import { fetchData } from "../../helpers/common";
+import UserContext from "../../context/user";
 
-function AdhocForm() {
+function AdhocForm(props) {
+  const userCtx = useContext(UserContext);
   const [event, setEvent] = useState("");
   const [purpose, setPurpose] = useState("");
   const [room, setRoom] = useState("");
@@ -48,8 +51,37 @@ function AdhocForm() {
     }
   }
 
-  function handleConfirm(event) {
-    event.preventDefault();
+  async function handleConfirm(e) {
+    e.preventDefault();
+    try {
+      const { ok, data } = await fetchData(
+        "/adhocs/add",
+        userCtx.accessToken,
+        "PUT",
+        {
+          name: event,
+          starts: new Date(date + "T" + startTime),
+          ends: new Date(date + "T" + endTime),
+          room: room,
+          purpose: purpose,
+        }
+      );
+      if (ok) {
+        alert("Ad-hoc added!");
+        setEvent("");
+        setDate("");
+        setStartTime("");
+        setEndTime("");
+        setPurpose("");
+        setRoom("");
+        props.getAdhocs();
+      } else {
+        throw new Error(data);
+      }
+    } catch (error) {
+      console.log(error.message);
+      alert("Error adding adhoc");
+    }
   }
 
   return (

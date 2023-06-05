@@ -1,18 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
 import styles from "./css/AdhocList.module.css";
 import AdhocListEntry from "./AdhocListEntry";
 
-function AdhocList() {
-  const [adhocs, setAdhocs] = useState([
-    {
-      name: "Test",
-      room: 2,
-      date: new Date("2023-06-06"),
-      starts: new Date("2023-06-06T09:30"),
-      ends: new Date("2023-06-06T18:30"),
-      purpose: "Testing table",
-    },
-  ]);
+function AdhocList(props) {
   return (
     <table className={styles.adhoc_table}>
       <thead>
@@ -27,7 +17,7 @@ function AdhocList() {
         </tr>
       </thead>
       <tbody>
-        {adhocs.map((item, idx) => {
+        {props.adhocs.map((item, idx) => {
           // [Day, Mmm, DD, YYYY, HH:MM:SS]
           const startDateArr = item.starts.toDateString().split(" ");
           return (
