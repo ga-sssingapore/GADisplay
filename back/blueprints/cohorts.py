@@ -1,6 +1,6 @@
 from datetime import datetime
 from flask import Blueprint, jsonify, request
-from flask_jwt_extended import jwt_required
+from flask_jwt_extended import jwt_required, get_jwt
 # Middleware
 from middleware.requests import check_request, check_user
 # Models
@@ -75,9 +75,6 @@ def convert_schedule(schedule):
             return combistr + sun
 
 
-
-
-
 def convert_time(js_date):
     if js_date.endswith('Z'):
         return datetime.fromisoformat(js_date[:-1])
@@ -88,6 +85,12 @@ def convert_time(js_date):
 @cohorts_bp.route('/')
 @jwt_required()
 def get_cohorts():
+    if get_jwt()['role'] == 'Admin':
+        expired = db.session.query(Cohorts).filter(Cohorts.ends < datetime.now()).all()
+        if len(expired) > 0:
+            for x in expired:
+                db.session.query(Cohorts).filter_by(name=x.name).update({'active': False})
+            db.session.commit()
     cohorts = CohortsSchema(many=True).dump(Cohorts.query.filter_by(active=True).all())
     return jsonify(cohorts)
 

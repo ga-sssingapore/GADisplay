@@ -121,18 +121,6 @@ function Overlay(props) {
           </button>
           {confirmMessage()}
         </div>
-        {viewRawData && (
-          <>
-            <hr />
-            {reclassifyData(props.csvData) && (
-              <div>{JSON.stringify(props.csvData[0])}</div>
-            )}
-            <hr />
-            {props.csvData.map((item, idx) => {
-              return <div key={idx}>{JSON.stringify(item)}</div>;
-            })}
-          </>
-        )}
       </div>
     </div>
   );

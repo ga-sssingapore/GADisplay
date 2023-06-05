@@ -20,55 +20,13 @@ function Weekalendar(props) {
   // Idx of Sunday column
   const sunday = useRef(0);
 
-  // Courses this week, days: 0 - 6 Sunday - Saturday, 7: Saturday Odd, 8: Saturday Even
-  const courses = [
-    {
-      name: "DSIFX10SGP",
-      start: new Date("2023-05-27T23:59"),
-      end: new Date("2023-08-26T18:00"),
-      room: 6,
-      days: [7],
-    },
-    {
-      name: "USDIFX06SGP",
-      start: new Date("2023-05-27T09:00"),
-      end: new Date("2023-08-26T18:00"),
-      room: 6,
-      days: [8],
-    },
-    {
-      name: "SEIFX13SGP",
-      start: new Date("2023-03-04T09:00"),
-      end: new Date("2023-09-02T18:00"),
-      room: 3,
-      days: [7],
-    },
-    {
-      name: "UXDI44SGP",
-      start: new Date("2023-03-13T09:30"),
-      end: new Date("2023-06-02T17:30"),
-      room: 6,
-      days: [3, 4],
-    },
-    {
-      name: "SEI43SGP",
-      start: new Date("2023-03-20T09:30"),
-      end: new Date("2023-06-07T17:30"),
-      room: 3,
-      days: [1, 2, 3, 4],
-    },
-    {
-      name: "Urgent Meeting",
-      start: new Date("2023-06-05T12:00"),
-      end: new Date("2023-06-05T14:00"),
-      room: 3,
-      days: [1], // Days will be determined and added by backend after serializing.
-    },
-  ];
-
-  const allocated_rooms = resolveClassesToDates(courses);
+  const allocated_rooms = resolveClassesToDates(props.courses);
 
   function resolveClassesToDates(courseArr) {
+    console.log(courseArr);
+    if (!courseArr || courseArr.length < 1) {
+      return [];
+    }
     // Need to account for ad-hocs as well
     const room1 = groupClassesByRooms(
       courseArr.filter((item) => item.room === 1)
@@ -97,11 +55,11 @@ function Weekalendar(props) {
     for (const item of filteredArr) {
       for (let i = 0; i < week_dates.length; i++) {
         const date = week_dates[i];
-        if (item.end - date < 0) {
+        if (item.ends - date < 0) {
           // If end_date - day < 0, course has already ended.
           break;
         }
-        const start_diff = item.start - date;
+        const start_diff = item.starts - date;
         if (start_diff >= 604800000) {
           // If the course starts next week+, skip this week.
           break;
@@ -160,7 +118,7 @@ function Weekalendar(props) {
           </tr>
         </thead>
         <tbody>
-          {resolveClassesToDates(courses).map((item, idx) => {
+          {resolveClassesToDates(props.courses).map((item, idx) => {
             return (
               <WeekalendarRow
                 key={idx}
