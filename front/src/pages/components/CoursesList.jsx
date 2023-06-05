@@ -23,6 +23,7 @@ function CoursesList(props) {
             return (
               <CourseEntry
                 key={idx}
+                idx={idx}
                 name={item.name}
                 course_type={item.course_type}
                 starts={item.starts}

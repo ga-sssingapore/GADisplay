@@ -3,6 +3,10 @@ td {
   padding: 1vh;
 }
 
+.alt_row {
+  background-color: rgba(var(--ga-sky), 0.1);
+}
+
 .missing {
   background-color: rgba(var(--ga-crimson), 0.5);
 }
