@@ -1,5 +1,6 @@
 import React from "react";
 import styles from "./css/CourseEntry.module.css";
+import { Link } from "react-router-dom";
 
 function CourseEntry(props) {
   function getDate(dateObj) {
@@ -57,12 +58,15 @@ function CourseEntry(props) {
       return "Even.S";
     } else if (combi == "No") {
       return "None";
+    } else if (combi == "MoTuWeThFrSASu") {
+      return "Everyday";
     }
     const daysArr = combi.match(/../g);
     const acronymizedArr = daysArr.map((item) => {
       if (item.charAt(0) != "S" || item == "SA") {
         return item.charAt(0);
       } else {
+        // Sunday displayed as Su
         return item;
       }
     });
@@ -77,26 +81,35 @@ function CourseEntry(props) {
   return (
     <tbody>
       <tr className={props.idx % 2 == 1 ? styles.alt_row : ""}>
-        <td className={props.name ? "" : setMissing()}>{props.name}</td>
-        <td className={props.course_type ? "" : setMissing()}>
-          {getType(props.course_type)}
+        <td className={props.course.name ? styles.link : setMissing()}>
+          <Link
+            to={`/admin/courses/edit/${props.course.name}`}
+            state={{ course: props.course }}
+          >
+            {props.course.name}
+          </Link>
         </td>
-        <td className={getDate(props.starts) ? "" : setMissing()}>
-          {getDate(props.starts)}
+        <td className={props.course.course_type ? "" : setMissing()}>
+          {getType(props.course.course_type)}
         </td>
-        <td className={getDate(props.ends) ? "" : setMissing()}>
-          {getDate(props.ends)}
+        <td className={getDate(props.course.starts) ? "" : setMissing()}>
+          {getDate(props.course.starts)}
         </td>
-        <td className={getTime(props.starts) ? "" : setMissing()}>
-          {getTime(props.starts)}
+        <td className={getDate(props.course.ends) ? "" : setMissing()}>
+          {getDate(props.course.ends)}
         </td>
-        <td className={getTime(props.ends) ? "" : setMissing()}>
-          {getTime(props.ends)}
+        <td className={getTime(props.course.starts) ? "" : setMissing()}>
+          {getTime(props.course.starts)}
         </td>
-        <td className={props.schedule ? "" : setMissing()}>
-          {getDays(props.schedule)}
+        <td className={getTime(props.course.ends) ? "" : setMissing()}>
+          {getTime(props.course.ends)}
         </td>
-        <td className={props.room ? "" : setMissing()}>{props.room}</td>
+        <td className={props.course.schedule ? "" : setMissing()}>
+          {getDays(props.course.schedule)}
+        </td>
+        <td className={props.course.room ? "" : setMissing()}>
+          {props.course.room}
+        </td>
       </tr>
     </tbody>
   );

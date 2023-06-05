@@ -3,6 +3,11 @@ td {
   padding: 1vh;
 }
 
+.link {
+  text-decoration: underline;
+  color: rgb(var(--ga-cobalt));
+}
+
 .alt_row {
   background-color: rgba(var(--ga-sky), 0.1);
 }
