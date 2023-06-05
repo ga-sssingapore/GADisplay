@@ -24,12 +24,7 @@ function CoursesList(props) {
               <CourseEntry
                 key={idx}
                 idx={idx}
-                name={item.name}
-                course_type={item.course_type}
-                starts={item.starts}
-                ends={item.ends}
-                schedule={item.schedule}
-                room={item.room}
+                course={item}
                 setDataComplete={props.setDataComplete}
               />
             );
