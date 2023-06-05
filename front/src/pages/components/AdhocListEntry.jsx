@@ -13,7 +13,7 @@ function AdhocListEntry(props) {
   }
 
   return (
-    <tr onClick={() => setConfirmDelete(false)}>
+    <tr className={styles.adhoc_row} onClick={() => setConfirmDelete(false)}>
       <td className={styles.event}>{props.event}</td>
       <td className={styles.room}>{props.room}</td>
       <td className={styles.date}>{props.date}</td>

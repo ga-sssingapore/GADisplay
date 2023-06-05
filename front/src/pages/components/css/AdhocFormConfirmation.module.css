@@ -2,8 +2,8 @@
   left: 10%;
   width: 80%;
   top: 5vh;
-  height: 60vh;
   padding: 5vh;
+  border-radius: 10px;
 }
 
 .details_container {
