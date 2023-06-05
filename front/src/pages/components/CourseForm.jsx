@@ -1,8 +1,12 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useContext } from "react";
 import styles from "./css/CourseForm.module.css";
 import CourseFormConfirmation from "./CourseFormConfirmation";
+import { fetchData } from "../../helpers/common";
+import UserContext from "../../context/user";
 
 function CourseForm(props) {
+  const userCtx = useContext(UserContext);
+
   // Course specifics
   const [courseCode, setCourseCode] = useState(props.course?.name || "");
   const [courseType, setCourseType] = useState("");
@@ -60,8 +64,47 @@ function CourseForm(props) {
     setFormComplete(true);
   }
 
-  function handleConfirm(event) {
+  async function handleConfirm(event) {
     event.preventDefault();
+    try {
+      const { ok, data } = await fetchData(
+        "/cohorts/add",
+        userCtx.accessToken,
+        "PUT",
+        {
+          name: courseCode,
+          starts: new Date(startDate + "T" + startTime),
+          ends: new Date(endDate + "T" + endTime),
+          course_type: courseType,
+          room: courseRoom,
+          schedule: consolidateDays(),
+        }
+      );
+      if (ok) {
+        alert("Cohort added!");
+        setFormComplete(false);
+        setCourseCode("");
+        setCourseRoom("");
+        setCourseType("");
+        setMon(false);
+        setTue(false);
+        setWed(false);
+        setThu(false);
+        setFri(false);
+        setSao(false);
+        setSae(false);
+        setSun(false);
+        setStartDate("");
+        setEndDate("");
+        setStartTime("");
+        setEndTime("");
+      } else {
+        throw new Error(data);
+      }
+    } catch (error) {
+      console.log(error.message);
+      alert("Error adding cohort");
+    }
   }
 
   return (
