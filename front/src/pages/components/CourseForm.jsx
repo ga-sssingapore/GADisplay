@@ -9,29 +9,41 @@ function CourseForm(props) {
 
   // Course specifics
   const [courseCode, setCourseCode] = useState(props.course?.name || "");
-  const [courseType, setCourseType] = useState("");
-  const [courseRoom, setCourseRoom] = useState("");
+  const [courseType, setCourseType] = useState(props.course?.course_type || "");
+  const [courseRoom, setCourseRoom] = useState(props.course?.room || "");
   const courseCodeRef = useRef();
   const courseTypeRef = useRef();
   const courseRoomRef = useRef();
 
   // Days picker
-  const [mon, setMon] = useState(false);
-  const [tue, setTue] = useState(false);
-  const [wed, setWed] = useState(false);
-  const [thu, setThu] = useState(false);
-  const [fri, setFri] = useState(false);
+  const [mon, setMon] = useState(props.days?.includes(1) || false);
+  const [tue, setTue] = useState(props.days?.includes(2) || false);
+  const [wed, setWed] = useState(props.days?.includes(3) || false);
+  const [thu, setThu] = useState(props.days?.includes(4) || false);
+  const [fri, setFri] = useState(props.days?.includes(5) || false);
   // Sat odd
-  const [sao, setSao] = useState(false);
+  const [sao, setSao] = useState(
+    props.days?.includes(6) || props.days?.includes(8) || false
+  );
   // Sat eve
-  const [sae, setSae] = useState(false);
-  const [sun, setSun] = useState(false);
+  const [sae, setSae] = useState(
+    props.days?.includes(7) || props.days?.includes(8) || false
+  );
+  const [sun, setSun] = useState(props.days?.includes(0) || false);
 
   // Date-time pickers
-  const [startDate, setStartDate] = useState("");
-  const [startTime, setStartTime] = useState("");
-  const [endDate, setEndDate] = useState("");
-  const [endTime, setEndTime] = useState("");
+  const [startDate, setStartDate] = useState(
+    props.course?.starts.toISOString().split("T")[0] || ""
+  );
+  const [startTime, setStartTime] = useState(
+    props.course?.starts.toISOString().split("T")[1].slice(0, 5) || ""
+  );
+  const [endDate, setEndDate] = useState(
+    props.course?.ends.toISOString().split("T")[0] || ""
+  );
+  const [endTime, setEndTime] = useState(
+    props.course?.ends.toISOString().split("T")[1].slice(0, 5) || ""
+  );
 
   // Control opening of confirmation modal
   const [formComplete, setFormComplete] = useState(false);
@@ -70,7 +82,7 @@ function CourseForm(props) {
       const { ok, data } = await fetchData(
         "/cohorts/add",
         userCtx.accessToken,
-        "PUT",
+        props.submission_method,
         {
           name: courseCode,
           starts: new Date(startDate + "T" + startTime),
@@ -81,8 +93,11 @@ function CourseForm(props) {
         }
       );
       if (ok) {
-        alert("Cohort added!");
+        alert("Cohorts updated!");
         setFormComplete(false);
+        if (props.course) {
+          return;
+        }
         setCourseCode("");
         setCourseRoom("");
         setCourseType("");
@@ -119,6 +134,7 @@ function CourseForm(props) {
               placeholder="Code"
               onChange={(e) => handleChange(e, setCourseCode)}
               ref={courseCodeRef}
+              disabled={props.course ? true : false}
             />
           </label>
           <label className={styles.course_label}>
@@ -233,6 +249,7 @@ function CourseForm(props) {
               <input
                 type="date"
                 id="start_date"
+                value={startDate}
                 onChange={(e) => handleChange(e, setStartDate)}
                 max={endDate}
               />
@@ -240,6 +257,7 @@ function CourseForm(props) {
               <input
                 type="time"
                 id="start_time"
+                value={startTime}
                 onChange={(e) => handleChange(e, setStartTime)}
               />
             </div>
@@ -249,6 +267,7 @@ function CourseForm(props) {
               <input
                 type="date"
                 id="end_date"
+                value={endDate}
                 onChange={(e) => handleChange(e, setEndDate)}
                 min={startDate}
               />
@@ -256,6 +275,7 @@ function CourseForm(props) {
               <input
                 type="time"
                 id="end_time"
+                value={endTime}
                 onChange={(e) => {
                   handleChange(e, setEndTime);
                 }}

@@ -48,6 +48,8 @@ function Overlay(props) {
             break;
           case 5:
             satOdd = true;
+            // Remove comma
+            output = output.slice(0, -2);
             break;
           case 6:
             if (satOdd) {
