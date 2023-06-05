@@ -1,16 +1,38 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import styles from "./pages_css/AdminCoursesPage.module.css";
 import CoursesList from "./components/CoursesList";
 import { Link } from "react-router-dom";
+import UserContext from "../context/user";
+import { fetchData } from "../helpers/common";
 
 function AdminCoursesPage() {
-  const [courses, setCourses] = useState([
-    {
-      name: "DSIFX10SGP",
-      starts: new Date("2023-02-05T09:00"),
-      ends: new Date("2023-08-26T18:00"),
-    },
-  ]);
+  const userCtx = useContext(UserContext);
+  const [courses, setCourses] = useState([]);
+
+  async function getCohorts() {
+    try {
+      const { ok, data } = await fetchData("/cohorts/", userCtx.accessToken);
+      if (ok) {
+        data.map((item) => {
+          item.starts = new Date(item.starts);
+          item.ends = new Date(item.ends);
+        });
+        setCourses(data);
+      } else {
+        throw new Error(data);
+      }
+    } catch (error) {
+      console.log(error);
+      alert("Error getting courses");
+    }
+  }
+
+  useEffect(() => {
+    if (userCtx.accessToken != "") {
+      getCohorts();
+    }
+  }, [userCtx.accessToken]);
+
   return (
     <div>
       <div className={styles.container}>
