@@ -5,7 +5,7 @@ import CourseCSVImport from "./components/CourseCSVImport";
 function AdminAddPage() {
   return (
     <>
-      <CourseForm />
+      <CourseForm submission_method={"PUT"} />
       <hr />
       <CourseCSVImport />
     </>
