@@ -31,18 +31,45 @@ function AdminDashboardPage() {
     }
   }
 
+  function getDaysNum(combistr) {
+    const strArr = combistr.match(/../g);
+    return strArr.map((item) => {
+      switch (item) {
+        case "Mo":
+          return 1;
+        case "Tu":
+          return 2;
+        case "We":
+          return 3;
+        case "Th":
+          return 4;
+        case "Fr":
+          return 5;
+        case "SO":
+          return 6;
+        case "SE":
+          return 7;
+        case "SA":
+          return 8;
+        case "Su":
+          return 0;
+      }
+    });
+  }
+
   function thisWeek(courseArr) {
-    if (courseArr.length < 1) {
-      return;
-    }
     return courseArr
       .map((item) => {
         item.starts = new Date(item.starts);
         item.ends = new Date(item.ends);
+        item.days = getDaysNum(item.schedule);
         return item;
       })
       .filter((item) => {
-        return item.starts - new Date(date) < 0;
+        if (!item.starts) {
+          return false;
+        }
+        return item.starts - new Date(date) < 86400000 * 7;
       });
   }
 
