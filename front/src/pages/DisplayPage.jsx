@@ -15,6 +15,8 @@ function DisplayPage() {
   let interval = "";
 
   async function getDisplay() {
+    startInterval(() => null);
+
     try {
       const { ok, data } = await fetchData("/display/", undefined, "POST", {
         now: new Date(),
@@ -48,6 +50,14 @@ function DisplayPage() {
     }
     console.log(new Date(dateStr).toISOString());
     return new Date(dateStr).toISOString().split("T")[1].slice(0, 5);
+  }
+
+  function startInterval(fn) {
+    const refreshMinutes = 60000 * import.meta.env.VITE_REFRESHTIMER;
+    const msToRefresh = refreshMinutes - (new Date() % refreshMinutes);
+    setTimeout(() => {
+      interval = setInterval(getDisplay, refreshMinutes);
+    }, msToRefresh);
   }
 
   useEffect(() => {
