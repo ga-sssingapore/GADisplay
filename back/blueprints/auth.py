@@ -1,3 +1,4 @@
+from datetime import datetime
 from flask import Blueprint, request, jsonify
 from flask_jwt_extended import create_access_token, create_refresh_token, jwt_required, get_jwt, get_jti, \
     current_user
@@ -8,9 +9,13 @@ from middleware.requests import check_request
 from models.db import db
 from models.users import Users
 from models.logins import Logins
+from models.cohorts import Cohorts
+from models.adhocs import Adhocs
 # Schemas
 from schemas.users import UsersSchema
 from schemas.logins import LoginsSchema
+from schemas.cohorts import CohortsSchema
+from schemas.adhocs import AdhocsSchema
 
 auth_bp = Blueprint('auth_bp', __name__, url_prefix='/auth')
 ph = PasswordHasher()
@@ -72,6 +77,18 @@ def login():
         db.session.add(refresh_db)
 
         db.session.commit()
+
+        if user['role'] == 'Admin' or user['role'] == 'User':
+            expired_cohorts = Cohorts.query.filter(Cohorts.ends < datetime.now()).all()
+            if len(expired_cohorts) > 0:
+                for x in expired_cohorts:
+                    db.session.query(Cohorts).filter_by(name=x.name).update({'active': False})
+            expired_adhocs = Adhocs.query.filter(Adhocs.ends < datetime.now()).all()
+            if len(expired_adhocs) > 0:
+                for x in expired_adhocs:
+                    db.session.query(Adhocs).filter_by(num=x.num).update({'active': False})
+            db.session.commit()
+
         return jsonify(access=access, refresh=refresh)
     except Exception as e:
         print(e)
