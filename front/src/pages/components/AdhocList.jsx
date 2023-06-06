@@ -3,6 +3,14 @@ import styles from "./css/AdhocList.module.css";
 import AdhocListEntry from "./AdhocListEntry";
 
 function AdhocList(props) {
+  function getTime(dateObj) {
+    const timeArr = dateObj.toLocaleTimeString().split(" ");
+    let timeFirstHalf = timeArr[0].slice(0, 5);
+    if (timeFirstHalf.charAt(4) == ":") {
+      timeFirstHalf = timeFirstHalf.slice(0, 4);
+    }
+    return timeFirstHalf + timeArr[1];
+  }
   return (
     <table className={styles.adhoc_table}>
       <thead>
@@ -23,12 +31,13 @@ function AdhocList(props) {
           return (
             <AdhocListEntry
               key={idx}
+              id={idx}
               num={item.num}
               event={item.name}
               room={item.room}
               date={`${startDateArr[2]} ${startDateArr[1]} ${startDateArr[3]}`}
-              start={item.starts.getHours() + ":" + item.starts.getMinutes()}
-              end={item.ends.getHours() + ":" + item.ends.getMinutes()}
+              start={getTime(item.starts)}
+              end={getTime(item.ends)}
               purpose={item.purpose}
               getAdhocs={props.getAdhocs}
             />
