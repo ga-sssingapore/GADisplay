@@ -12,3 +12,10 @@ class CohortsSchema(mm.SQLAlchemyAutoSchema):
         model = Cohorts
         include_fk = True
         unknown = EXCLUDE
+
+class CohortsSchemaWSchedule(mm.SQLAlchemyAutoSchema):
+    class Meta:
+        model = Cohorts
+        include_fk = True
+        unknown = EXCLUDE
+    schedule = mm.Nested(DaysSchedulesSchema, attribute='cohort')
