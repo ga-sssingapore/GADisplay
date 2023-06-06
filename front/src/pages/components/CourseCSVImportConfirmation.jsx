@@ -111,6 +111,7 @@ function Overlay(props) {
         <CoursesList
           courses={reclassifyData(props.csvData)}
           setDataComplete={setDataComplete}
+          noLink={true}
         />
         <div className={styles.buttons_container}>
           <button className={styles.confirm_button} onClick={handleConfirm}>

@@ -26,6 +26,7 @@ function CoursesList(props) {
                 idx={idx}
                 course={item}
                 setDataComplete={props.setDataComplete}
+                noLink={props.noLink}
               />
             );
           })}

@@ -38,7 +38,11 @@ function AdminCoursesPage() {
       <div className={styles.container}>
         <h5>*Completed courses have already been filtered out</h5>
       </div>
-      <CoursesList courses={courses} setDataComplete={() => ""} />
+      <CoursesList
+        courses={courses}
+        setDataComplete={() => ""}
+        noLink={false}
+      />
       <Link to="/admin/courses/add">
         <div className={styles.add_button}>Add Course(s)</div>
       </Link>

@@ -81,13 +81,21 @@ function CourseEntry(props) {
   return (
     <tbody>
       <tr className={props.idx % 2 == 1 ? styles.alt_row : ""}>
-        <td className={props.course.name ? styles.link : setMissing()}>
-          <Link
-            to={`/admin/courses/edit/${props.course.name}`}
-            state={{ course: props.course }}
-          >
-            {props.course.name}
-          </Link>
+        <td
+          className={
+            props.course.name ? (props.noLink ? "" : styles.link) : setMissing()
+          }
+        >
+          {props.noLink ? (
+            props.course.name
+          ) : (
+            <Link
+              to={`/admin/courses/edit/${props.course.name}`}
+              state={{ course: props.course }}
+            >
+              {props.course.name}
+            </Link>
+          )}
         </td>
         <td className={props.course.course_type ? "" : setMissing()}>
           {getType(props.course.course_type)}
