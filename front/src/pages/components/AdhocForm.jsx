@@ -75,6 +75,7 @@ function AdhocForm(props) {
         setPurpose("");
         setRoom("");
         props.getAdhocs();
+        setFormComplete(false);
       } else {
         throw new Error(data);
       }
