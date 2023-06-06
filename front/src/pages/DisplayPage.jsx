@@ -24,7 +24,7 @@ function DisplayPage() {
       });
       if (ok) {
         if (interval === "") {
-          // interval = setInterval(getDisplay, 1000 * 60 * import.meta.env.VITE_REFRESHTIMER);
+          startInterval(getDisplay);
         }
         setCohorts(data.cohort);
         setAdhocs(data.adhoc);
@@ -48,15 +48,15 @@ function DisplayPage() {
     if (!dateStr) {
       return;
     }
-    console.log(new Date(dateStr).toISOString());
-    return new Date(dateStr).toISOString().split("T")[1].slice(0, 5);
+    const timeArr = new Date(dateStr).toLocaleTimeString().split(" ");
+    return timeArr[0].slice(0, 4) + timeArr[1];
   }
 
   function startInterval(fn) {
     const refreshMinutes = 60000 * import.meta.env.VITE_REFRESHTIMER;
     const msToRefresh = refreshMinutes - (new Date() % refreshMinutes);
     setTimeout(() => {
-      interval = setInterval(getDisplay, refreshMinutes);
+      interval = setInterval(fn, refreshMinutes);
     }, msToRefresh);
   }
 
