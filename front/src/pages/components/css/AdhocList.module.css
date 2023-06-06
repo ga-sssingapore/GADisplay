@@ -9,6 +9,14 @@
   text-align: center;
 }
 
+.adhoc_row {
+  height: 70px;
+}
+
+.adhoc_row > td {
+  text-overflow: ellipsis;
+}
+
 .event {
   width: 10%;
 }
@@ -22,6 +30,10 @@
 .start,
 .end {
   width: 10%;
+}
+
+.purpose {
+  width: 50%;
 }
 
 .delete_button {
