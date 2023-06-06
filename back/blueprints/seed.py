@@ -1,6 +1,8 @@
 import os
+from uuid import uuid4
 from flask import Blueprint, jsonify, request
 from argon2 import PasswordHasher
+from datetime import datetime, timedelta
 
 from models.db import db
 from models.roles import Roles
@@ -8,6 +10,7 @@ from models.rooms import Rooms
 from models.course_types import CourseTypes
 from models.days_schedules import DaysSchedules
 from models.users import Users
+from models.adhocs import Adhocs
 
 seed_bp = Blueprint('seed_bp', __name__, url_prefix='/seed')
 
@@ -109,6 +112,10 @@ def seed_users():
         if admin_user is None:
             admin_user = Users("Grace Odette", "g.od@generalassemb.ly", pw)
             users_to_add.append(admin_user)
+        former_staff = Users.query.filter_by(email="former.staff@generalassemb.ly").one_or_none()
+        if former_staff is None:
+            former_staff = Users("Former Staff", "former.staff@generalassemb.ly", uuid4(), "Admin")
+            users_to_add.append(former_staff)
         # Modify perms DB-side
         if len(users_to_add) > 0:
             db.session.add_all(users_to_add)
@@ -116,3 +123,24 @@ def seed_users():
         return jsonify({'status': 'ok', 'message': 'users seeded'})
     else:
         return jsonify({'status': 'error', 'message': 'error seeding users'}), 400
+
+
+@seed_bp.route("/adhocs")
+def seed_adhocs():
+    try:
+        events = ["Explore the UX Design Process", "Code with HTML, CSS & Javascript", "Career Coaches Event",
+                  "Intro to Software Engineering", "Intro to User Experience Design", "Intro to Data Science"]
+        now = datetime.now()
+        hour = timedelta(hours=1)
+        former_staff = Users.query.filter_by(email="former.staff@generalassemb.ly").first()
+        adhocs_list = []
+        for eve in events:
+            adhoc = Adhocs(eve, now, now + hour, 2, eve + eve, former_staff.id)
+            adhocs_list.append(adhoc)
+            now = now + hour
+        db.session.add_all(adhocs_list)
+        db.session.commit()
+        return jsonify({'status': 'ok', 'message': 'adhocs seeded'})
+    except Exception as e:
+        print(e)
+        return jsonify({'status': 'error', 'message': 'error seeding adhocs'}), 400
