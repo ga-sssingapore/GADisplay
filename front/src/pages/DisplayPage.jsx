@@ -19,7 +19,7 @@ function DisplayPage() {
       });
       if (ok) {
         if (interval === "") {
-          // interval = setInterval(getDisplay, 1000 * 10);
+          // interval = setInterval(getDisplay, 1000 * 60 * import.meta.env.VITE_MINUTES);
         }
         console.log(data);
         setClassroom(data);
