@@ -12,6 +12,7 @@ function DisplayPage() {
   const [adhocs, setAdhocs] = useState([]);
   // Currently displayed class, update every 10mins?
   const [display, setDisplay] = useState({});
+  let timeout = "";
   let interval = "";
 
   async function getDisplay() {
@@ -39,7 +40,8 @@ function DisplayPage() {
 
   function changeDisplay() {
     if (adhocs.length > 0) {
-    } else {
+      setDisplay({});
+    } else if (cohorts.length > 0) {
       setDisplay(cohorts[0]);
     }
   }
@@ -49,22 +51,30 @@ function DisplayPage() {
       return;
     }
     const timeArr = new Date(dateStr).toLocaleTimeString().split(" ");
-    return timeArr[0].slice(0, 4) + timeArr[1];
+    let timeFirstHalf = timeArr[0].slice(0, 5);
+    if (timeFirstHalf.charAt(4) == ":") {
+      timeFirstHalf = timeFirstHalf.slice(0, 4);
+    }
+    return timeFirstHalf + timeArr[1];
   }
 
   function startInterval(fn) {
     const refreshMinutes = 60000 * import.meta.env.VITE_REFRESHTIMER;
     const msToRefresh = refreshMinutes - (new Date() % refreshMinutes);
-    setTimeout(() => {
-      interval = setInterval(fn, refreshMinutes);
-    }, msToRefresh);
+    if (timeout === "") {
+      timeout = setTimeout(() => {
+        interval = setInterval(fn, refreshMinutes);
+      }, msToRefresh);
+    }
   }
 
   useEffect(() => {
     getDisplay();
     return () => {
       clearInterval(interval);
+      clearTimeout(timeout);
       interval = "";
+      timeout = "";
     };
   }, []);
 
@@ -75,10 +85,14 @@ function DisplayPage() {
   return (
     <div className={styles.background}>
       <div>Classroom {number}</div>
-      <div>{display?.name}</div>
-      <div>
-        {getTime(display?.starts)} - {getTime(display?.ends)}
-      </div>
+      <>
+        <div>{display.name}</div>
+        <div>
+          {display.starts &&
+            display.ends &&
+            `${getTime(display.starts)} - ${getTime(display.ends)}`}
+        </div>
+      </>
       <hr />
       <img
         src="/GA_banner_horizontal_white.png"
