@@ -14,6 +14,7 @@ class DaysSchedules(db.Model):
     sat_o = db.Column(db.Boolean, server_default=db.FetchedValue())
     sat_e = db.Column(db.Boolean, server_default=db.FetchedValue())
     sun = db.Column(db.Boolean, server_default=db.FetchedValue())
+    cohort = db.relationship('Cohorts', backref='cohort', lazy=True)
 
     def __init__(self, mon=False, tue=False, wed=False, thu=False, fri=False, sat_o=False, sat_e=False, sun=False):
         combiStr = ''
