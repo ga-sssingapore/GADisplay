@@ -8,7 +8,10 @@ function DisplayPage() {
   const location = useLocation();
   const { admin } = location.state;
   const navigate = useNavigate();
-  const [classroom, setClassroom] = useState({});
+  const [cohorts, setCohorts] = useState([]);
+  const [adhocs, setAdhocs] = useState([]);
+  // Currently displayed class, update every 10mins?
+  const [display, setDisplay] = useState({});
   let interval = "";
 
   async function getDisplay() {
@@ -19,16 +22,32 @@ function DisplayPage() {
       });
       if (ok) {
         if (interval === "") {
-          // interval = setInterval(getDisplay, 1000 * 60 * import.meta.env.VITE_MINUTES);
+          // interval = setInterval(getDisplay, 1000 * 60 * import.meta.env.VITE_REFRESHTIMER);
         }
-        console.log(data);
-        setClassroom(data);
+        setCohorts(data.cohort);
+        setAdhocs(data.adhoc);
+        changeDisplay();
       } else {
         throw new Error(data);
       }
     } catch (error) {
       console.log(error.message);
     }
+  }
+
+  function changeDisplay() {
+    if (adhocs.length > 0) {
+    } else {
+      setDisplay(cohorts[0]);
+    }
+  }
+
+  function getTime(dateStr) {
+    if (!dateStr) {
+      return;
+    }
+    console.log(new Date(dateStr).toISOString());
+    return new Date(dateStr).toISOString().split("T")[1].slice(0, 5);
   }
 
   useEffect(() => {
@@ -39,11 +58,17 @@ function DisplayPage() {
     };
   }, []);
 
+  useEffect(() => {
+    changeDisplay();
+  }, [adhocs, cohorts]);
+
   return (
     <div className={styles.background}>
       <div>Classroom {number}</div>
-      <div>SEIFX44SGP</div>
-      <div>9:30am - 5:30pm</div>
+      <div>{display?.name}</div>
+      <div>
+        {getTime(display?.starts)} - {getTime(display?.ends)}
+      </div>
       <hr />
       <img
         src="/GA_banner_horizontal_white.png"
