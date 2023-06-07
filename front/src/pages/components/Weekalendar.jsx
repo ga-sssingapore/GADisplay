@@ -104,38 +104,32 @@ function Weekalendar(props) {
 
   return (
     <div className={styles.weekalendar_container}>
-      <table className={styles.weekalendar}>
-        <thead className={styles.weekalendar_headers}>
-          <tr>
-            <td>Room</td>
-            {week_dates.map((item, idx) => {
-              // [Day, Mmm, DD, YYYY]
-              const dateArr = item.toDateString().split(" ");
-              if (dateArr[0] == "Sun") {
-                sunday.current = idx;
-              }
-              return (
-                <td key={idx}>
-                  <div>{`${dateArr[2]} ${dateArr[1]} ${dateArr[3]}`}</div>
-                  <div>{dateArr[0]}</div>
-                </td>
-              );
-            })}
-          </tr>
-        </thead>
-        <tbody>
-          {resolveClassesToDates(props.courses).map((item, idx) => {
-            return (
-              <WeekalendarRow
-                key={idx}
-                id={idx + 1}
-                columns={item}
-                sunday={sunday.current}
-              />
-            );
-          })}
-        </tbody>
-      </table>
+      <div className={styles.weekalendar}>
+        <div className={`${styles.header} ${styles.room}`}>Room</div>
+        {week_dates.map((item, idx) => {
+          // [Day, Mmm, DD, YYYY]
+          const dateArr = item.toDateString().split(" ");
+          if (dateArr[0] == "Sun") {
+            sunday.current = idx;
+          }
+          return (
+            <div key={idx} className={styles.header}>
+              <div>{`${dateArr[2]} ${dateArr[1]} ${dateArr[3]}`}</div>
+              <div>{dateArr[0]}</div>
+            </div>
+          );
+        })}
+      </div>
+      {resolveClassesToDates(props.courses).map((item, idx) => {
+        return (
+          <WeekalendarRow
+            key={idx}
+            id={idx + 1}
+            columns={item}
+            sunday={sunday.current}
+          />
+        );
+      })}
     </div>
   );
 }

@@ -1,39 +1,78 @@
 import React from "react";
-import styles from "./css/Weekalendar.module.css";
+import styles from "./css/WeekalendarRow.module.css";
 
 function WeekalendarRow(props) {
   function extractNames(col) {
-    if (col.length <= 1) {
-      return col[0]?.name;
-    } else {
-      // Check if multiples events conflict
-    }
+    // Check if multiples events conflict
+    const output = col.map((item, idx) => {
+      const startArr = item.starts.toLocaleTimeString().split(" ");
+      const endArr = item.ends.toLocaleTimeString().split(" ");
+      return (
+        <div>
+          {item.name}
+          <br />
+          {`(${startArr[0].slice(0, -3) + startArr[1]}-${
+            endArr[0].slice(0, -3) + endArr[1]
+          })`}
+        </div>
+      );
+    });
+    return output;
+    // }
   }
   return (
-    <tr className={props.id % 2 == 0 ? styles.alt_row : styles.row}>
-      <td className={styles.room}>{props.id}</td>
-      <td className={props.sunday === 0 ? styles.sunday : ""}>
+    <div className={props.id % 2 == 0 ? styles.alt_row : styles.row}>
+      <div className={styles.room}>{props.id}</div>
+      <div
+        className={`${props.sunday === 0 ? styles.sunday : ""} ${
+          props.columns[0].length > 1 ? styles.overload_text : ""
+        }`}
+      >
         {extractNames(props.columns[0])}
-      </td>
-      <td className={props.sunday === 1 ? styles.sunday : ""}>
+      </div>
+      <div
+        className={`${props.sunday === 1 ? styles.sunday : ""} ${
+          props.columns[1].length > 1 ? styles.overload_text : ""
+        }`}
+      >
         {extractNames(props.columns[1])}
-      </td>
-      <td className={props.sunday === 2 ? styles.sunday : ""}>
+      </div>
+      <div
+        className={`${props.sunday === 2 ? styles.sunday : ""} ${
+          props.columns[2].length > 1 ? styles.overload_text : ""
+        }`}
+      >
         {extractNames(props.columns[2])}
-      </td>
-      <td className={props.sunday === 3 ? styles.sunday : ""}>
+      </div>
+      <div
+        className={`${props.sunday === 3 ? styles.sunday : ""} ${
+          props.columns[3].length > 1 ? styles.overload_text : ""
+        }`}
+      >
         {extractNames(props.columns[3])}
-      </td>
-      <td className={props.sunday === 4 ? styles.sunday : ""}>
+      </div>
+      <div
+        className={`${props.sunday === 4 ? styles.sunday : ""} ${
+          props.columns[4].length > 1 ? styles.overload_text : ""
+        }`}
+      >
         {extractNames(props.columns[4])}
-      </td>
-      <td className={props.sunday === 5 ? styles.sunday : ""}>
+      </div>
+      <div
+        className={`${props.sunday === 5 ? styles.sunday : ""} ${
+          props.columns[5].length > 1 ? styles.overload_text : ""
+        }`}
+      >
         {extractNames(props.columns[5])}
-      </td>
-      <td className={props.sunday === 6 ? styles.sunday : ""}>
+      </div>
+      <div
+        className={`${props.sunday === 6 ? styles.sunday : ""} ${
+          props.columns[6].length > 1 ? styles.overload_text : ""
+        }`}
+      >
         {extractNames(props.columns[6])}
-      </td>
-    </tr>
+      </div>
+    </div>
   );
 }
 

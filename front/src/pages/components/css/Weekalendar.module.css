@@ -6,32 +6,19 @@
 }
 
 .weekalendar {
+  display: grid;
+  grid-template-columns: 5.5% repeat(7, 13.5%);
   width: 90%;
 }
 
-.weekalendar_headers {
+.header {
   text-align: center;
   background-color: rgb(var(--ga-ink));
   color: rgb(var(--ga-cloud));
 }
 
-.date_col {
-  text-align: center;
-}
-
 .room {
-  text-align: end;
-}
-
-.row,
-.alt_row {
-  text-align: center;
-}
-
-.alt_row {
-  background-color: rgb(var(--ga-mist));
-}
-
-.sunday {
-  background-color: rgb(var(--ga-fog));
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

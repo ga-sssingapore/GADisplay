@@ -1,0 +1,40 @@
+.row,
+.alt_row {
+  width: 90%;
+  min-height: 70px;
+  display: grid;
+  grid-template-columns: 5.5% repeat(7, 13.5%);
+}
+
+.row > div,
+.alt_row > div {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border: 0.1rem solid rgba(var(--ga-fog), 0.1);
+  padding: 0.2rem;
+  text-align: center;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  word-wrap: break-word;
+}
+
+.alt_row .row > div > div,
+.alt_row > div > div {
+  margin: 0.5rem auto;
+}
+
+.alt_row {
+  background-color: rgba(var(--ga-sky), 0.1);
+}
+
+.sunday {
+  background-color: rgba(var(--ga-mist));
+}
+
+.alt_row .room {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
