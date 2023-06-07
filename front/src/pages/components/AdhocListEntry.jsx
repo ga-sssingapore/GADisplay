@@ -34,13 +34,16 @@ function AdhocListEntry(props) {
   }
 
   return (
-    <div className={styles.adhoc_row} onClick={() => setConfirmDelete(false)}>
-      <div>{props.event}</div>
+    <div
+      className={props.id % 2 === 0 ? styles.adhoc_row : styles.alt_adhoc_row}
+      onClick={() => setConfirmDelete(false)}
+    >
+      <div className={styles.free_text}>{props.event}</div>
       <div className={styles.center_text}>{props.room}</div>
       <div className={styles.center_text}>{props.date}</div>
       <div className={styles.center_text}>{props.start}</div>
       <div className={styles.center_text}>{props.end}</div>
-      <div>{props.purpose}</div>
+      <div className={styles.free_text}>{props.purpose}</div>
       <div
         className={`${styles.delete} ${styles.delete_button}`}
         onClick={(e) => {

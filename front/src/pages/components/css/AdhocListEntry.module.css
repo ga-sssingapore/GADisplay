@@ -1,21 +1,33 @@
-.adhoc_row {
+.adhoc_row,
+.alt_adhoc_row {
   display: grid;
-  grid-template-columns: 10% 5% 10% 10% 10% 45% 10%;
+  grid-template-columns: 14% 5% 10% 8% 8% 45% 10%;
 }
 
-.adhoc_row > div {
+.adhoc_row > div,
+.alt_adhoc_row > div {
   border: 1px solid rgba(var(--ga-ink), 0.2);
-  padding: 2vh;
+  padding: 1vh 1vw;
 }
 
-.center_text {
-  text-align: center;
+.alt_adhoc_row {
+  background-color: rgba(var(--ga-sky), 0.1);
+}
+
+.center_text,
+.delete_button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.free_text {
+  word-wrap: break-word;
 }
 
 .delete_button {
   cursor: pointer;
   user-select: none;
-  text-align: center;
   background-color: rgba(var(--ga-pumpkin), 0.2);
 }
 
