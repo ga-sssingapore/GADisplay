@@ -1,5 +1,6 @@
 from flask import Blueprint, jsonify, request
 from flask_jwt_extended import jwt_required, get_jwt
+from sqlalchemy import case
 # Middleware
 from middleware.requests import check_request, check_user, check_admin
 # Models
@@ -77,7 +78,11 @@ def convert_schedule(schedule):
 @cohorts_bp.route('/')
 @jwt_required()
 def get_cohorts():
-    cohorts = CohortsSchema(many=True).dump(Cohorts.query.filter_by(active=True).all())
+    cohorts = CohortsSchema(many=True).dump(
+        Cohorts.query.filter_by(active=True).order_by(
+            case({"FT": 0, "Flex": 1, "PT": 2}, value=Cohorts.course_type), Cohorts.schedule, Cohorts.starts
+        ).all()
+    )
     return jsonify(cohorts)
 
 
