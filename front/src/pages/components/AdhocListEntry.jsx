@@ -44,6 +44,7 @@ function AdhocListEntry(props) {
       <div className={styles.center_text}>{props.start}</div>
       <div className={styles.center_text}>{props.end}</div>
       <div className={styles.free_text}>{props.purpose}</div>
+      <div className={styles.center_text}>{props.user}</div>
       <div
         className={`${styles.delete} ${styles.delete_button}`}
         onClick={(e) => {

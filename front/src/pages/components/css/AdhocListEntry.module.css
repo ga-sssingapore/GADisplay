@@ -1,7 +1,7 @@
 .adhoc_row,
 .alt_adhoc_row {
   display: grid;
-  grid-template-columns: 14% 5% 10% 8% 8% 45% 10%;
+  grid-template-columns: 35% 5% 10% 8% 8% 14% 10% 10%;
 }
 
 .adhoc_row > div,

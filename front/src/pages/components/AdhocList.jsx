@@ -20,6 +20,7 @@ function AdhocList(props) {
         <div>Start Time</div>
         <div>End Time</div>
         <div>Purpose</div>
+        <div>Created By</div>
         <div>Delete</div>
       </div>
       {props.adhocs.map((item, idx) => {
@@ -36,6 +37,7 @@ function AdhocList(props) {
             start={getTime(item.starts)}
             end={getTime(item.ends)}
             purpose={item.purpose}
+            user={item.id.name}
             getAdhocs={props.getAdhocs}
           />
         );
