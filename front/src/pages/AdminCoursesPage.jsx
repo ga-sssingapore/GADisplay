@@ -36,7 +36,7 @@ function AdminCoursesPage() {
   return (
     <div>
       <div className={styles.container}>
-        <h5>*Completed courses have already been filtered out</h5>
+        <h2>Active Courses</h2>
       </div>
       <CoursesList
         courses={courses}
