@@ -128,7 +128,7 @@ function DisplayPage() {
     <div className={styles.background}>
       <div>Classroom {number}</div>
       <>
-        <div>{display.name}</div>
+        <div className={styles.purpose}>{display.name}</div>
         <div>
           {display.starts &&
             display.ends &&
