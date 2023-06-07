@@ -63,18 +63,21 @@ def login():
     try:
         ph.verify(user['hash'], password)  # Raises VerificationError if fail verification
         user_id = user['id']
-        payload = {'role': user['role'], 'name': user['name'], 'email': user['email']}  # id stored in claims as 'sub'
+        # id stored in claims as 'sub'
+        payload = {'role': user['role'], 'name': user['name'], 'email': user['email']}
+        access = ''
+        refresh = ''
         # 02/06/2023: flask-jwt-extended generates tokens with uuid4 jti automatically
-        access = create_access_token(user_db, additional_claims=payload)  # Default expiry: 15 mins
-        refresh = create_refresh_token(user_db, additional_claims=payload)  # Default expiry: 30 days
-        # Whitelist tokens
-        db.session.query(Logins).filter_by(id=user_id).delete()
-        access_db = Logins(get_jti(access), user_id)
-        refresh_db = Logins(get_jti(refresh), user_id, get_jti(access), True)
-        db.session.add(access_db)
-        db.session.add(refresh_db)
-
-        db.session.commit()
+        if user['role'] != 'Registered':
+            access = create_access_token(user_db, additional_claims=payload)  # Default expiry: 15 mins
+            refresh = create_refresh_token(user_db, additional_claims=payload)  # Default expiry: 30 days
+            # Whitelist tokens
+            db.session.query(Logins).filter_by(id=user_id).delete()
+            access_db = Logins(get_jti(access), user_id)
+            refresh_db = Logins(get_jti(refresh), user_id, get_jti(access), True)
+            db.session.add(access_db)
+            db.session.add(refresh_db)
+            db.session.commit()
 
         if user['role'] == 'Admin' or user['role'] == 'User':
             expired_cohorts = Cohorts.query.filter(Cohorts.ends < datetime.now()).all()
