@@ -7,7 +7,10 @@ function UsersListEntry(props) {
   const [userModal, setUserModal] = useState(false);
   const userCtx = useContext(UserContext);
   function handleClick() {
-    if (userCtx.claims.email === props.email) {
+    if (
+      userCtx.claims.email === props.email ||
+      props.email === "former.staff@generalassemb.ly"
+    ) {
       return;
     } else {
       setUserModal(true);
@@ -18,7 +21,13 @@ function UsersListEntry(props) {
       <tr className={props.idx % 2 == 1 ? styles.odd_row : ""}>
         <td
           onClick={handleClick}
-          className={userCtx.claims.email === props.email ? "" : styles.name}
+          className={
+            userCtx.claims.email === props.email
+              ? ""
+              : props.email === "former.staff@generalassemb.ly"
+              ? ""
+              : styles.name
+          }
         >
           {props.name}
         </td>
