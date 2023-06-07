@@ -59,6 +59,7 @@ function DisplayPage() {
   }, [adhocs, cohorts]);
 
   function changeDisplay() {
+    console.log(adhocs, cohorts);
     if (adhocs.length > 0) {
       /* To account for multiple adhocs happening between data refreshes,
       check which adhoc is happening within this update and display. */
@@ -125,10 +126,14 @@ function DisplayPage() {
   }
 
   return (
-    <div className={styles.background}>
+    <div
+      className={`${styles.background} ${
+        display.name?.length > 36 ? styles.big_text : ""
+      }`}
+    >
       <div>Classroom {number}</div>
       <>
-        <div className={styles.purpose}>{display.name}</div>
+        <div className={styles.name}>{display.name}</div>
         <div>
           {display.starts &&
             display.ends &&

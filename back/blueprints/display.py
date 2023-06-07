@@ -34,6 +34,7 @@ def get_today():
     day = today.strftime('%a').lower()
     # Query courses/adhocs that start within today
     tomorrow = today + timedelta(days=1)
+    print("tomorrow", tomorrow, ", today", today, ", now", time_now)
     adhocs_today = AdhocsSchema(many=True).dump(Adhocs.query.filter(
         Adhocs.active, Adhocs.room == data['room'],
         Adhocs.starts < tomorrow, Adhocs.ends >= time_now
