@@ -29,17 +29,21 @@ def convert_time(js_date):
 @check_request
 def get_today():
     data = request.get_json()
-    today = convert_time(data['now'])
-    print(today.time())
+    time_now = convert_time(data['now'])
+    today = time_now.date()
     day = today.strftime('%a').lower()
+    # Query courses/adhocs that start within today
+    tomorrow = today + timedelta(days=1)
+    print(today, ":", day)
     adhocs_today = AdhocsSchema(many=True).dump(Adhocs.query.filter(
         Adhocs.active, Adhocs.room == data['room'],
-        Adhocs.starts <= today, Adhocs.ends > today
+        Adhocs.starts < tomorrow, Adhocs.ends >= time_now
     ).order_by(Adhocs.num).all())
     cohorts_query = db.session.query(Cohorts).join(
         DaysSchedules, Cohorts.schedule == DaysSchedules.combi).filter(
-        Cohorts.active, Cohorts.starts <= today, Cohorts.ends > today, Cohorts.room == data['room'],
-    )
+        Cohorts.active, Cohorts.room == data['room'],
+        Cohorts.starts < tomorrow, Cohorts.ends >= time_now
+        )
     if day == 'sat':
         cohorts_today = cohorts_query.filter((DaysSchedules.sat_o or DaysSchedules.sat_e))
     else:
