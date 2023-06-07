@@ -12,6 +12,7 @@ function Overlay(props) {
 
   async function handlePromote(event) {
     event.preventDefault();
+    event.stopPropagation();
     if (!confirmAccept) {
       setConfirmAccept(true);
       setConfirmRemove(false);
@@ -43,6 +44,7 @@ function Overlay(props) {
 
   async function handleApprove(event) {
     event.preventDefault();
+    event.stopPropagation();
     if (!confirmAccept) {
       setConfirmAccept(true);
       setConfirmRemove(false);
@@ -74,6 +76,7 @@ function Overlay(props) {
 
   async function handleRemove(event) {
     event.preventDefault();
+    event.stopPropagation();
     if (!confirmRemove) {
       setConfirmRemove(true);
       setConfirmAccept(false);
@@ -107,7 +110,11 @@ function Overlay(props) {
     <div className={modal.backdrop} onClick={() => props.setUserModal(false)}>
       <div
         className={`${modal.modal} ${styles.modal_size}`}
-        onClick={(e) => e.stopPropagation()}
+        onClick={(e) => {
+          e.stopPropagation();
+          setConfirmAccept(false);
+          setConfirmRemove(false);
+        }}
       >
         <div className={styles.details}>
           <div>Name: {props.name}</div>
@@ -131,7 +138,10 @@ function Overlay(props) {
           </button>
           <button
             className={styles.return_button}
-            onClick={() => props.setUserModal(false)}
+            onClick={(e) => {
+              e.stopPropagation();
+              props.setUserModal(false);
+            }}
           >
             Return
           </button>
