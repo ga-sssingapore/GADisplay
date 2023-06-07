@@ -44,6 +44,9 @@ function CourseForm(props) {
   const [endTime, setEndTime] = useState(
     props.course?.ends.toISOString().split("T")[1].slice(0, 5) || ""
   );
+  const startDateRef = useRef();
+  const endDateRef = useRef();
+  const startTimeRef = useRef();
 
   // Control opening of confirmation modal
   const [formComplete, setFormComplete] = useState(false);
@@ -72,6 +75,22 @@ function CourseForm(props) {
       // Whitespace added to make alert box size more consistent?
       alert("Please select room!        ");
       return courseRoomRef.current.focus();
+    } else if (startDateRef.current.value === "") {
+      alert("Please enter start date!");
+      return startDateRef.current.focus();
+    } else if (endDateRef.current.value === "") {
+      alert("Please enter end date!");
+    } else if (startTime === "" || endTime === "") {
+      alert("Please enter start and end times!");
+      return startTimeRef.current.focus();
+    } else {
+      // Check if start time and end time makes sense
+      const startTimeChk = new Date(startDate + "T" + startTime);
+      const endTimeChk = new Date(startDate + "T" + endTime);
+      if (startTimeChk - endTimeChk > 0) {
+        alert("Classes end before start time, please rectify!");
+        return startTimeRef.current.focus();
+      }
     }
     setFormComplete(true);
   }
@@ -252,6 +271,7 @@ function CourseForm(props) {
                 value={startDate}
                 onChange={(e) => handleChange(e, setStartDate)}
                 max={endDate}
+                ref={startDateRef}
               />
               <label htmlFor="start_time">Start Time</label>
               <input
@@ -259,6 +279,7 @@ function CourseForm(props) {
                 id="start_time"
                 value={startTime}
                 onChange={(e) => handleChange(e, setStartTime)}
+                ref={startTimeRef}
               />
             </div>
 
@@ -270,6 +291,7 @@ function CourseForm(props) {
                 value={endDate}
                 onChange={(e) => handleChange(e, setEndDate)}
                 min={startDate}
+                ref={endDateRef}
               />
               <label htmlFor="end_time">End Time</label>
               <input
