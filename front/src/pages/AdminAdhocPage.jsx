@@ -36,6 +36,7 @@ function AdminAdhocPage() {
 
   return (
     <>
+      <h2 style={{ margin: "2vh 2%" }}>Ad-Hoc room reservation</h2>
       <AdhocForm getAdhocs={getAdhocs} />
       <hr />
       <div style={{ marginLeft: "2%" }}>

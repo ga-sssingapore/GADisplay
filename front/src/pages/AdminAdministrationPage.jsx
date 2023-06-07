@@ -34,6 +34,10 @@ function AdminAdministrationPage() {
 
   return (
     <div className={styles.container}>
+      <h2>Administration</h2>
+      {userCtx.claims.role == "Admin" && (
+        <h4>Click on a user to approve, promote or delete.</h4>
+      )}
       <div className={styles.account}>
         <div>Name: {userCtx.claims.name}</div>
         <div>Email: {userCtx.claims.email}</div>

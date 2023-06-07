@@ -56,7 +56,7 @@ function AdminDashboardPage() {
   return (
     <div className={styles.container}>
       <div className={styles.datepicker}>
-        <label htmlFor="date_picker">Date:</label>
+        <label htmlFor="date_picker">What's happening this week from:</label>
         <input
           type="date"
           id="date_picker"
