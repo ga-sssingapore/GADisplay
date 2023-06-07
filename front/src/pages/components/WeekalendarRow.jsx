@@ -8,7 +8,7 @@ function WeekalendarRow(props) {
       const startArr = item.starts.toLocaleTimeString().split(" ");
       const endArr = item.ends.toLocaleTimeString().split(" ");
       return (
-        <div>
+        <div key={idx}>
           {item.name}
           <br />
           {`(${startArr[0].slice(0, -3) + startArr[1]}-${

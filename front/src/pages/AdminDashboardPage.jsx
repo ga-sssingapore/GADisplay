@@ -13,15 +13,16 @@ function AdminDashboardPage() {
     setDate(event.target.value);
   }
 
-  async function getCohorts() {
+  async function getEvents() {
     try {
-      const { ok, data } = await fetchData("/cohorts/", userCtx.accessToken);
+      const { ok, data } = await fetchData("/display/", userCtx.accessToken);
       if (ok) {
-        data.map((item) => {
+        console.log(data);
+        data.cohort.map((item) => {
           item.starts = new Date(item.starts);
           item.ends = new Date(item.ends);
         });
-        setCourses(data);
+        setCourses(data.cohort);
       } else {
         throw new Error(data);
       }
@@ -49,7 +50,7 @@ function AdminDashboardPage() {
 
   useEffect(() => {
     if (userCtx.accessToken != "") {
-      getCohorts();
+      getEvents();
     }
   }, [userCtx.accessToken]);
 
