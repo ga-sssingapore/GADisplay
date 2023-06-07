@@ -59,7 +59,6 @@ function DisplayPage() {
   }, [adhocs, cohorts]);
 
   function changeDisplay() {
-    console.log(adhocs, cohorts);
     if (adhocs.length > 0) {
       /* To account for multiple adhocs happening between data refreshes,
       check which adhoc is happening within this update and display. */
@@ -125,15 +124,26 @@ function DisplayPage() {
     return timeFirstHalf + timeArr[1];
   }
 
+  function checkEventSize(string = "") {
+    const len = string.length;
+    if (len <= 36) {
+      return "";
+    } else if (len <= 48) {
+      return styles.big_text;
+    } else if (len <= 96) {
+      return styles.larger_text;
+    } else {
+      return styles.largest_feasible;
+    }
+  }
+
   return (
-    <div
-      className={`${styles.background} ${
-        display.name?.length > 36 ? styles.big_text : ""
-      }`}
-    >
+    <div className={styles.background}>
       <div>Classroom {number}</div>
       <>
-        <div className={styles.name}>{display.name}</div>
+        <div className={`${styles.name} ${checkEventSize(display.name)}`}>
+          {display.name}
+        </div>
         <div>
           {display.starts &&
             display.ends &&

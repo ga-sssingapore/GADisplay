@@ -129,7 +129,8 @@ def seed_users():
 def seed_adhocs():
     try:
         events = ["Explore the UX Design Process", "Code with HTML, CSS & Javascript", "Career Coaches Event",
-                  "Intro to Software Engineering", "Intro to User Experience Design", "Intro to Data Science"]
+                  "Intro to Software Engineering", "Intro to User Experience Design", "Intro to Data Science",
+                  "In the vast cosmos, distant stars shimmer with cosmic secrets, whispering tales of celestial wonders"]
         now = datetime.now()
         hour = timedelta(hours=1)
         former_staff = Users.query.filter_by(email="former.staff@generalassemb.ly").first()

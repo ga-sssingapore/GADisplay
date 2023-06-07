@@ -30,6 +30,16 @@
   text-overflow: clip;
 }
 
-.big_text {
+.big_text,
+.larger_text,
+.largest_feasible {
   gap: 20px;
+}
+
+.larger_text {
+  font-size: 3rem;
+}
+
+.largest_feasible {
+  font-size: 2.5rem;
 }
