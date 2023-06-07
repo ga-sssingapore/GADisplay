@@ -106,6 +106,7 @@ function AdhocForm(props) {
             value={event}
             onChange={(e) => handleChange(e, setEvent)}
             ref={eventRef}
+            maxLength="100"
           />
           <label htmlFor="purpose">Purpose: </label>
           <input
@@ -115,6 +116,7 @@ function AdhocForm(props) {
             value={purpose}
             onChange={(e) => handleChange(e, setPurpose)}
             ref={purposeRef}
+            maxLength="30"
           />
         </div>
         <div className={styles.dateroom_container}>

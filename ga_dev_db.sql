@@ -42,10 +42,10 @@ CREATE TABLE "Days_Schedules" (
 
 CREATE TABLE "AdHocs" (
 	num SERIAL PRIMARY KEY,
-	name VARCHAR(255) NOT NULL,
+	name VARCHAR(100) NOT NULL,
 	starts TIMESTAMP NOT NULL,
 	ends TIMESTAMP NOT NULL,
-	purpose TEXT,
+	purpose VARCHAR(30),
 	active boolean DEFAULT true,
 	room int NOT NULL,
 	id uuid NOT NULL,

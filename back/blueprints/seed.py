@@ -135,7 +135,7 @@ def seed_adhocs():
         former_staff = Users.query.filter_by(email="former.staff@generalassemb.ly").first()
         adhocs_list = []
         for eve in events:
-            adhoc = Adhocs(eve, now, now + hour, 2, eve + eve, former_staff.id)
+            adhoc = Adhocs(eve, now, now + hour, 2, (eve + eve)[:30], former_staff.id)
             adhocs_list.append(adhoc)
             now = now + hour
         db.session.add_all(adhocs_list)
