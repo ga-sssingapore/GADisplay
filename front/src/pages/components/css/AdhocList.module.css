@@ -3,45 +3,14 @@
   width: 96%;
 }
 
-.table_header {
+.header {
+  display: grid;
+  grid-template-columns: 10% 5% 10% 10% 10% 45% 10%;
   background-color: rgb(var(--ga-ink));
   color: rgb(var(--ga-cloud));
   text-align: center;
 }
 
-.adhoc_row {
-  height: 70px;
-}
-
-.adhoc_row > td {
-  text-overflow: ellipsis;
-}
-
-.event {
-  width: 10%;
-}
-
-.room,
-.delete {
-  width: 5%;
-}
-
-.date,
-.start,
-.end {
-  width: 10%;
-}
-
-.purpose {
-  width: 50%;
-}
-
-.delete_button {
-  user-select: none;
-  text-align: center;
-  background-color: rgba(var(--ga-pumpkin), 0.2);
-}
-
-.delete_button:active {
-  background-color: rgba(var(--ga-pumpkin), 0.8);
+.header > div {
+  padding: 2vh 0;
 }

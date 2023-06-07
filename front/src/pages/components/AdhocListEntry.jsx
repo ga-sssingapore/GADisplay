@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import styles from "./css/AdhocList.module.css";
+import styles from "./css/AdhocListEntry.module.css";
 import { fetchData } from "../../helpers/common";
 import UserContext from "../../context/user";
 
@@ -34,14 +34,14 @@ function AdhocListEntry(props) {
   }
 
   return (
-    <tr className={styles.adhoc_row} onClick={() => setConfirmDelete(false)}>
-      <td className={styles.event}>{props.event}</td>
-      <td className={styles.room}>{props.room}</td>
-      <td className={styles.date}>{props.date}</td>
-      <td className={styles.start}>{props.start}</td>
-      <td className={styles.end}>{props.end}</td>
-      <td className={styles.purpose}>{props.purpose}</td>
-      <td
+    <div className={styles.adhoc_row} onClick={() => setConfirmDelete(false)}>
+      <div>{props.event}</div>
+      <div className={styles.center_text}>{props.room}</div>
+      <div className={styles.center_text}>{props.date}</div>
+      <div className={styles.center_text}>{props.start}</div>
+      <div className={styles.center_text}>{props.end}</div>
+      <div>{props.purpose}</div>
+      <div
         className={`${styles.delete} ${styles.delete_button}`}
         onClick={(e) => {
           e.stopPropagation();
@@ -49,8 +49,8 @@ function AdhocListEntry(props) {
         }}
       >
         {confirmDelete ? "Confirm?" : "Delete"}
-      </td>
-    </tr>
+      </div>
+    </div>
   );
 }
 
