@@ -34,11 +34,10 @@ def get_today():
     day = today.strftime('%a').lower()
     # Query courses/adhocs that start within today
     tomorrow = today + timedelta(days=1)
-    print(today, ":", day)
     adhocs_today = AdhocsSchema(many=True).dump(Adhocs.query.filter(
         Adhocs.active, Adhocs.room == data['room'],
         Adhocs.starts < tomorrow, Adhocs.ends >= time_now
-    ).order_by(Adhocs.num).all())
+    ).order_by(Adhocs.starts).all())
     cohorts_query = db.session.query(Cohorts).join(
         DaysSchedules, Cohorts.schedule == DaysSchedules.combi).filter(
         Cohorts.active, Cohorts.room == data['room'],
@@ -49,5 +48,4 @@ def get_today():
     else:
         cohorts_today = cohorts_query.filter(DaysSchedules.__table__.columns[day])
     cohorts_output = CohortsSchemaWSchedule(many=True).dump(cohorts_today.order_by(Cohorts.starts).all())
-    print(adhocs_today)
     return jsonify(adhoc=adhocs_today, cohort=cohorts_output)
