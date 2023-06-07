@@ -5,8 +5,9 @@ from middleware.requests import check_request, check_user, check_admin
 # Models
 from models.db import db
 from models.adhocs import Adhocs
+from models.users import Users
 # Schemas
-from schemas.adhocs import AdhocsSchema
+from schemas.adhocs import AdhocsSchema, AdhocsSchemaWUser
 
 adhocs_bp = Blueprint('adhocs_bp', __name__, url_prefix="/adhocs")
 
@@ -16,6 +17,17 @@ adhocs_bp = Blueprint('adhocs_bp', __name__, url_prefix="/adhocs")
 def get_adhoc():
     adhocs = AdhocsSchema(many=True).dump(
         Adhocs.query.filter_by(active=True).order_by(
+            Adhocs.starts, Adhocs.room
+        ).all()
+    )
+    return jsonify(adhocs)
+
+
+@adhocs_bp.route("/full")
+@jwt_required()
+def get_adhoc_with_user():
+    adhocs = AdhocsSchemaWUser(many=True).dump(
+        db.session.query(Adhocs).join(Users, Adhocs.id == Users.id).filter(Adhocs.active).order_by(
             Adhocs.starts, Adhocs.room
         ).all()
     )

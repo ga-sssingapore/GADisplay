@@ -9,3 +9,9 @@ class AdhocsSchema(mm.SQLAlchemyAutoSchema):
     class Meta:
         model = Adhocs
         include_fk = True
+
+class AdhocsSchemaWUser(mm.SQLAlchemyAutoSchema):
+    class Meta:
+        model = Adhocs
+        include_fk = True
+    id = mm.Nested(UsersSchema, attribute='adhocs')

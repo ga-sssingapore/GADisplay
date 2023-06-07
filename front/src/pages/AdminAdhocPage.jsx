@@ -11,8 +11,9 @@ function AdminAdhocPage() {
 
   async function getAdhocs() {
     try {
-      const { ok, data } = await fetchData("/adhocs/", userCtx.accessToken);
+      const { ok, data } = await fetchData("/adhocs/full", userCtx.accessToken);
       if (ok) {
+        console.log(data);
         data.map((item) => {
           item.starts = new Date(item.starts);
           item.ends = new Date(item.ends);
