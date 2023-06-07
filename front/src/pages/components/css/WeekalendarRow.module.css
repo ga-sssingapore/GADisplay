@@ -38,3 +38,7 @@
   justify-content: center;
   align-items: center;
 }
+
+.overload_text {
+  color: rgb(var(--ga-crimson));
+}
