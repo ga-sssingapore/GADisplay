@@ -42,13 +42,16 @@ function AdminAdministrationPage() {
       {/* <div>change password</div> */}
       <div className={styles.users_lists}>
         <div>
+          <h2>Staff</h2>
           <UsersList users={users} role="User" getAllUsers={getAllUsers} />
         </div>
         <div>
+          <h2>Admin</h2>
           <UsersList users={admins} getAllUsers={getAllUsers} />
         </div>
       </div>
       <hr />
+      <h2>Pending confirmation</h2>
       <UsersList users={pending} role="Registered" getAllUsers={getAllUsers} />
     </div>
   );

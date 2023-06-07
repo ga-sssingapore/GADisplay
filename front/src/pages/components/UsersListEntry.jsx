@@ -6,10 +6,22 @@ import UserContext from "../../context/user";
 function UsersListEntry(props) {
   const [userModal, setUserModal] = useState(false);
   const userCtx = useContext(UserContext);
+  function handleClick() {
+    if (userCtx.claims.email === props.email) {
+      return;
+    } else {
+      setUserModal(true);
+    }
+  }
   return (
     <>
       <tr className={props.idx % 2 == 1 ? styles.odd_row : ""}>
-        <td onClick={() => setUserModal(true)}>{props.name}</td>
+        <td
+          onClick={handleClick}
+          className={userCtx.claims.email === props.email ? "" : styles.name}
+        >
+          {props.name}
+        </td>
         <td>{props.email}</td>
       </tr>
       {userModal && userCtx.claims.role == "Admin" && (
