@@ -32,6 +32,10 @@ if db_url is None or jwt_secret_key is None:
 
 app.config['SQLALCHEMY_DATABASE_URI'] = db_url
 app.config['JWT_SECRET_KEY'] = jwt_secret_key
+# Access token expiry in hours (60 s * 60 minutes * x=2 hours)
+app.config['JWT_ACCESS_TOKEN_EXPIRES'] = 60 * 60 * 2
+# Refresh token expiry in hours (60 s * 60 minutes * x=24 hours)
+app.config['JWT_REFRESH_TOKEN_EXPIRES'] = 60 * 60 * 24
 
 # Initialize other app dependent instances
 db.init_app(app)
