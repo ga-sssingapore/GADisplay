@@ -106,7 +106,7 @@ function AdhocForm(props) {
             value={event}
             onChange={(e) => handleChange(e, setEvent)}
             ref={eventRef}
-            maxLength="100"
+            maxLength="48"
           />
           <label htmlFor="purpose">Purpose: </label>
           <input
