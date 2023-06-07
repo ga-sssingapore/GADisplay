@@ -151,6 +151,7 @@ function CourseForm(props) {
               type="text"
               value={courseCode}
               placeholder="Code"
+              maxLength="20"
               onChange={(e) => handleChange(e, setCourseCode)}
               ref={courseCodeRef}
               disabled={props.course ? true : false}
