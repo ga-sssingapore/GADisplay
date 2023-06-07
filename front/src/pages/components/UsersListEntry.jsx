@@ -22,9 +22,9 @@ function UsersListEntry(props) {
         <td
           onClick={handleClick}
           className={
-            userCtx.claims.email === props.email
-              ? ""
-              : props.email === "former.staff@generalassemb.ly"
+            userCtx.claims.email === props.email ||
+            props.email === "former.staff@generalassemb.ly" ||
+            userCtx.claims.role === "User"
               ? ""
               : styles.name
           }
