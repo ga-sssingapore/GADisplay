@@ -47,6 +47,15 @@ function AdhocForm(props) {
       alert("Please select end time!  ");
       return endRef.current.focus();
     } else {
+      // Check if start time and end time makes sense
+      const startTimeChk = new Date(date + "T" + startTime);
+      const endTimeChk = new Date(date + "T" + endTime);
+      if (startTimeChk - endTimeChk > 0) {
+        alert(
+          "Event ends before start time, please create a separate event if this event should end the next day"
+        );
+        return startRef.current.focus();
+      }
       setFormComplete(true);
     }
   }
