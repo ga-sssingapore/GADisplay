@@ -10,7 +10,7 @@ class Users(db.Model):
     email = db.Column(db.String(255), unique=True, nullable=False)
     hash = db.Column(db.String(255), nullable=False)
     role = db.Column(db.ForeignKey('Roles.role'), default='Registered')
-    adhocs = db.relationship('Adhocs', backref='cohort', lazy=True)
+    adhocs = db.relationship('Adhocs', backref='adhocs', lazy=True)
 
     def __init__(self, name, email, hash, role='Registered'):
         self.name = name
