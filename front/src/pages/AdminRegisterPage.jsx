@@ -34,7 +34,7 @@ function AdminRegisterPage() {
       );
       if (ok) {
         alert(
-          "Account registered! Please inform an admin to activate your accoutn!"
+          "Account registered! Please inform an admin to activate your account!"
         );
         navigate("/admin");
       } else {
