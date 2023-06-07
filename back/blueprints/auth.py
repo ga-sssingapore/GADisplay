@@ -14,8 +14,6 @@ from models.adhocs import Adhocs
 # Schemas
 from schemas.users import UsersSchema
 from schemas.logins import LoginsSchema
-from schemas.cohorts import CohortsSchema
-from schemas.adhocs import AdhocsSchema
 
 auth_bp = Blueprint('auth_bp', __name__, url_prefix='/auth')
 ph = PasswordHasher()
@@ -82,11 +80,13 @@ def login():
             expired_cohorts = Cohorts.query.filter(Cohorts.ends < datetime.now()).all()
             if len(expired_cohorts) > 0:
                 for x in expired_cohorts:
-                    db.session.query(Cohorts).filter_by(name=x.name).update({'active': False})
+                    db.session.query(Cohorts).filter_by(name=x.name).delete()
             expired_adhocs = Adhocs.query.filter(Adhocs.ends < datetime.now()).all()
             if len(expired_adhocs) > 0:
                 for x in expired_adhocs:
-                    db.session.query(Adhocs).filter_by(num=x.num).update({'active': False})
+                    db.session.query(Adhocs).filter_by(num=x.num).delete()
+            db.session.query(Cohorts).filter_by(active=False).delete()
+            db.session.query(Adhocs).filter_by(active=False).delete()
             db.session.commit()
 
         return jsonify(access=access, refresh=refresh)
