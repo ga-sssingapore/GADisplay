@@ -79,7 +79,7 @@ def convert_schedule(schedule):
 @jwt_required()
 def get_cohorts():
     cohorts = CohortsSchema(many=True).dump(
-        Cohorts.query.filter_by(active=True).order_by(
+        Cohorts.query.filter_by(**{'active': True}).order_by(
             case({"FT": 0, "Flex": 1, "PT": 2}, value=Cohorts.course_type), Cohorts.schedule, Cohorts.starts
         ).all()
     )
