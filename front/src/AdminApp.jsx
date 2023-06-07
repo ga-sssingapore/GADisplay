@@ -26,9 +26,9 @@ function AdminApp() {
   async function refreshAccessTkn() {
     if (
       new Date(jwtDecode(accessToken).exp * 1000) - new Date() >
-      1000 * 60 * 3
+      1000 * 60 * 15
     ) {
-      // If access token still has more than 3 minutes to expiry, do nothing
+      // If access token still has more than 15 minutes to expiry, do nothing
       return;
     }
     const refresh = localStorage.getItem("GAref");
