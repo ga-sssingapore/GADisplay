@@ -14,7 +14,11 @@ adhocs_bp = Blueprint('adhocs_bp', __name__, url_prefix="/adhocs")
 @adhocs_bp.route("/")
 @jwt_required()
 def get_adhoc():
-    adhocs = AdhocsSchema(many=True).dump(Adhocs.query.filter_by(active=True).all())
+    adhocs = AdhocsSchema(many=True).dump(
+        Adhocs.query.filter_by(active=True).order_by(
+            Adhocs.starts, Adhocs.room
+        ).all()
+    )
     return jsonify(adhocs)
 
 
