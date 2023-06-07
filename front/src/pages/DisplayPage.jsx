@@ -41,7 +41,6 @@ function DisplayPage() {
           interval = "";
         }
         startInterval(updateDisplay);
-        console.log(data);
         // Retrieve cohorts that have classes today
         setCohorts(data.cohort);
         // Retrieve all cohorts that have yet to end at this time
@@ -60,24 +59,29 @@ function DisplayPage() {
   }, [adhocs, cohorts]);
 
   function changeDisplay() {
-    console.log("test", adhocs);
     if (adhocs.length > 0) {
       /* To account for multiple adhocs happening between data refreshes,
       check which adhoc is happening within this update and display. */
-      console.log(adhocs[0]);
-      adhocs.splice(0, 1);
-      console.log(adhocs[0]);
-      // setDisplay(adhocs[0]);
-      console.log(adhocs);
-      return;
+      const currentAdhoc = adhocs[0];
+      if (new Date(currentAdhoc.ends) - new Date() > 0) {
+        // If currentAdhoc yet to end, check if it has started OR is about to start in the next client refresh.
+        if (
+          new Date(currentAdhoc.starts) - new Date() <=
+          60000 * import.meta.env.VITE_CLIENTREFRESHTIMER
+        ) {
+          return setDisplay(currentAdhoc);
+        }
+      } else {
+        // If currentAdhoc has expired, truncate adhocs and recurse via useEffect
+        return setAdhocs(adhocs.splice(0, 1));
+      }
     }
     if (cohorts.length > 0) {
       // If no adhocs returned, set first available cohort.
-      setDisplay(cohorts[0]);
-      return;
+      return setDisplay(cohorts[0]);
     }
     // If no adhocs/cohorts, clear display
-    setDisplay({});
+    return setDisplay({});
   }
 
   function startInterval(fn) {
@@ -85,7 +89,6 @@ function DisplayPage() {
     // Value
     const updateMinutes = 60000 * import.meta.env.VITE_CLIENTREFRESHTIMER;
     const msToUpdate = updateMinutes - (new Date() % updateMinutes);
-    console.log(msToUpdate);
     // Reset timeout
     if (timeout != "") {
       clearTimeout(timeout);
