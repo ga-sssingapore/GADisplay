@@ -15,52 +15,29 @@ function DisplayPage() {
   const [adhocs, setAdhocs] = useState([]);
   // Currently displayed class, update every 10mins?
   const [display, setDisplay] = useState({});
+
+  /* --- Timer --- */
   let timeout = "";
   let interval = "";
+  function startInterval(fn) {
+    const refreshMinutes = 60000 * import.meta.env.VITE_SERVERREFRESHTIMER;
+    // Value
+    const updateMinutes = 60000 * import.meta.env.VITE_CLIENTREFRESHTIMER;
+    const msToUpdate = updateMinutes - (new Date() % updateMinutes);
+    // Reset timeout
+    if (timeout != "") {
+      clearTimeout(timeout);
+      timeout = "";
+    }
+    timeout = setTimeout(() => {
+      // Update display client-side every 15 minutes
+      changeDisplay();
+      interval = setInterval(fn, 60000 * 15, refreshMinutes);
+    }, msToUpdate);
+    console.log(timeout, msToUpdate);
+  }
 
   /* --- Display controls --- */
-  function updateDisplay(refreshMinutes) {
-    console.log("updating");
-    if (new Date() % refreshMinutes <= 60000) {
-      // If about time to refresh, fetch data before changing
-      getDisplay();
-    } else {
-      changeDisplay();
-    }
-  }
-
-  async function getDisplay() {
-    try {
-      const { ok, data } = await fetchData("/display/", undefined, "POST", {
-        now: new Date(),
-        room: number,
-      });
-      if (ok) {
-        // Reset interval
-        if (interval != "") {
-          clearInterval(interval);
-          interval = "";
-        }
-        startInterval(updateDisplay);
-        // Retrieve cohorts that have classes today
-        setCohorts(data.cohort);
-        // Retrieve all cohorts that have yet to end at this time
-        setAdhocs(data.adhoc);
-      } else {
-        throw new Error(data);
-      }
-    } catch (error) {
-      console.log(error.message);
-      // If cannot fetch, just change with whatever's available
-      changeDisplay();
-    }
-  }
-
-  // Call changeDisplay everytime adhocs/cohorts change (i.e. when they get fetched)
-  useEffect(() => {
-    changeDisplay();
-  }, [adhocs, cohorts]);
-
   function changeDisplay() {
     console.log("changing");
     if (adhocs.length > 0) {
@@ -90,23 +67,49 @@ function DisplayPage() {
     return setDisplay({});
   }
 
-  function startInterval(fn) {
-    const refreshMinutes = 60000 * import.meta.env.VITE_SERVERREFRESHTIMER;
-    // Value
-    const updateMinutes = 60000 * import.meta.env.VITE_CLIENTREFRESHTIMER;
-    const msToUpdate = updateMinutes - (new Date() % updateMinutes);
-    // Reset timeout
-    if (timeout != "") {
-      clearTimeout(timeout);
-      timeout = "";
-    }
-    timeout = setTimeout(() => {
-      // Update display client-side every 15 minutes
+  function updateDisplay(refreshMinutes) {
+    console.log("updating");
+    if (new Date() % refreshMinutes <= 60000) {
+      // If about time to refresh, fetch data before changing
+      getDisplay();
+    } else {
       changeDisplay();
-      interval = setInterval(fn, 60000 * 15, refreshMinutes);
-    }, msToUpdate);
-    console.log(timeout, msToUpdate);
+    }
   }
+
+  async function getDisplay() {
+    console.log("Fetching");
+    try {
+      const { ok, data } = await fetchData("/display/", undefined, "POST", {
+        now: new Date(),
+        room: number,
+      });
+      if (ok) {
+        console.log("Fetched: ", data);
+        // Reset interval
+        if (interval != "") {
+          clearInterval(interval);
+          interval = "";
+        }
+        startInterval(updateDisplay);
+        // Retrieve cohorts that have classes today
+        setCohorts(data.cohort);
+        // Retrieve all cohorts that have yet to end at this time
+        setAdhocs(data.adhoc);
+      } else {
+        throw new Error(data);
+      }
+    } catch (error) {
+      console.log(error.message);
+      // If cannot fetch, just change with whatever's available
+      changeDisplay();
+    }
+  }
+
+  // Call changeDisplay everytime adhocs/cohorts change (i.e. when they get fetched)
+  useEffect(() => {
+    changeDisplay();
+  }, [adhocs, cohorts]);
 
   useEffect(() => {
     getDisplay();
