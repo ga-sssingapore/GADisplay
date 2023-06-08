@@ -51,6 +51,8 @@ function DisplayPage() {
       }
     } catch (error) {
       console.log(error.message);
+      // If cannot fetch, just change with whatever's available
+      changeDisplay();
     }
   }
 
