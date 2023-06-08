@@ -24,31 +24,6 @@ function DisplayPage() {
   );
 
   /* --- Timer --- */
-  // let timeout = "";
-  // // Interval primer
-  // function startInterval() {
-  //   // Reset timeout
-  //   if (timeout != "") {
-  //     clearTimeout(timeout);
-  //     timeout = "";
-  //   }
-  //   // 1s allowance to account for possible system lag
-  //   const msToUpdate = updateMinutes - (new Date() % updateMinutes);
-  //   timeout = setTimeout(() => {
-  //     // Update display client-side every 15 minutes
-  //     updateDisplay();
-  //     nextInterval();
-  //   }, msToUpdate);
-  // }
-
-  // // Interval loop
-  // function nextInterval() {
-  //   timeout = setTimeout(() => {
-  //     updateDisplay();
-  //     nextInterval();
-  //   }, updateMinutes);
-  // }
-
   useInterval(() => {
     updateDisplay();
   }, delay);
@@ -92,14 +67,28 @@ function DisplayPage() {
   }
 
   async function getDisplay() {
+    const now = new Date();
+    const sat = now.getDay() == 6;
     try {
       const { ok, data } = await fetchData("/display/", undefined, "POST", {
-        now: new Date(),
+        now: now,
         room: number,
       });
       if (ok) {
         // Retrieve cohorts that have classes today
-        setCohorts(data.cohort);
+        if (sat && data.cohort.length > 0) {
+          setCohorts(
+            data.cohort.filter((item) => {
+              if (item.schedule.combi.includes("SA")) {
+                return true;
+              } else {
+                return determineAltSat(item, now);
+              }
+            })
+          );
+        } else {
+          setCohorts(data.cohort);
+        }
         // Retrieve all cohorts that have yet to end at this time
         setAdhocs(data.adhoc);
       } else {
@@ -109,6 +98,21 @@ function DisplayPage() {
       console.log(error.message);
       // If cannot fetch, just change with whatever's available
       changeDisplay();
+    }
+  }
+
+  // Function to be called for SE/SO schedule courses
+  function determineAltSat(cohort, now) {
+    // Get start date in local time
+    // As at June 2023, Saturday courses ALWAYS start on Saturday
+    const startDate = new Date(
+      new Date(cohort.starts).getTime() - now.getTimezoneOffset()
+    );
+    const weekNum = Math.floor((startDate.getTime() - now) / 604800000) + 1;
+    if (cohort.schedule.combi.includes("SO")) {
+      return weekNum % 2 !== 0;
+    } else {
+      return weekNum % 2 === 0;
     }
   }
 
