@@ -71,10 +71,9 @@ export function getTimeFrDate(dateObj) {
 }
 
 export function getLocaleTime(dateObj) {
-  const timeArr = dateObj.toLocaleTimeString().split(" ");
-  let timeFirstHalf = timeArr[0].slice(0, 5);
-  if (timeFirstHalf.charAt(4) == ":") {
-    timeFirstHalf = timeFirstHalf.slice(0, 4);
-  }
-  return timeFirstHalf + timeArr[1];
+  const hours = dateObj.getHours();
+  // Check if its morning or not
+  const am = hours / 12 < 1;
+  const minutes = dateObj.getMinutes();
+  return `${hours % 12}:${minutes}${am ? "AM" : "PM"}`;
 }
