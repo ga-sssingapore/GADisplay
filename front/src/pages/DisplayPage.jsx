@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import styles from "./pages_css/DisplayPage.module.css";
 import { fetchData, getLocaleTime } from "../helpers/common";
+import { useInterval } from "../hooks/useInterval";
 
 function DisplayPage() {
   const { number } = useParams();
@@ -18,30 +19,39 @@ function DisplayPage() {
   // Env variables
   const refreshMinutes = 60000 * import.meta.env.VITE_SERVERREFRESHTIMER;
   const updateMinutes = 60000 * import.meta.env.VITE_CLIENTREFRESHTIMER;
+  const [delay, setDelay] = useState(
+    updateMinutes - (new Date() % updateMinutes)
+  );
 
   /* --- Timer --- */
-  let timeout = "";
-  function startInterval() {
-    // Reset timeout
-    if (timeout != "") {
-      clearTimeout(timeout);
-      timeout = "";
-    }
-    // 1s allowance to account for possible system lag
-    const msToUpdate = updateMinutes - (new Date() % updateMinutes);
-    timeout = setTimeout(() => {
-      // Update display client-side every 15 minutes
-      updateDisplay();
-      nextInterval();
-    }, msToUpdate);
-  }
+  // let timeout = "";
+  // // Interval primer
+  // function startInterval() {
+  //   // Reset timeout
+  //   if (timeout != "") {
+  //     clearTimeout(timeout);
+  //     timeout = "";
+  //   }
+  //   // 1s allowance to account for possible system lag
+  //   const msToUpdate = updateMinutes - (new Date() % updateMinutes);
+  //   timeout = setTimeout(() => {
+  //     // Update display client-side every 15 minutes
+  //     updateDisplay();
+  //     nextInterval();
+  //   }, msToUpdate);
+  // }
 
-  function nextInterval() {
-    timeout = setTimeout(() => {
-      updateDisplay();
-      nextInterval();
-    }, updateMinutes);
-  }
+  // // Interval loop
+  // function nextInterval() {
+  //   timeout = setTimeout(() => {
+  //     updateDisplay();
+  //     nextInterval();
+  //   }, updateMinutes);
+  // }
+
+  useInterval(() => {
+    updateDisplay();
+  }, delay);
 
   /* --- Display controls --- */
   function changeDisplay() {
@@ -50,7 +60,6 @@ function DisplayPage() {
       /* To account for multiple adhocs happening between data refreshes,
       check which adhoc is happening within this update and display. */
       const currentAdhoc = adhocs[0];
-      const nextAdhocs = adhocs.toSpliced(0, 1);
       if (new Date(currentAdhoc.ends) - now > 1000) {
         // If currentAdhoc yet to end, check if it has started OR is about to start in the next client refresh.
         if (
@@ -73,6 +82,7 @@ function DisplayPage() {
   }
 
   function updateDisplay() {
+    if (delay != updateMinutes) setDelay(updateMinutes);
     if (new Date() % refreshMinutes <= 60000) {
       // If about time to refresh, fetch data before changing
       getDisplay();
@@ -88,7 +98,6 @@ function DisplayPage() {
         room: number,
       });
       if (ok) {
-        startInterval();
         // Retrieve cohorts that have classes today
         setCohorts(data.cohort);
         // Retrieve all cohorts that have yet to end at this time
@@ -112,8 +121,8 @@ function DisplayPage() {
     getDisplay();
     // Clean up rubbish before you leave the theater!
     return () => {
-      clearTimeout(timeout);
-      timeout = "";
+      // clearTimeout(timeout);
+      // timeout = "";
     };
   }, []);
 
