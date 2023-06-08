@@ -23,6 +23,7 @@ function AdhocListEntry(props) {
         if (ok) {
           alert("Adhoc deleted!");
           props.getAdhocs();
+          setConfirmDelete(false);
         } else {
           throw new Error(data);
         }
