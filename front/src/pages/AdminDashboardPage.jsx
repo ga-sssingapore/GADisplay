@@ -2,12 +2,12 @@ import React, { useState, useEffect, useContext } from "react";
 import styles from "./pages_css/AdminDashboardPage.module.css";
 import Weekalendar from "./components/Weekalendar";
 import UserContext from "../context/user";
-import { fetchData, getDaysNum } from "../helpers/common";
+import { fetchData, getDaysNum, getTodayString } from "../helpers/common";
 
 function AdminDashboardPage() {
   const userCtx = useContext(UserContext);
   const [events, setEvents] = useState([]);
-  const [date, setDate] = useState(new Date().toISOString().split("T")[0]);
+  const [date, setDate] = useState(getTodayString().split("T")[0]);
 
   function handleDateChange(event) {
     setDate(event.target.value);
@@ -69,7 +69,7 @@ function AdminDashboardPage() {
           id="date_picker"
           value={date}
           onChange={handleDateChange}
-          min={new Date().toISOString().split("T")[0]}
+          min={getTodayString().split("T")[0]}
         />
       </div>
       <Weekalendar date={new Date(date)} events={thisWeek(events)} />

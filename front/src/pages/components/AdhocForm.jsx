@@ -1,7 +1,7 @@
 import React, { useState, useRef, useContext } from "react";
 import styles from "./css/AdhocForm.module.css";
 import AdhocFormConfirmation from "./AdhocFormConfirmation";
-import { fetchData } from "../../helpers/common";
+import { fetchData, getTodayString } from "../../helpers/common";
 import UserContext from "../../context/user";
 
 function AdhocForm(props) {
@@ -125,7 +125,7 @@ function AdhocForm(props) {
             type="date"
             id="date"
             className={styles.datetime_selector}
-            min={new Date().toISOString().split("T")[0]}
+            min={getTodayString().split("T")[0]}
             value={date}
             onChange={(e) => handleChange(e, setDate)}
             ref={dateRef}

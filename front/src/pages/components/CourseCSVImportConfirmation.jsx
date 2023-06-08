@@ -10,7 +10,6 @@ function Overlay(props) {
   const userCtx = useContext(UserContext);
   const [dataComplete, setDataComplete] = useState(true);
   const [confirmSubmit, setConfirmSubmit] = useState(false);
-  const viewRawData = false;
 
   // Can specify keys to query start/end date/time in case excel sheet needs to change
   function reclassifyData(
