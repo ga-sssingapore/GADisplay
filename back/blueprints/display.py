@@ -62,8 +62,8 @@ def get_today():
 def get_all_events():
     try:
         # Wipe out inactive events first
-        Cohorts.query.filter(or_(Cohorts.ends < datetime.now(), not Cohorts.active)).delete()
-        Adhocs.query.filter(or_(Adhocs.ends < datetime.now(), not Adhocs.active)).delete()
+        Cohorts.query.filter(or_(Cohorts.ends < datetime.utcnow(), not Cohorts.active)).delete()
+        Adhocs.query.filter(or_(Adhocs.ends < datetime.utcnow(), not Adhocs.active)).delete()
         # Model queries still utilize session (via Model(db.model))
         db.session.commit()
 
