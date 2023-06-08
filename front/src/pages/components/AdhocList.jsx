@@ -1,18 +1,17 @@
-import React from "react";
+import React, { useState } from "react";
 import styles from "./css/AdhocList.module.css";
 import AdhocListEntry from "./AdhocListEntry";
+import { getLocaleTime } from "../../helpers/common";
 
 function AdhocList(props) {
-  function getTime(dateObj) {
-    const timeArr = dateObj.toLocaleTimeString().split(" ");
-    let timeFirstHalf = timeArr[0].slice(0, 5);
-    if (timeFirstHalf.charAt(4) == ":") {
-      timeFirstHalf = timeFirstHalf.slice(0, 4);
-    }
-    return timeFirstHalf + timeArr[1];
-  }
+  const [clicked, setClicked] = useState(false);
   return (
-    <div className={styles.adhoc_table}>
+    <div
+      className={styles.adhoc_table}
+      onClick={() => {
+        setClicked(!clicked);
+      }}
+    >
       <div className={styles.header}>
         <div>Event</div>
         <div>Room</div>
@@ -34,11 +33,12 @@ function AdhocList(props) {
             event={item.name}
             room={item.room}
             date={`${startDateArr[2]} ${startDateArr[1]} ${startDateArr[3]}`}
-            start={getTime(item.starts)}
-            end={getTime(item.ends)}
+            start={getLocaleTime(item.starts)}
+            end={getLocaleTime(item.ends)}
             purpose={item.purpose}
             user={item.id.name}
             getAdhocs={props.getAdhocs}
+            clicked={clicked}
           />
         );
       })}

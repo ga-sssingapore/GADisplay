@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import styles from "./css/AdhocListEntry.module.css";
 import { fetchData } from "../../helpers/common";
 import UserContext from "../../context/user";
@@ -33,10 +33,14 @@ function AdhocListEntry(props) {
     }
   }
 
+  // Hacky way(?) to access parent component's events
+  useEffect(() => {
+    setConfirmDelete(false);
+  }, [props.clicked]);
+
   return (
     <div
       className={props.id % 2 === 0 ? styles.adhoc_row : styles.alt_adhoc_row}
-      onClick={() => setConfirmDelete(false)}
     >
       <div className={styles.free_text}>{props.event}</div>
       <div className={styles.center_text}>{props.room}</div>
