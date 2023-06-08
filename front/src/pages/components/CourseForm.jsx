@@ -1,7 +1,7 @@
 import React, { useState, useRef, useContext } from "react";
 import styles from "./css/CourseForm.module.css";
 import CourseFormConfirmation from "./CourseFormConfirmation";
-import { fetchData } from "../../helpers/common";
+import { fetchData, getTodayString } from "../../helpers/common";
 import UserContext from "../../context/user";
 
 function CourseForm(props) {
@@ -23,26 +23,30 @@ function CourseForm(props) {
   const [fri, setFri] = useState(props.days?.includes(5) || false);
   // Sat odd
   const [sao, setSao] = useState(
-    props.days?.includes(6) || props.days?.includes(8) || false
+    props.days?.includes(8) || props.days?.includes(6) || false
   );
   // Sat eve
   const [sae, setSae] = useState(
-    props.days?.includes(7) || props.days?.includes(8) || false
+    props.days?.includes(7) || props.days?.includes(6) || false
   );
   const [sun, setSun] = useState(props.days?.includes(0) || false);
 
   // Date-time pickers
   const [startDate, setStartDate] = useState(
-    props.course?.starts.toISOString().split("T")[0] || ""
+    props.course ? getTodayString(props.course.starts).split("T")[0] : ""
   );
   const [startTime, setStartTime] = useState(
-    props.course?.starts.toISOString().split("T")[1].slice(0, 5) || ""
+    props.course
+      ? getTodayString(props.course.starts).split("T")[1].slice(0, 5)
+      : ""
   );
   const [endDate, setEndDate] = useState(
-    props.course?.ends.toISOString().split("T")[0] || ""
+    props.course ? getTodayString(props.course.ends).split("T")[0] : ""
   );
   const [endTime, setEndTime] = useState(
-    props.course?.ends.toISOString().split("T")[1].slice(0, 5) || ""
+    props.course
+      ? getTodayString(props.course.ends).split("T")[1].slice(0, 5)
+      : ""
   );
   const startDateRef = useRef();
   const endDateRef = useRef();
