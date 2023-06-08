@@ -1,8 +1,8 @@
-import React, { lazy, Suspense } from "react";
+import React from "react";
 import { Route, Routes } from "react-router-dom";
 import LandingPage from "./pages/LandingPage";
 import DisplayPage from "./pages/DisplayPage";
-const AdminApp = React.lazy(() => import("./AdminApp"));
+import AdminApp from "./AdminApp";
 
 function App() {
   return (
@@ -10,14 +10,7 @@ function App() {
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/display/:number" element={<DisplayPage />} />
-        <Route
-          path="/admin/*"
-          element={
-            <Suspense>
-              <AdminApp />
-            </Suspense>
-          }
-        />
+        <Route path="/admin/*" element={<AdminApp />} />
       </Routes>
     </>
   );
