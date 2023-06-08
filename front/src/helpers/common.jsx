@@ -57,6 +57,14 @@ export function getDaysNum(combistr) {
   });
 }
 
+export function getTodayString(date) {
+  const utcToday = new Date();
+  const today = new Date(
+    (date || utcToday) - utcToday.getTimezoneOffset() * 60000
+  );
+  return today.toISOString();
+}
+
 export function getTimeFrDate(dateObj) {
   if (dateObj.toString() == "Invalid Date") {
     return "";
