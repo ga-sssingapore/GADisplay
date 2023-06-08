@@ -10,13 +10,13 @@
 .alt_row > div {
   display: flex;
   flex-direction: column;
+  justify-content: center;
   border: 1px solid rgba(var(--ga-ink), 0.2);
   padding: 0.2rem;
-  justify-content: center;
   text-align: center;
 }
 
-.alt_row .row > div > div,
+.row > div > div,
 .alt_row > div > div {
   margin: 0.5rem auto;
   max-width: 100%;
