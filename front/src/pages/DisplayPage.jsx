@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import styles from "./pages_css/DisplayPage.module.css";
-import { fetchData } from "../helpers/common";
+import { fetchData, getLocaleTime } from "../helpers/common";
 
 function DisplayPage() {
   const { number } = useParams();
@@ -111,19 +111,6 @@ function DisplayPage() {
     };
   }, []);
 
-  /* --- Display formatting functions --- */
-  function getTime(dateStr) {
-    if (!dateStr) {
-      return;
-    }
-    const timeArr = new Date(dateStr).toLocaleTimeString().split(" ");
-    let timeFirstHalf = timeArr[0].slice(0, 5);
-    if (timeFirstHalf.charAt(4) == ":") {
-      timeFirstHalf = timeFirstHalf.slice(0, 4);
-    }
-    return timeFirstHalf + timeArr[1];
-  }
-
   function checkEventSize(string = "") {
     const len = string.length;
     if (len <= 36) {
@@ -147,7 +134,9 @@ function DisplayPage() {
         <div>
           {display.starts &&
             display.ends &&
-            `${getTime(display.starts)} - ${getTime(display.ends)}`}
+            `${getLocaleTime(new Date(display.starts))} - ${getLocaleTime(
+              new Date(display.ends)
+            )}`}
         </div>
       </>
       <hr />

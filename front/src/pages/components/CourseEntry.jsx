@@ -1,6 +1,7 @@
 import React from "react";
 import styles from "./css/CourseEntry.module.css";
 import { Link } from "react-router-dom";
+import { getTimeFrDate } from "../../helpers/common";
 
 function CourseEntry(props) {
   function getDate(dateObj) {
@@ -25,19 +26,6 @@ function CourseEntry(props) {
         break;
     }
     return `${strArray[0]}, ${day} ${strArray[1]} ${strArray[3]}`;
-  }
-
-  function getTime(dateObj) {
-    if (dateObj.toString() == "Invalid Date") {
-      return "";
-    }
-    // [hh,mm,ss]
-    const timeArray = dateObj.toString().split(" ")[4].split(":");
-    const hour = Number(timeArray[0]);
-    // Returns AM if before 1200 and PM if 2359 and before. Shouldn't have 2400h
-    return `${hour % 12 === 0 ? 12 : hour % 12}:${timeArray[1]} ${
-      hour / 12 >= 1 ? "PM" : "AM"
-    }`;
   }
 
   function getType(type) {
@@ -106,11 +94,11 @@ function CourseEntry(props) {
         <td className={getDate(props.course.ends) ? "" : setMissing()}>
           {getDate(props.course.ends)}
         </td>
-        <td className={getTime(props.course.starts) ? "" : setMissing()}>
-          {getTime(props.course.starts)}
+        <td className={getTimeFrDate(props.course.starts) ? "" : setMissing()}>
+          {getTimeFrDate(props.course.starts)}
         </td>
-        <td className={getTime(props.course.ends) ? "" : setMissing()}>
-          {getTime(props.course.ends)}
+        <td className={getTimeFrDate(props.course.ends) ? "" : setMissing()}>
+          {getTimeFrDate(props.course.ends)}
         </td>
         <td className={props.course.schedule ? "" : setMissing()}>
           {getDays(props.course.schedule)}
