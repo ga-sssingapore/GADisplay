@@ -20,6 +20,7 @@ function DisplayPage() {
 
   /* --- Display controls --- */
   function updateDisplay(refreshMinutes) {
+    console.log("updating");
     if (new Date() % refreshMinutes <= 60000) {
       // If about time to refresh, fetch data before changing
       getDisplay();
@@ -59,10 +60,12 @@ function DisplayPage() {
   }, [adhocs, cohorts]);
 
   function changeDisplay() {
+    console.log("changing");
     if (adhocs.length > 0) {
       /* To account for multiple adhocs happening between data refreshes,
       check which adhoc is happening within this update and display. */
       const currentAdhoc = adhocs[0];
+      console.log(adhocs);
       if (new Date(currentAdhoc.ends) - new Date() > 0) {
         // If currentAdhoc yet to end, check if it has started OR is about to start in the next client refresh.
         if (
@@ -73,7 +76,8 @@ function DisplayPage() {
         }
       } else {
         // If currentAdhoc has expired, truncate adhocs and recurse via useEffect
-        return setAdhocs(adhocs.splice(0, 1));
+        console.log("recurse", adhocs);
+        return setAdhocs(adhocs.toSpliced(0, 1));
       }
     }
     if (cohorts.length > 0) {
@@ -96,8 +100,10 @@ function DisplayPage() {
     }
     timeout = setTimeout(() => {
       // Update display client-side every 15 minutes
+      changeDisplay();
       interval = setInterval(fn, 60000 * 15, refreshMinutes);
     }, msToUpdate);
+    console.log(timeout, msToUpdate);
   }
 
   useEffect(() => {
