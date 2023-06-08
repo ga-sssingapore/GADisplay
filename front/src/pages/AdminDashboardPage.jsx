@@ -6,7 +6,7 @@ import { fetchData, getDaysNum } from "../helpers/common";
 
 function AdminDashboardPage() {
   const userCtx = useContext(UserContext);
-  const [courses, setCourses] = useState([]);
+  const [events, setEvents] = useState([]);
   const [date, setDate] = useState(new Date().toISOString().split("T")[0]);
 
   function handleDateChange(event) {
@@ -17,12 +17,7 @@ function AdminDashboardPage() {
     try {
       const { ok, data } = await fetchData("/display/", userCtx.accessToken);
       if (ok) {
-        console.log(data);
-        data.cohort.map((item) => {
-          item.starts = new Date(item.starts);
-          item.ends = new Date(item.ends);
-        });
-        setCourses(data.cohort);
+        setEvents(data);
       } else {
         throw new Error(data);
       }
@@ -32,16 +27,27 @@ function AdminDashboardPage() {
     }
   }
 
-  function thisWeek(courseArr) {
-    return courseArr
+  function thisWeek(eventsArr) {
+    // EventsArr contains both cohorts and adhocs, normalize the useful parts here
+    // Need to normalize Start time, End time and day of event(s)
+    // Cohorts will have multiple days to be deciphered from combi, use getDaysNum to do so
+    return eventsArr
       .map((item) => {
         item.starts = new Date(item.starts);
         item.ends = new Date(item.ends);
-        item.days = getDaysNum(item.schedule);
+        if (item.schedule) {
+          // If event is a Cohort item, it will have a schedule
+          item.days = getDaysNum(item.schedule);
+        } else {
+          // Else if event is an Adhoc item, it will not have schedule
+          // Get day from start date and wrap in array to mimic getDaysNum return value
+          item.days = [item.starts.getDay()];
+        }
         return item;
       })
       .filter((item) => {
         if (!item.starts) {
+          // To handle when this function is called before fetchData returns
           return false;
         }
         return item.starts - new Date(date) < 86400000 * 7;
@@ -66,7 +72,7 @@ function AdminDashboardPage() {
           min={new Date().toISOString().split("T")[0]}
         />
       </div>
-      <Weekalendar date={new Date(date)} courses={thisWeek(courses)} />
+      <Weekalendar date={new Date(date)} events={thisWeek(events)} />
     </div>
   );
 }
