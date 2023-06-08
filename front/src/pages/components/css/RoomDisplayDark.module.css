@@ -25,10 +25,9 @@
   margin: 5vh auto;
 }
 
-@media screen and (max-width: 556px) {
+@media screen and (max-width: 800px) {
   .display_link {
-    font-size: 2rem;
-    padding: 1.2rem 1rem;
+    font-size: 4rem;
     text-align: center;
   }
 
