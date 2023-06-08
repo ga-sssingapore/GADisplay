@@ -7,9 +7,11 @@ function WeekalendarRow(props) {
     const output = col.map((item, idx) => {
       const startArr = item.starts.toLocaleTimeString().split(" ");
       const endArr = item.ends.toLocaleTimeString().split(" ");
+      // If adhoc, show purpose in dashboard instead of event name
+      // Different from display
       return (
         <div key={idx}>
-          {item.name}
+          {item.schedule ? item.name : item.purpose}
           <br />
           {`(${startArr[0].slice(0, -3) + startArr[1]}-${
             endArr[0].slice(0, -3) + endArr[1]
@@ -20,6 +22,7 @@ function WeekalendarRow(props) {
     return output;
     // }
   }
+
   return (
     <div className={props.id % 2 == 0 ? styles.alt_row : styles.row}>
       <div className={styles.room}>{props.id}</div>

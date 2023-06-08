@@ -20,35 +20,24 @@ function Weekalendar(props) {
   // Idx of Sunday column
   const sunday = useRef(0);
 
-  function resolveClassesToDates(courseArr) {
-    if (!courseArr || courseArr.length < 1) {
+  function resolveClassesToDates(arr) {
+    if (!arr || arr.length < 1) {
+      // To handle pre-fetch
       return [];
     }
-    // Need to account for ad-hocs as well
-    const room1 = groupClassesByRooms(
-      courseArr.filter((item) => item.room === 1)
-    );
-    const room2 = groupClassesByRooms(
-      courseArr.filter((item) => item.room === 2)
-    );
-    const room3 = groupClassesByRooms(
-      courseArr.filter((item) => item.room === 3)
-    );
-    const room4 = groupClassesByRooms(
-      courseArr.filter((item) => item.room === 4)
-    );
-    const room5 = groupClassesByRooms(
-      courseArr.filter((item) => item.room === 5)
-    );
-    const room6 = groupClassesByRooms(
-      courseArr.filter((item) => item.room === 6)
-    );
+    // Arrays ordered by (Cohorts: room > start) > (Adhocs: room > start)
+    const room1 = groupClassesByRooms(arr.filter((item) => item.room === 1));
+    const room2 = groupClassesByRooms(arr.filter((item) => item.room === 2));
+    const room3 = groupClassesByRooms(arr.filter((item) => item.room === 3));
+    const room4 = groupClassesByRooms(arr.filter((item) => item.room === 4));
+    const room5 = groupClassesByRooms(arr.filter((item) => item.room === 5));
+    const room6 = groupClassesByRooms(arr.filter((item) => item.room === 6));
     return [room1, room2, room3, room4, room5, room6];
   }
 
   function groupClassesByRooms(filteredArr) {
     const room = [[], [], [], [], [], [], []];
-    // Item may include courses or ad-hocs
+    // filteredArr may include courses or ad-hocs
     for (const item of filteredArr) {
       for (let i = 0; i < week_dates.length; i++) {
         const date = week_dates[i];
@@ -79,7 +68,7 @@ function Weekalendar(props) {
             if (saturday) {
               // Assumes courses with sat lessons always starts on sat
               if (
-                saturday === 6 &&
+                saturday === 8 &&
                 Math.floor((item.starts - date) / 604800000) % 2 === 0
               ) {
                 // Odd Saturdays
@@ -90,8 +79,8 @@ function Weekalendar(props) {
               ) {
                 // Even Saturdays
                 room[i].push(item);
-              } else if (saturday === 8) {
-                // All Saturdays
+              } else if (saturday === 6) {
+                // All Saturdays, same as Date.getDay()
                 room[i].push(item);
               }
             }
@@ -120,7 +109,7 @@ function Weekalendar(props) {
           );
         })}
       </div>
-      {resolveClassesToDates(props.courses).map((item, idx) => {
+      {resolveClassesToDates(props.events).map((item, idx) => {
         return (
           <WeekalendarRow
             key={idx}
@@ -130,6 +119,9 @@ function Weekalendar(props) {
           />
         );
       })}
+      <h6 className={styles.bottom_text}>
+        *Displayed are cohorts' names and adhocs' purposes
+      </h6>
     </div>
   );
 }
