@@ -75,5 +75,7 @@ export function getLocaleTime(dateObj) {
   // Check if its morning or not
   const am = hours / 12 < 1;
   const minutes = dateObj.getMinutes();
-  return `${hours % 12 == 0 ? 12 : hours % 12}:${minutes}${am ? "AM" : "PM"}`;
+  return `${hours % 12 == 0 ? 12 : hours % 12}:${
+    minutes < 10 ? "0" + minutes : minutes
+  }${am ? "AM" : "PM"}`;
 }
