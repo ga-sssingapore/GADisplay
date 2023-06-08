@@ -3,6 +3,7 @@ import AdhocForm from "./components/AdhocForm";
 import AdhocList from "./components/AdhocList";
 import { fetchData } from "../helpers/common";
 import UserContext from "../context/user";
+import styles from "./pages_css/AdminAdhocPage.module.css";
 
 function AdminAdhocPage() {
   const userCtx = useContext(UserContext);
@@ -36,15 +37,21 @@ function AdminAdhocPage() {
 
   return (
     <>
-      <h2 style={{ margin: "2vh 2%" }}>Ad-Hoc room reservation</h2>
+      <h2 className={styles.header}>Ad-Hoc room reservation</h2>
       <AdhocForm getAdhocs={getAdhocs} />
       <hr />
-      <div style={{ marginLeft: "2%" }}>
-        Click delete twice to delete an entry. If deletion is not to be
-        confirmed, click any white space in the same row to "un-confirm".
-        <br />
-        Entries are shown in order of start time.
-      </div>
+      <ul className={styles.info_text}>
+        <h4>Scheduled ad-hocs</h4>
+        <li>
+          Click delete twice to delete an entry. To "un-confirm" delete, click
+          anywhere in the table (other than the delete buttons).
+        </li>
+        <li>Entries are shown in order of start time.</li>
+        <li>
+          Events are displayed on tablet screen, purposes are displayed on admin
+          dashboard
+        </li>
+      </ul>
       <AdhocList adhocs={adhocs} getAdhocs={getAdhocs} />
     </>
   );
