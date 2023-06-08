@@ -2,7 +2,7 @@ import time
 from datetime import datetime, timedelta
 from flask import Blueprint, jsonify, request
 from flask_jwt_extended import jwt_required
-from sqlalchemy import case
+from sqlalchemy import case, or_
 # Middleware
 from middleware.requests import check_request
 # Models
@@ -60,6 +60,12 @@ def get_today():
 @jwt_required()
 def get_all_events():
     try:
+        # Wipe out inactive events first
+        Cohorts.query.filter(or_(Cohorts.ends < datetime.now(), not Cohorts.active)).delete()
+        Adhocs.query.filter(or_(Adhocs.ends < datetime.now(), not Adhocs.active)).delete()
+        # Model queries still utilize session (via Model(db.model))
+        db.session.commit()
+
         cohorts = CohortsSchema(many=True).dump(
             Cohorts.query.filter_by(active=True).order_by(
                 case({"FT": 0, "Flex": 1, "PT": 2}, value=Cohorts.course_type), Cohorts.schedule, Cohorts.starts

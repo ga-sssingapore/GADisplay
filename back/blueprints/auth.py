@@ -4,7 +4,7 @@ from flask_jwt_extended import create_access_token, create_refresh_token, jwt_re
     current_user
 from argon2 import PasswordHasher
 # Middleware
-from middleware.requests import check_request
+from middleware.requests import check_request, check_user
 # Models
 from models.db import db
 from models.users import Users
@@ -46,6 +46,7 @@ def register():
 
 @auth_bp.route('/login', methods=["POST"])
 @check_request
+@check_user
 def login():
     email = request.json.get('email', None)
     password = request.json.get('password', None)
@@ -78,20 +79,6 @@ def login():
             db.session.add(access_db)
             db.session.add(refresh_db)
             db.session.commit()
-
-        if user['role'] == 'Admin' or user['role'] == 'User':
-            expired_cohorts = Cohorts.query.filter(Cohorts.ends < datetime.now()).all()
-            if len(expired_cohorts) > 0:
-                for x in expired_cohorts:
-                    db.session.query(Cohorts).filter_by(name=x.name).delete()
-            expired_adhocs = Adhocs.query.filter(Adhocs.ends < datetime.now()).all()
-            if len(expired_adhocs) > 0:
-                for x in expired_adhocs:
-                    db.session.query(Adhocs).filter_by(num=x.num).delete()
-            db.session.query(Cohorts).filter_by(active=False).delete()
-            db.session.query(Adhocs).filter_by(active=False).delete()
-            db.session.commit()
-
         return jsonify(access=access, refresh=refresh)
     except Exception as e:
         print(e)
