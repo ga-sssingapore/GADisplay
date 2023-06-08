@@ -4,7 +4,7 @@ from flask import Blueprint, jsonify, request
 from flask_jwt_extended import jwt_required
 from sqlalchemy import case, or_
 # Middleware
-from middleware.requests import check_request
+from middleware.requests import check_request, check_user
 # Models
 from models.db import db
 from models.cohorts import Cohorts
@@ -58,6 +58,7 @@ def get_today():
 
 @display_bp.route("/")
 @jwt_required()
+@check_user
 def get_all_events():
     try:
         # Wipe out inactive events first
@@ -68,15 +69,15 @@ def get_all_events():
 
         cohorts = CohortsSchema(many=True).dump(
             Cohorts.query.filter_by(active=True).order_by(
-                case({"FT": 0, "Flex": 1, "PT": 2}, value=Cohorts.course_type), Cohorts.schedule, Cohorts.starts
+                Cohorts.room, Cohorts.starts
             ).all()
         )
         adhocs = AdhocsSchema(many=True).dump(
             Adhocs.query.filter_by(active=True).order_by(
-                Adhocs.starts, Adhocs.room
+                Adhocs.room, Adhocs.starts
             ).all()
         )
-        return jsonify(adhoc=adhocs, cohort=cohorts)
+        return jsonify(cohorts + adhocs)
     except Exception as e:
         print(e)
         return jsonify({'status': 'error', 'message': 'Error getting all events' }), 400

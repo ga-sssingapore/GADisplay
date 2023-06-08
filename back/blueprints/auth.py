@@ -4,7 +4,7 @@ from flask_jwt_extended import create_access_token, create_refresh_token, jwt_re
     current_user
 from argon2 import PasswordHasher
 # Middleware
-from middleware.requests import check_request, check_user
+from middleware.requests import check_request
 # Models
 from models.db import db
 from models.users import Users
@@ -46,7 +46,6 @@ def register():
 
 @auth_bp.route('/login', methods=["POST"])
 @check_request
-@check_user
 def login():
     email = request.json.get('email', None)
     password = request.json.get('password', None)
