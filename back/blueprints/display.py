@@ -18,12 +18,11 @@ display_bp = Blueprint('display_bp', __name__, url_prefix="/display")
 
 
 def convert_time(js_date):
-    # time.timezone looks at timezones west(???) of GM
-    tz = timedelta(seconds=(time.timezone * -1))
+    # Online DB better to deal with UTC time
     if js_date.endswith('Z'):
-        return datetime.fromisoformat(js_date[:-1]) + tz
+        return datetime.fromisoformat(js_date[:-1])
     # JS to Py iso format strips timezone
-    return datetime.fromisoformat(js_date) + tz
+    return datetime.fromisoformat(js_date)
 
 
 @display_bp.route("/", methods=['POST'])
