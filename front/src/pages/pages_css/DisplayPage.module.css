@@ -5,7 +5,7 @@
   width: 100%;
   color: white;
   display: flex;
-  font-size: 6rem;
+  font-size: 4rem;
   font-weight: 800;
   gap: 50px;
   flex-direction: column;
@@ -18,7 +18,7 @@
 }
 
 .banner {
-  max-width: 700px;
+  width: 600px;
 }
 
 .name {
@@ -30,14 +30,44 @@
   text-overflow: clip;
 }
 
-.big_text {
-  font-size: 5rem;
+.big_text,
+.larger_text,
+.largest_feasible {
+  gap: 20px;
 }
 
 .larger_text {
-  font-size: 4rem;
+  font-size: 3rem;
 }
 
 .largest_feasible {
-  font-size: 3rem;
+  font-size: 2.5rem;
+}
+
+@media screen and (max-width: 800px) {
+  .background {
+    font-size: 6rem;
+  }
+
+  .banner {
+    width: 800px;
+  }
+
+  .big_text,
+  .larger_text,
+  .largest_feasible {
+    gap: 50px;
+  }
+
+  .big_text {
+    font-size: 5rem;
+  }
+
+  .larger_text {
+    font-size: 4rem;
+  }
+
+  .largest_feasible {
+    font-size: 3rem;
+  }
 }

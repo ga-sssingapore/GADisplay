@@ -1,5 +1,6 @@
 .container {
   margin: 1vh 1%;
+  max-height: 100vh;
 }
 
 .datepicker {
