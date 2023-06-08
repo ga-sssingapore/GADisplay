@@ -45,11 +45,11 @@ export function getDaysNum(combistr) {
         return 4;
       case "Fr":
         return 5;
-      case "SO":
+      case "SA":
         return 6;
       case "SE":
         return 7;
-      case "SA":
+      case "SO":
         return 8;
       case "Su":
         return 0;
@@ -57,7 +57,7 @@ export function getDaysNum(combistr) {
   });
 }
 
-function getTime(dateObj) {
+export function getTimeFrDate(dateObj) {
   if (dateObj.toString() == "Invalid Date") {
     return "";
   }
@@ -68,4 +68,13 @@ function getTime(dateObj) {
   return `${hour % 12 === 0 ? 12 : hour % 12}:${timeArray[1]} ${
     hour / 12 >= 1 ? "PM" : "AM"
   }`;
+}
+
+export function getLocaleTime(dateObj) {
+  const timeArr = dateObj.toLocaleTimeString().split(" ");
+  let timeFirstHalf = timeArr[0].slice(0, 5);
+  if (timeFirstHalf.charAt(4) == ":") {
+    timeFirstHalf = timeFirstHalf.slice(0, 4);
+  }
+  return timeFirstHalf + timeArr[1];
 }
