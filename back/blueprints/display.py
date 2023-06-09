@@ -2,7 +2,7 @@ import time
 from datetime import datetime, timedelta
 from flask import Blueprint, jsonify, request
 from flask_jwt_extended import jwt_required
-from sqlalchemy import case, or_
+from sqlalchemy import case, or_, and_
 # Middleware
 from middleware.requests import check_request, check_user
 # Models
@@ -44,11 +44,18 @@ def get_today():
             Cohorts.active, Cohorts.room == data['room'],
             Cohorts.starts < tomorrow, Cohorts.ends >= time_now
             )
-        if day == 'sat':
-            cohorts_today = cohorts_query.filter((DaysSchedules.sat_o or DaysSchedules.sat_e))
+        cohorts_startend = cohorts_query.filter(or_(
+            and_(Cohorts.starts >= today, Cohorts.starts < tomorrow),
+            and_(Cohorts.ends >= today, Cohorts.ends < tomorrow)
+        ))
+        if len(cohorts_startend.all()) != 0:
+            cohorts_output =CohortsSchemaWSchedule(many=True).dump(cohorts_startend.order_by(Cohorts.starts).all())
         else:
-            cohorts_today = cohorts_query.filter(DaysSchedules.__table__.columns[day])
-        cohorts_output = CohortsSchemaWSchedule(many=True).dump(cohorts_today.order_by(Cohorts.starts).all())
+            if day == 'sat':
+                cohorts_today = cohorts_query.filter((DaysSchedules.sat_o or DaysSchedules.sat_e))
+            else:
+                cohorts_today = cohorts_query.filter(DaysSchedules.__table__.columns[day])
+            cohorts_output = CohortsSchemaWSchedule(many=True).dump(cohorts_today.order_by(Cohorts.starts).all())
         return jsonify(adhoc=adhocs_today, cohort=cohorts_output)
     except Exception as e:
         print(e)
