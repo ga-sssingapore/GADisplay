@@ -73,9 +73,9 @@ function CourseCSVImport() {
         <ul>
           <li>First row of data will be used as headers.</li>
           <li>
-            Required headers (case and spelling sensitive!): "Cohort", "Start
-            Date", "End Date", "Start Time", "End Time", "Days on Campus",
-            "Classroom".
+            Required headers (case and spelling sensitive!): "Type", "Cohort",
+            "Start Date", "End Date", "Start Time", "End Time", "Days on
+            Campus", "Classroom".
           </li>
           <li>
             Course Type will be inferred from course code. FX in course code
