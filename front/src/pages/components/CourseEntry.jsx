@@ -49,7 +49,7 @@ function CourseEntry(props) {
     } else if (combi == "MoTuWeThFrSASu") {
       return "Everyday";
     }
-    const daysArr = combi.match(/../g);
+    const daysArr = combi.match(/../g) || [];
     const acronymizedArr = daysArr.map((item) => {
       if (item.charAt(0) != "S" || item == "SA") {
         return item.charAt(0);
