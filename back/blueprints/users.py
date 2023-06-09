@@ -6,6 +6,7 @@ from middleware.requests import check_request, check_admin
 from models.db import db
 from models.users import Users
 from models.logins import Logins
+from models.adhocs import Adhocs
 # Schemas
 from schemas.users import UsersSchema
 
@@ -46,6 +47,8 @@ def delete():
     try:
         data = request.get_json()
         db.session.query(Logins).filter_by(id=data['id']).delete()
+        former_staff = Users.query.filter_by(email="former.staff@generalassemb.ly").first()
+        Adhocs.query.filter_by(id=data['id']).update({'id': former_staff.id})
         db.session.query(Users).filter_by(id=data['id']).delete()
         db.session.commit()
         return jsonify({'status': 'ok', 'message': 'user deleted'})
