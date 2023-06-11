@@ -62,7 +62,7 @@ After which, I worked on developing additional features the staff had wanted to 
 
 ### User authentication
 
-I first started by portioning the app into parts that require admin access and parts that would be fine for unauthorized users to play with. From there, I set up the routes in app, ensuring to protect all admin routes via access tokens.
+I first started by portioning the app into parts that require admin access and parts that would be fine for unauthorized users to play with. From there, I set up the routes in app, ensuring to protect all admin routes via access tokens. To verify access tokens and ensure that users do not try to force their way into accessing the app, a whitelist was implemented to ensure that only the most recently generated token for each user would be valid.
 
 ### Improving upon features
 
@@ -93,6 +93,8 @@ The server created for this app provided many different end points, which would 
 ### Authentication
 
 Authentication was achieved via PyJWT and facilitated with helper functions from the Flask-JWT-Extended package. Wherever endpoints were called which could manipulate the database or retrieve sensitive information, requests were validated, checking for authorization via access/refresh tokens.
+
+Access and refresh tokens were also white-listed (or in other terms reverse black-listed or block-listed) and as such, aside from token expiry, tokens submitted by a user when accessing an endpoint were also checked that they were the same tokens generated on that user's most recent login.
 
 ## Challenges
 
