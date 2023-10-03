@@ -1,7 +1,7 @@
 # <a href="https://septismgadisplay.onrender.com" target="_blank">GADisplay</a>
 
 Full stack app to display class timings on a Samsung Galaxy Tablet A and to provide an administrative interface for laptops/computers to schedule events.
-[Using the linked prototype](Prototype)
+[Using the linked prototype.](#Prototype)
 
 # Technologies used
 
