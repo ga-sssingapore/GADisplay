@@ -5,7 +5,7 @@ function sleep(ms) {
 }
 
 export async function fetchData(endpoint, token, method, body) {
-  const res = await fetch(import.meta.env.VITE_SERVER + endpoint, {
+  let res = await fetch(import.meta.env.VITE_SERVER + endpoint, {
     method,
     headers: {
       "Content-Type": "application/json",
@@ -13,12 +13,12 @@ export async function fetchData(endpoint, token, method, body) {
     },
     body: JSON.stringify(body),
   });
-  const data = await res.json();
+  let data = await res.json();
 
   let returnValue = {};
 
   if (!res.ok) {
-    await sleep(15000);
+    await sleep(10000);
 
     res = await fetch(import.meta.env.VITE_SERVER + endpoint, {
       method,
