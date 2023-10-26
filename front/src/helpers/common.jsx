@@ -1,3 +1,9 @@
+function sleep(ms) {
+  return new Promise((resolve) => {
+    setTimeout(resolve, ms);
+  });
+}
+
 export async function fetchData(endpoint, token, method, body) {
   const res = await fetch(import.meta.env.VITE_SERVER + endpoint, {
     method,
@@ -10,6 +16,22 @@ export async function fetchData(endpoint, token, method, body) {
   const data = await res.json();
 
   let returnValue = {};
+
+  if (!res.ok) {
+    await sleep(15000);
+
+    res = await fetch(import.meta.env.VITE_SERVER + endpoint, {
+      method,
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + token,
+      },
+      body: JSON.stringify(body),
+    });
+    data = await res.json();
+
+    returnValue = {};
+  }
 
   if (res.ok) {
     if (data.status === "error") {

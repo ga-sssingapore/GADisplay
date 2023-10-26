@@ -8,6 +8,6 @@ COPY . /backend
 
 WORKDIR /backend
 
-EXPOSE 3000
+EXPOSE 7777
 
 ENTRYPOINT ["gunicorn", "--config", "gunicorn.py", "server:app"]
