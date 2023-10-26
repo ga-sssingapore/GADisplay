@@ -1,11 +1,11 @@
-function sleep(ms) {
-  return new Promise((resolve) => {
-    setTimeout(resolve, ms);
-  });
-}
+// function sleep(ms) {
+//   return new Promise((resolve) => {
+//     setTimeout(resolve, ms);
+//   });
+// }
 
 export async function fetchData(endpoint, token, method, body) {
-  let res = await fetch(import.meta.env.VITE_SERVER + endpoint, {
+  const res = await fetch(import.meta.env.VITE_SERVER + endpoint, {
     method,
     headers: {
       "Content-Type": "application/json",
@@ -13,25 +13,25 @@ export async function fetchData(endpoint, token, method, body) {
     },
     body: JSON.stringify(body),
   });
-  let data = await res.json();
+  const data = await res.json();
 
   let returnValue = {};
 
-  if (!res.ok) {
-    await sleep(10000);
+  // if (!res.ok) {
+  //   await sleep(10000);
 
-    res = await fetch(import.meta.env.VITE_SERVER + endpoint, {
-      method,
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + token,
-      },
-      body: JSON.stringify(body),
-    });
-    data = await res.json();
+  //   res = await fetch(import.meta.env.VITE_SERVER + endpoint, {
+  //     method,
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //       Authorization: "Bearer " + token,
+  //     },
+  //     body: JSON.stringify(body),
+  //   });
+  //   data = await res.json();
 
-    returnValue = {};
-  }
+  //   returnValue = {};
+  // }
 
   if (res.ok) {
     if (data.status === "error") {
