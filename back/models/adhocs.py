@@ -13,7 +13,6 @@ class Adhocs(db.Model):
     id = db.Column(db.ForeignKey('Users.id'), nullable=False)
     purpose = db.Column(db.String(30))
 
-
     def __init__(self, name, starts, ends, room, purpose, id):
         self.name = name
         self.starts = starts

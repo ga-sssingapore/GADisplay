@@ -17,47 +17,47 @@ class DaysSchedules(db.Model):
     cohort = db.relationship('Cohorts', backref='cohort', lazy=True)
 
     def __init__(self, mon=False, tue=False, wed=False, thu=False, fri=False, sat_o=False, sat_e=False, sun=False):
-        combiStr = ''
+        combi_str = ''
         if mon:
-            combiStr += 'Mo'
+            combi_str += 'Mo'
             self.mon = mon
         if tue:
-            combiStr += 'Tu'
+            combi_str += 'Tu'
             self.tue = tue
         if wed:
-            combiStr += 'We'
+            combi_str += 'We'
             self.wed = wed
         if thu:
-            combiStr += 'Th'
+            combi_str += 'Th'
             self.thu = thu
         if fri:
-            combiStr += 'Fr'
+            combi_str += 'Fr'
             self.fri = fri
         if sat_o and sat_e:
-            combiStr += 'SA'
+            combi_str += 'SA'
             self.sat_o = sat_o
             self.sat_e = sat_e
         elif sat_o:
-            combiStr += 'SO'
+            combi_str += 'SO'
             self.sat_o = sat_o
         elif sat_e:
-            combiStr += 'SE'
+            combi_str += 'SE'
             self.sat_e = sat_e
         if sun:
-            combiStr += 'Su'
+            combi_str += 'Su'
             self.sun = sun
 
-        if combiStr == '':
+        if combi_str == '':
             self.combi = 'No'
         else:
-            self.combi = combiStr
+            self.combi = combi_str
 
     def __repr__(self):
         return f'<DaysSchedules "{self.combi}">'
 
     @classmethod
-    def add_schedule(cls, combiStr):
-        combi_arr = re.findall(r"..", combiStr)
+    def add_schedule(cls, combi_str):
+        combi_arr = re.findall(r"..", combi_str)
         schedule_arr = [False, False, False, False, False, False, False, False]
         for x in combi_arr:
             match x:
