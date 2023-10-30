@@ -5,17 +5,17 @@ function WeekalendarRow(props) {
   function extractNames(col) {
     // Check if multiples events conflict
     const output = col.map((item, idx) => {
-      const startArr = item.starts.toLocaleTimeString().split(" ");
-      const endArr = item.ends.toLocaleTimeString().split(" ");
+      const startArr = item.starts.toLocaleTimeString();
+      const endArr = item.ends.toLocaleTimeString();
       // If adhoc, show purpose in dashboard instead of event name
       // Different from display
       return (
         <div key={idx}>
           {item.schedule ? item.name : item.purpose}
           <br />
-          {`(${startArr[0].slice(0, -3) + startArr[1]}-${
-            endArr[0].slice(0, -3) + endArr[1]
-          })`}
+          <div>{startArr[1]}</div>
+          <div>{endArr[1]}</div>
+          {`(${startArr[0].slice(0, -3)}-${endArr[0].slice(0, -3)})`}
         </div>
       );
     });
