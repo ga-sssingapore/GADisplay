@@ -38,23 +38,24 @@ def convert_schedule(schedule):
         return 'SO'
     elif schedule == 'Even.S':
         return 'SE'
-    t_count = 0
     sat = ''
-    combistr = ''
+    combi_str = ''
+    wed = False
     for x in schedule:
         match x:
             case 'M':
-                combistr += 'Mo'
+                combi_str += 'Mo'
             case 'T':
-                if t_count == 0:
-                    combistr += 'Tu'
-                    t_count += 1
-                elif t_count == 1:
-                    combistr += 'Th'
+                if wed:
+                    combi_str += 'Th'
+                else:
+                    combi_str += 'Tu'
+                    wed = True
             case 'W':
-                combistr += 'We'
+                combi_str += 'We'
+                wed = True
             case 'F':
-                combistr += 'Fr'
+                combi_str += 'Fr'
             case _:
                 sat += x
 
@@ -63,16 +64,16 @@ def convert_schedule(schedule):
         sun = 'Su'
         sat = sat[:-1]
     elif sat == '':
-        return combistr
+        return combi_str
     match sat:
         case 'SO':
-            return combistr + 'SO' + sun
+            return combi_str + 'SO' + sun
         case 'SE':
-            return combistr + 'SE' + sun
+            return combi_str + 'SE' + sun
         case 'S':
-            return combistr + 'SA' + sun
+            return combi_str + 'SA' + sun
         case _:
-            return combistr + sun
+            return combi_str + sun
 
 
 @cohorts_bp.route('/')
@@ -139,10 +140,11 @@ def patch_cohort():
 @check_user
 def add_csv():
     data = request.get_json()
+    print(data)
     try:
         duplicate = 0
-        for i in range(0, len(data)):
-            response = add_one(data[i], True)  # Error raised if adding fails
+        for item in data:
+            response = add_one(item, True)  # Error raised if adding fails
             if response == 'duplicate':
                 duplicate += 1
         db.session.commit()
