@@ -5,7 +5,6 @@ function WeekalendarRow(props) {
   function extractNames(col) {
     // Check if multiples events conflict
     const output = col.map((item, idx) => {
-      console.log(item.starts.toLocaleTimeString());
       const startArr = item.starts.toLocaleTimeString();
       const endArr = item.ends.toLocaleTimeString();
       // If adhoc, show purpose in dashboard instead of event name
